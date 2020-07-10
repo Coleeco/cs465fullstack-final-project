@@ -1,3 +1,11 @@
+# CS465 Fullstack Summer 2020 final project
+
+## Members
+
+Erik Jastad  
+Jordan Co  
+Todd Graham  
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
