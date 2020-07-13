@@ -1,25 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+//Import the home,game,drink,about components
+import {Navigation} from './components/Navigation'
+import {Home} from './components/Home'
+import {Game} from './components/Game'
+import {Drinks} from './components/Drinks'
+import {About} from './components/About'
+
+//Import react routing
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    //Set a router block to render different pages based on path
+    <BrowserRouter>
+      <div className="container">
+
+        <h3 className="m-3 d-flex justify-content-center">
+          Cocktail Mastery
+        </h3>
+        
+        <Navigation/>
+
+        <Switch>  
+          <Route path='/' component={Home} exact/>
+          <Route path='/game' component={Game} exact/>
+          <Route path='/drinks' component={Drinks} exact/>
+          <Route path='/about' component={About} exact/>
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
