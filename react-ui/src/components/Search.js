@@ -10,12 +10,31 @@ export class Search extends Component {
             isLoaded: false,
         }
 
+        this.searchFunction = this.searchFunction.bind(this);
         this.randomFunction = this.randomFunction.bind(this);
     }
 
     searchFunction(event) {
-        console.log("Hello world");
+
+        const searchValue = document.getElementById('searchbar').value;
+
+        console.log(searchValue);
+
         event.preventDefault();
+
+        let url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchValue}`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({
+                    drinks: data.drinks,
+                    isLoaded: true,
+                });
+            })
+            .catch((error) => console.log(error));
+
+            event.preventDefault();
     }
 
     randomFunction(event) {
@@ -24,8 +43,6 @@ export class Search extends Component {
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.drinks);
-                console.log(data.drinks[0].strDrink)
                 this.setState({
                     drinks: data.drinks,
                     isLoaded: true,
@@ -45,11 +62,11 @@ export class Search extends Component {
                     <form className="cocktail-search">
                         <h3>Welcome to cocktail search!</h3>
                         <div class="form-search">
-                            <input id="search" placeholder="Seach a cocktail by name" />
+                            <input id="searchbar" placeholder="Search a cocktail by name" />
                         </div>
                         <div class="btnrow">
-                            <button onClick={this.searchFunction} type="submit">Search</button>
-                            <button onClick={this.randomFunction} >Random</button>
+                            <button onClick={this.searchFunction}>Search</button>
+                            <button onClick={this.randomFunction}>Random</button>
                         </div>
                     </form>
                 </div>
