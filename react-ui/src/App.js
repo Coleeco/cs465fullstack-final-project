@@ -5,7 +5,7 @@ import './App.css';
 import {Navigation} from './components/Navigation'
 import {Home} from './components/Home'
 import {Game} from './components/Game'
-import {Drinks} from './components/Drinks'
+import {Search} from './components/Search'
 import {About} from './components/About'
 
 //Import react routing
@@ -26,7 +26,7 @@ function App() {
         <Switch>  
           <Route path='/' component={Home} exact/>
           <Route path='/game' component={Game} exact/>
-          <Route path='/drinks' component={Drinks} exact/>
+          <Route path='/search' component={Search} exact/>
           <Route path='/about' component={About} exact/>
         </Switch>
       </div>
