@@ -10,19 +10,40 @@ class GameIngredient extends Component{
     super(props);
     this.state = {
       isLoaded: false,
-      clicked: false
+      clicked: false,
+      name: props.name,
+
     }
   }
 
-  handleClick()
+  /*componentDidMount() {
+    fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          items: result
+        });
+          this.parseIng(this.state.items.drinks[0]);
+      },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+  }*/
+
+  handleClick(stuff)
   {
-    console.log("Hey internal");
+    console.log(stuff.name);
   }
 
   render() {
-    const { url, bg, type } = this.props;
+    const { url, bg, name } = this.props;
     return (
-      <Col xs md={2} className={bg + " border d-flex justify-content-center"}><input id="gimg" onClick={this.handleClick} type="image" alt={type} src={url}/></Col>
+      <Col xs md={2} className={bg + " border d-flex justify-content-center"}><input id="gimg" onClick={() => console.log(name)} type="image" alt={name} src={url}/></Col>
     );
   }
 };
@@ -51,8 +72,8 @@ export class Game extends Component {
   }
 
   //Render an ingredient game piece
-  renderIngredient(turl, tbg, ttype){
-    return <GameIngredient url = {turl} bg = {tbg} type = {ttype}/>;
+  renderIngredient(turl, tbg, tname){
+    return <GameIngredient url = {turl} bg = {tbg} name = {tname}/>;
   }
     
   //This function does the game setup fetches, once the state variable isloaded = true then all fetches have completed
@@ -136,7 +157,6 @@ export class Game extends Component {
                 this.setState({aSize: this.state.oSize + 1});
               }
               if (this.state.finished){
-                console.log("SHAMZ");
                 this.setState({isLoaded: true});
               }
             },       
@@ -230,20 +250,20 @@ export class Game extends Component {
             {this.renderIngredient(glass, glassBG, "glass6")}
           </Row>
           <Row>
-            {this.renderIngredient(preIng + aIng[0] + affIng, alcBG, "alcohol1")}
-            {this.renderIngredient(preIng + aIng[1] + affIng, alcBG, "alcohol2")}
-            {this.renderIngredient(preIng + aIng[2] + affIng, alcBG, "alcohol3")}
-            {this.renderIngredient(preIng + aIng[3] + affIng, alcBG, "alcohol4")}
-            {this.renderIngredient(preIng + aIng[4] + affIng, alcBG, "alcohol5")}
-            {this.renderIngredient(preIng + aIng[5] + affIng, alcBG, "alcohol6")}
+            {this.renderIngredient(preIng + aIng[0] + affIng, alcBG, aIng[0])}
+            {this.renderIngredient(preIng + aIng[1] + affIng, alcBG, aIng[1])}
+            {this.renderIngredient(preIng + aIng[2] + affIng, alcBG, aIng[2])}
+            {this.renderIngredient(preIng + aIng[3] + affIng, alcBG, aIng[3])}
+            {this.renderIngredient(preIng + aIng[4] + affIng, alcBG, aIng[4])}
+            {this.renderIngredient(preIng + aIng[5] + affIng, alcBG, aIng[5])}
           </Row>
           <Row>
-            {this.renderIngredient(preIng + oIng[0] + affIng, nonBG, "ingredient1")}
-            {this.renderIngredient(preIng + oIng[1] + affIng, nonBG, "ingredient2")}
-            {this.renderIngredient(preIng + oIng[2] + affIng, nonBG, "ingredient3")}
-            {this.renderIngredient(preIng + oIng[3] + affIng, nonBG, "ingredient4")}
-            {this.renderIngredient(preIng + oIng[4] + affIng, nonBG, "ingredient5")}
-            {this.renderIngredient(preIng + oIng[5] + affIng, nonBG, "ingredient6")}
+            {this.renderIngredient(preIng + oIng[0] + affIng, nonBG, oIng[0])}
+            {this.renderIngredient(preIng + oIng[1] + affIng, nonBG, oIng[1])}
+            {this.renderIngredient(preIng + oIng[2] + affIng, nonBG, oIng[2])}
+            {this.renderIngredient(preIng + oIng[3] + affIng, nonBG, oIng[3])}
+            {this.renderIngredient(preIng + oIng[4] + affIng, nonBG, oIng[4])}
+            {this.renderIngredient(preIng + oIng[5] + affIng, nonBG, oIng[5])}
           </Row>
             <br></br>
             <div className="m-5 d-flex justify-content-center">
