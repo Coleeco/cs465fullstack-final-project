@@ -1,10 +1,24 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../queryDB');
 
-// GET all users
-router.get('/users', (req, res) => res.send('<h1> *TODO: Return all users from db in JSON format </h1>'))
 
-// GET single user 
-router.get('/:id', (req, res) => res.send('<h1> *TODO query db for user with id parameter. </h1>'));
+// GET logged in user Ex endpoint: http://localhost:5000/user/current
+router.get('/current', db.getCurrentUser);
+
+// GET all users Ex endpoint: http://localhost:5000/user/users
+router.get('/users', db.getUsers);
+
+// GET user favorites, Ex endpoint: http://localhost:5000/user/favs/Jordan
+router.get('/favs/:user', db.getUserFavorites);
+
+// POST create new user,
+router.post('/adduser', db.createUser);
+
+// POST log user in,
+router.post('/login', db.logUserIn);
+
+// POST log user in,
+router.post('/favs/add', db.addFavorite);
 
 module.exports = router;
