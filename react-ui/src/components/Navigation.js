@@ -3,6 +3,8 @@ import {NavLink} from'react-router-dom';
 import {Navbar, Nav} from 'react-bootstrap';
 
 export class Navigation extends Component {
+
+    // API CALL TO CHECK IF USER IS LOGGED IN. logged in ? return nav link for logout : return nav link for login
     render(){
         return(
             <Navbar bg="dark" expand="lg">
@@ -15,6 +17,7 @@ export class Navigation extends Component {
                 </Nav>
                 <Navbar.Collapse id="responsive-navbar-nav"/>
                 <Nav>
+                    <NavLink className="d-inline p-2 bg-dark text-white" to="/login">Login</NavLink>
                     <NavLink className="d-inline p-2 bg-dark text-white" to="/about">About</NavLink>
                 </Nav>
             </Navbar>

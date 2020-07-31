@@ -7,6 +7,8 @@ import {Home} from './components/Home'
 import {Game} from './components/Game'
 import {Search} from './components/Search'
 import {About} from './components/About'
+import {Login} from './components/Login'
+import {Register} from './components/Register'
 
 //Import react routing
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
@@ -27,6 +29,8 @@ function App() {
           <Route path='/' component={Home} exact/>
           <Route path='/game' component={Game} exact/>
           <Route path='/search' component={Search} exact/>
+          <Route path='/login' component={Login} exact/>
+          <Route path='/register' component={Register} exact/>
           <Route path='/about' component={About} exact/>
         </Switch>
       </div>
