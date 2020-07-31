@@ -52,9 +52,6 @@ if (!isDev && cluster.isMaster) {
   // Answer API requests.
   app.use("/user", require("./routes/user"));
   app.use("/titles", require("./routes/titles"));
-  app.use("/env", (req,res) => {
-    res.send(`${process.env.NODE_ENV}, ${process.env.DATABASE_URL}`)
-  })
 
   // All remaining requests return the React app, so it can handle routing.
   app.get("*", function (request, response) {
