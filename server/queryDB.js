@@ -1,10 +1,13 @@
 const Pool = require("pg").Pool;
 
-// TODO add check for production env for DATABASE URL
-// const connectionString = process.env.DATABASE_URL;
-const connectionString =
-  "postgresql://cocktail:password@localhost:5432/localdb";
+let connectionString;
 
+if (process.env.NODE_ENV !== "production") {
+  connectionString = "postgresql://cocktail:password@localhost:5432/localdb";
+} else {
+  connectionString = process.env.DATABASE_URL;
+  console.log(process.env.DATABASE_URL)
+}
 const pool = new Pool({
   connectionString: connectionString,
 });
