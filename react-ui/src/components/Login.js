@@ -1,5 +1,6 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import { Redirect } from "react-router";
+import { postRequest } from "../ApiCaller";
 
 export class Login extends Component {
   render() {
@@ -15,7 +16,7 @@ export class Login extends Component {
                 >
                   Cocktail Bar Backdoor
                 </h1>
-                <Form />
+                <Form myProp={this.props.myProp} login={this.props.login} />
               </div>
             </div>
           </div>
@@ -31,12 +32,14 @@ class Form extends React.Component {
     this.state = {
       username: "",
       password: "",
+      user: {},
       redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clearForm = this.clearForm.bind(this);
   }
+
   handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -46,20 +49,50 @@ class Form extends React.Component {
       [name]: value,
     });
   }
+
   handleSubmit(event) {
     event.preventDefault(event);
-    console.log(this.state);
-    this.setState({redirect: true})
-    // TODO: CREATE MODULE FOR API CALLS TO BACKEND EXPRESS SERVER
+    // console.log(this.props.myProp);
+    // this.props.login('fucking finally!');
+    const loginInfo = {
+      loginname: this.state.username,
+      password: this.state.password,
+    };
+    console.log(loginInfo);
+    // postRequest("/user/login", loginInfo)
+    //   .then((resp) => {
+    //     if(resp.ok){
+    //       return resp.json();
+    //     }
+    //   })
+    //   .then(data => console.log(data))
+    //   .catch((error) => console.log(error));
 
-    // this.props.history.push('/');
+    postRequest("/user/login", loginInfo)
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          this.clearForm();
+          throw new Error("no user logged on");
+        }
+      })
+      .then((data) => {
+        console.log(typeof data);
+        let user = data[0];
+        console.log(user);
+        this.props.login(user);
+      })
+      .catch((error) => console.log(error));
   }
+
   clearForm() {
     this.setState({
       username: "",
       password: "",
     });
   }
+
   render() {
     if (this.state.redirect) {
       return <Redirect push to="/" />;
