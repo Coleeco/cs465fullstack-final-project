@@ -1,37 +1,94 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-//Import the home,game,drink,about components
-import {Navigation} from './components/Navigation'
-import {Home} from './components/Home'
-import {Game} from './components/Game'
-import {Search} from './components/Search'
-import {About} from './components/About'
+import { Navigation } from "./components/Navigation";
+import { Home } from "./components/Home";
+import { Game } from "./components/Game";
+import { Search } from "./components/Search";
+import { About } from "./components/About";
+import { Login } from "./components/Login";
+import { Register } from "./components/Register";
+import { getRequest } from "./ApiCaller";
 
-//Import react routing
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Jumbotron, Table } from "react-bootstrap";
 
-function App() {
-  return (
-    //Set a router block to render different pages based on path
-    <BrowserRouter>
-      <div className="container">
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: { loginname: "", score: "" , title: "" },
+    };
+    this.logout = this.logout.bind(this);
+    this.login = this.login.bind(this);
+    this.UserBanner = this.UserBanner.bind(this);
+  }
 
-        <h3 className="m-3 d-flex justify-content-center">
-          Cocktail Mastery
-        </h3>
-        
-        <Navigation/>
+  login(user) {
+    this.setState({ user: user });
+    console.log(user);
+  }
 
-        <Switch>  
-          <Route path='/' component={Home} exact/>
-          <Route path='/game' component={Game} exact/>
-          <Route path='/search' component={Search} exact/>
-          <Route path='/about' component={About} exact/>
-        </Switch>
-      </div>
-    </BrowserRouter>
-  );
+  logout() {
+    getRequest("/user/logout");
+    this.setState({ user: { loginname: "", score: "", title: "" } });
+  }
+
+  UserBanner() {
+    let user = this.state.user
+    if(user.loginname === ''){
+      return <div>No user logged in</div>
+    }
+    else {
+      return (
+        <div className='bannerContainer'>
+            <Table variant='dark' size='small'>
+              <thead>
+              <tr>
+                <th>User</th>
+                <th>Score</th>
+                <th>Title</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{user.loginname}</td>
+                  <td>{user.score}</td>
+                  <td>{user.title}</td>
+                </tr>
+              </tbody>
+            </Table>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    return (
+      // Set a router block to render different pages based on path
+      <BrowserRouter>
+        <div className="container">
+          {/* <h3 className="m-3 d-flex justify-content-center">
+            Cocktail Mastery 
+          </h3> */}
+          <Jumbotron>
+            <h2>Cocktail Mastery</h2>
+            <this.UserBanner />
+          </Jumbotron>
+          <Navigation user={this.state.user} logout={this.logout} />
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route path="/game" component={Game} />
+            <Route path="/search" component={Search} />
+            <Route
+              path="/login"
+              render={(props) => <Login {...props} login={this.login} />}
+            />
+            <Route path="/register" component={Register} />
+            <Route path="/about" component={About} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
 }
-
-export default App;
