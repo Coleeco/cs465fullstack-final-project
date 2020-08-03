@@ -59,6 +59,11 @@ export class Game extends Component {
       selectedAlcohols: [],
       selectedIngredients: [],
 
+      correctSelAlc: [],
+      incorrectSelAlc: [],
+      correctSelNon: [],
+      incorrectSelNon: [],
+
       glassError: 0,
       alcError: 0,
       nonError: 0,
@@ -83,45 +88,53 @@ export class Game extends Component {
       case gameIngType.INGREDIENT:        
         return (
           <div>
-          <div className="d-flex flex-row justify-content-center">
-            {goalNonIng.map((non) => (
-              <div><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={non}src={preIng + non + affIng}/></div>
-            ))}
-          </div>
-          {goalNonIng.map((non) => (<div className ="text-center">{non}</div>))}
+            <div className="d-flex flex-row justify-content-center">
+              {goalNonIng.map((non) => (
+                <div key = {non} ><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={non}src={preIng + non + affIng}/></div>
+              ))}
+            </div>
+            {goalNonIng.map((non) => (<div key = {non} className ="text-center">{non}</div>))}
           </div>
         );
       case gameIngType.ALCOHOL:
         return (
           <div>
-          <div className="d-flex flex-row justify-content-center">
-            {goalAlcIng.map((alc) => (
-              <div><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={alc}src={preIng + alc + affIng}/></div>
-            ))}
-          </div>
-            {goalAlcIng.map((alc) => (<div className ="text-center">{alc}</div>))}
+            <div className="d-flex flex-row justify-content-center">
+              {goalAlcIng.map((alc) => (
+                <div key = {alc}><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={alc}src={preIng + alc + affIng}/></div>
+              ))}
+            </div>
+            {goalAlcIng.map((alc) => (<div key = {alc} className ="text-center">{alc}</div>))}
           </div>
         );
       case gameIngType.SELECTALC:
         return (
           <div>
-          <div className="d-flex flex-row justify-content-center">
-            {this.state.selectedAlcohols.map((alc) => (
-              <div><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={aIng[alc]}src={preIng + aIng[alc] + affIng}/></div>
-            ))}
-          </div>
-            {this.state.selectedAlcohols.map((alc) => (<div className ="text-center">{aIng[alc]}</div>))}
+           <div className="d-flex flex-row justify-content-center">
+              {this.state.correctSelAlc.map((alc) => (
+                <div key = {alc}><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={alc}src={preIng + alc + affIng}/></div>
+              ))}
+              {this.state.incorrectSelAlc.map((alc) => (
+                <div key = {alc}><img id="rimg" className="bg-danger border-1 m-1" type="image" alt={alc}src={preIng + alc + affIng}/></div>
+              ))}
+            </div>
+            {this.state.correctSelAlc.map((alc) => (<div key = {alc} className ="text-center">{alc}</div>))}
+            {this.state.incorrectSelAlc.map((alc) => (<div key = {alc} className ="text-center">{alc}</div>))}
           </div>
         );
       case gameIngType.SELECTING:
         return (
           <div>
-          <div className="d-flex flex-row justify-content-center">
-            {this.state.selectedIngredients.map((non) => (
-              <div><img id="rimg" className="bg-warning border-1 mx-auto" type="image" alt={oIng[non]}src={preIng + oIng[non] + affIng}/></div>
-            ))}
-          </div>
-            {this.state.selectedIngredients.map((non) => (<div className ="text-center">{oIng[non]}</div>))}
+            <div className="d-flex flex-row justify-content-center">
+              {this.state.correctSelNon.map((non) => (
+                <div key = {non} ><img id="rimg" className="bg-warning border-1 mx-1" type="image" alt={non} src={preIng + non + affIng}/></div>
+              ))}
+              {this.state.incorrectSelNon.map((non) => (
+                <div key = {non} ><img id="rimg" className="bg-danger border-1 mx-1" type="image" alt={non} src={preIng + non + affIng}/></div>
+              ))}
+            </div>
+            {this.state.correctSelNon.map((non) => (<div key = {non} className ="text-center">{non}</div>))}
+            {this.state.incorrectSelNon.map((non) => (<div key = {non} className ="text-center">{non}</div>))}
           </div>
         );
     }
@@ -297,46 +310,57 @@ export class Game extends Component {
 
   handleSubmit(){
     let {glassNames, selectedGlass, items, selectedAlcohols, selectedIngredients, aIng, oIng, goalAlcIng, goalNonIng} = this.state;
-    let count = 0;
     let score = 100.0;
     let total = goalAlcIng.length + goalNonIng.length + 1;
     let gerror = 0;
     let aerror = 0;
-    let ierror = 0;
+    let nerror = 0;
+    let correctAlc = [];
+    let incorrectAlc = [];
+    let correctIng = [];
+    let incorrectIng = [];
 
     if(glassNames[selectedGlass] === items[0].strGlass){
-      ++count;
+      gerror = 0;
     }
     else{
       gerror = 1;
     }
 
-    count = 0;
-    for(var alcohols in selectedAlcohols){
-      if(goalAlcIng.includes(aIng[alcohols])){
-        ++count;
+    for (var alcs in selectedAlcohols)
+    {
+      if(goalAlcIng.includes(aIng[selectedAlcohols[alcs]])){
+        correctAlc.push(aIng[selectedAlcohols[alcs]]);
+      }
+      else{
+        incorrectAlc.push(aIng[selectedAlcohols[alcs]]);
       }
     }
-    aerror = (Math.abs(selectedAlcohols.length - count) + (Math.abs(goalAlcIng.length - count)));
 
-    count = 0;
-    for(var ingredients in selectedIngredients){
-      if(goalNonIng.includes(oIng[ingredients])){
-        ++count;
+    for (var ings in selectedIngredients)
+    {
+      if(goalNonIng.includes(oIng[selectedIngredients[ings]])){
+        correctIng.push(oIng[selectedIngredients[ings]]);
+      }
+      else{
+        incorrectIng.push(oIng[selectedIngredients[ings]]);
       }
     }
-    ierror = (Math.abs(selectedIngredients.length - count) + (Math.abs(goalNonIng.length - count)));
-    
-    score = (count/total) * score;
 
-    console.log(aerror);
-    console.log(ierror);
+    aerror = ((goalAlcIng.length - correctAlc.length) + incorrectAlc.length);
+    nerror = ((goalNonIng.length - correctIng.length) + incorrectIng.length);
+    score = 100.0 - (100.0 * (((Math.min(goalAlcIng.length, aerror) + Math.min(goalNonIng.length, nerror) + gerror))/total));
+
     this.setState({
       finalScore: Number((score).toFixed(2)),
       submit: true,
       glassError: gerror,
       alcError: aerror,
-      nonError: ierror
+      nonError: nerror,
+      correctSelAlc: correctAlc,
+      incorrectSelAlc: incorrectAlc,
+      correctSelNon: correctIng,
+      incorrectSelNon: incorrectIng
     })
   };
 
@@ -445,7 +469,7 @@ export class Game extends Component {
           <Row>
             <Col xs md={12} className={"bg-danger border d-flex flex-column justify-content-center"}>
               <h4 className="text-center">Total Score</h4>
-              <h4 className="text-center">{this.state.glassError}</h4>
+              <h4 className="text-center">{finalScore}</h4>
             </Col>
           </Row>
           <div className="d-flex justify-content-center">
