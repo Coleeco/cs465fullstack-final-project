@@ -30,4 +30,8 @@ router.post('/login', db.logUserIn);
 // form body { loginname: username, drinkid: drinkid }
 router.post('/favs/add', db.addFavorite);
 
+// POST update user score, Ex endpoint: http://localhost:5000/user/score
+// form body { loginname: username, score: score}
+router.post('/setscore', db.setScore);
+
 module.exports = router;

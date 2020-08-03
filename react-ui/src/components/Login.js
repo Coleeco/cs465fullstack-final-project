@@ -52,21 +52,10 @@ class Form extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault(event);
-    // console.log(this.props.myProp);
-    // this.props.login('fucking finally!');
     const loginInfo = {
       loginname: this.state.username,
       password: this.state.password,
     };
-    console.log(loginInfo);
-    // postRequest("/user/login", loginInfo)
-    //   .then((resp) => {
-    //     if(resp.ok){
-    //       return resp.json();
-    //     }
-    //   })
-    //   .then(data => console.log(data))
-    //   .catch((error) => console.log(error));
 
     postRequest("/user/login", loginInfo)
       .then((resp) => {
@@ -78,9 +67,8 @@ class Form extends React.Component {
         }
       })
       .then((data) => {
-        console.log(typeof data);
         let user = data[0];
-        console.log(user);
+        console.log('logging in user: ', user);
         this.props.login(user);
       })
       .catch((error) => console.log(error));

@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 
-//Import the home,game,drink,about components
 import { Navigation } from "./components/Navigation";
 import { Home } from "./components/Home";
 import { Game } from "./components/Game";
@@ -10,72 +9,84 @@ import { About } from "./components/About";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 import { getRequest } from "./ApiCaller";
-// import { Child } from "./components/child";
 
-//Import react routing
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Jumbotron, Table } from "react-bootstrap";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: { loginname: "", score: "" },
+      user: { loginname: "", score: "" , title: "" },
     };
     this.logout = this.logout.bind(this);
     this.login = this.login.bind(this);
+    this.UserBanner = this.UserBanner.bind(this);
   }
 
-  // componentDidMount() {
-  //   // console.log(this.state.user);
-  //   getRequest("/user/current")
-  //     .then((resp) => {
-  //       if (resp.ok) {
-  //         resp.json();
-  //       } else {
-  //         throw new Error("no user logged on");
-  //       }
-  //     })
-  //     .then((data) => {
-  //       console.log(data[0]);
-  //       this.setState({ user: data[0] });
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-
   login(user) {
-    this.setState({user: user})
+    this.setState({ user: user });
     console.log(user);
   }
 
   logout() {
     getRequest("/user/logout");
-    this.setState({ user: {} });
+    this.setState({ user: { loginname: "", score: "", title: "" } });
+  }
+
+  UserBanner() {
+    let user = this.state.user
+    if(user.loginname === ''){
+      return <div>No user logged in</div>
+    }
+    else {
+      return (
+        <div className='bannerContainer'>
+            <Table variant='dark' size='small'>
+              <thead>
+              <tr>
+                <th>User</th>
+                <th>Score</th>
+                <th>Title</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{user.loginname}</td>
+                  <td>{user.score}</td>
+                  <td>{user.title}</td>
+                </tr>
+              </tbody>
+            </Table>
+        </div>
+      )
+    }
   }
 
   render() {
-    let propVal = "fuckin print";
-    let user = this.state.user;
-
     return (
-
       // Set a router block to render different pages based on path
       <BrowserRouter>
         <div className="container">
-          <h3 className="m-3 d-flex justify-content-center">
+          {/* <h3 className="m-3 d-flex justify-content-center">
             Cocktail Mastery 
-          </h3>
-          <h2>
-            User: {user.loginname}  Score: {user.score}
-          </h2>
-            <Navigation />
-            <Switch>
-              <Route path="/" component={Home} exact />
-              <Route path="/game" component={Game} />
-              <Route path="/search" component={Search} />
-              <Route path="/login" render={(props) => <Login {...props} login={this.login} myProp={propVal}/>} />
-              <Route path="/register" component={Register} />
-              <Route path="/about" component={About} />
-            </Switch>
+          </h3> */}
+          <Jumbotron>
+            <h2>Cocktail Mastery</h2>
+            <this.UserBanner />
+          </Jumbotron>
+          <Navigation user={this.state.user} logout={this.logout} />
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route path="/game" component={Game} />
+            <Route path="/search" component={Search} />
+            <Route
+              path="/login"
+              render={(props) => <Login {...props} login={this.login} />}
+            />
+            <Route path="/register" component={Register} />
+            <Route path="/about" component={About} />
+          </Switch>
         </div>
       </BrowserRouter>
     );

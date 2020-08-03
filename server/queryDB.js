@@ -1,12 +1,16 @@
+// queryDB
+// Provides necessary queries to Postgres server for Cocktail App
+
 const Pool = require("pg").Pool;
 
 let connectionString;
 
+// If not in production use local postgres server, else use Heroku provided DB
 if (process.env.NODE_ENV !== "production") {
   connectionString = "postgresql://cocktail:password@localhost:5432/localdb";
 } else {
   connectionString = process.env.DATABASE_URL;
-  console.log(process.env.DATABASE_URL)
+  console.log(process.env.DATABASE_URL);
 }
 const pool = new Pool({
   connectionString: connectionString,
@@ -114,6 +118,23 @@ const getTitles = (request, response) => {
   });
 };
 
+const setScore = (request, response) => {
+  const { loginname, score } = request.body;
+
+  pool.query(
+    "UPDATE userdata SET score = $2 WHERE loginname = $1",
+    [loginname, score],
+    (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        let user = { loginname: loginname, score: score };
+        response.status(200).send(user);
+      }
+    }
+  );
+};
+
 // QUERY TEST BED
 function queryDB() {
   // let loginname = "testuser";
@@ -169,4 +190,5 @@ module.exports = {
   getUserFavorites,
   addFavorite,
   getTitles,
+  setScore
 };
