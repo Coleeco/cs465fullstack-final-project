@@ -8,7 +8,9 @@ import goal from './Goal.png'
 const gameIngType = {
     GLASS: 'glass',
     ALCOHOL: 'alcohol',
-    INGREDIENT: 'ingredient'
+    INGREDIENT: 'ingredient',
+    SELECTALC: 'selalc',
+    SELECTING: 'seling'
 }
 
 class GameIngredient extends Component{
@@ -36,22 +38,32 @@ export class Game extends Component {
     this.state = {
       isLoaded: false,
       submit: false,
+      
       finalScore: 0,
-      items: [{strDrinkThumb: goal, strDrink: "Cocktail"}], //Goal drink to make data
+      
       goalAlcIng: [], //Goal Alc inggredints
       goalNonIng: [], //Goal Non Alc ingredients
       aIng: [], //array of alcoholic ingredients
-      glassNames: ["glass type","glass type","glass type","glass type","glass type","glass type",],
+      oIng: [], //array of non alocholic ingredients
+      
       aUrl: [alcohol, alcohol, alcohol, alcohol, alcohol, alcohol], //array of url images for alcohol ingredients
       oUrl: [ingredient, ingredient, ingredient, ingredient, ingredient, ingredient], //array of url images for non alcohol ingredients
-      oIng: [], //array of non alocholic ingredients
+      
       extras: [],  //extra drinks data
+      items: [{strDrinkThumb: goal, strDrink: "Cocktail"}], //Goal drink to make data
+
       preIng: "https://www.thecocktaildb.com/images/ingredients/",  //ingredient prefix address
       affIng: "-Small.png", //ingredient postfix address
+      
       selectedGlass: -1,
       selectedAlcohols: [],
       selectedIngredients: [],
 
+      glassError: 0,
+      alcError: 0,
+      nonError: 0,
+
+      glassNames: ["glass type","glass type","glass type","glass type","glass type","glass type",],
       backgrounds: ["bg-success", "bg-success", "bg-success", "bg-success", "bg-success", "bg-success", "bg-primary", "bg-primary", "bg-primary", "bg-primary", "bg-primary", "bg-primary", "bg-info", "bg-info", "bg-info", "bg-info", "bg-info", "bg-info",]
     };
   };
@@ -59,6 +71,60 @@ export class Game extends Component {
   //Render an ingredient game piece
   renderIngredient(turl, tbg, tname ="Ingredient", i, tpieceType){
     return <GameIngredient  onClick={() => this.handleClick(i, tpieceType)} url = {turl} bg = {tbg} name = {tname} pieceType = {tpieceType}/>;
+  };
+
+  renderResults(data){
+    const {goalNonIng,goalAlcIng, preIng, affIng, aIng, oIng} = this.state
+
+    switch(data){
+      default:
+        console.log("ENUM not set for renderResults(data)");
+        break;
+      case gameIngType.INGREDIENT:        
+        return (
+          <div>
+          <div className="d-flex flex-row justify-content-center">
+            {goalNonIng.map((non) => (
+              <div><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={non}src={preIng + non + affIng}/></div>
+            ))}
+          </div>
+          {goalNonIng.map((non) => (<div className ="text-center">{non}</div>))}
+          </div>
+        );
+      case gameIngType.ALCOHOL:
+        return (
+          <div>
+          <div className="d-flex flex-row justify-content-center">
+            {goalAlcIng.map((alc) => (
+              <div><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={alc}src={preIng + alc + affIng}/></div>
+            ))}
+          </div>
+            {goalAlcIng.map((alc) => (<div className ="text-center">{alc}</div>))}
+          </div>
+        );
+      case gameIngType.SELECTALC:
+        return (
+          <div>
+          <div className="d-flex flex-row justify-content-center">
+            {this.state.selectedAlcohols.map((alc) => (
+              <div><img id="rimg" className="bg-warning border-1 m-1" type="image" alt={aIng[alc]}src={preIng + aIng[alc] + affIng}/></div>
+            ))}
+          </div>
+            {this.state.selectedAlcohols.map((alc) => (<div className ="text-center">{aIng[alc]}</div>))}
+          </div>
+        );
+      case gameIngType.SELECTING:
+        return (
+          <div>
+          <div className="d-flex flex-row justify-content-center">
+            {this.state.selectedIngredients.map((non) => (
+              <div><img id="rimg" className="bg-warning border-1 mx-auto" type="image" alt={oIng[non]}src={preIng + oIng[non] + affIng}/></div>
+            ))}
+          </div>
+            {this.state.selectedIngredients.map((non) => (<div className ="text-center">{oIng[non]}</div>))}
+          </div>
+        );
+    }
   };
 
   handleClick(i, ptype){    
@@ -234,28 +300,43 @@ export class Game extends Component {
     let count = 0;
     let score = 100.0;
     let total = goalAlcIng.length + goalNonIng.length + 1;
-    
+    let gerror = 0;
+    let aerror = 0;
+    let ierror = 0;
+
     if(glassNames[selectedGlass] === items[0].strGlass){
       ++count;
     }
+    else{
+      gerror = 1;
+    }
 
+    count = 0;
     for(var alcohols in selectedAlcohols){
       if(goalAlcIng.includes(aIng[alcohols])){
         ++count;
       }
     }
-    
+    aerror = (Math.abs(selectedAlcohols.length - count) + (Math.abs(goalAlcIng.length - count)));
+
+    count = 0;
     for(var ingredients in selectedIngredients){
       if(goalNonIng.includes(oIng[ingredients])){
         ++count;
       }
     }
+    ierror = (Math.abs(selectedIngredients.length - count) + (Math.abs(goalNonIng.length - count)));
     
     score = (count/total) * score;
 
+    console.log(aerror);
+    console.log(ierror);
     this.setState({
       finalScore: Number((score).toFixed(2)),
-      submit: true
+      submit: true,
+      glassError: gerror,
+      alcError: aerror,
+      nonError: ierror
     })
   };
 
@@ -310,37 +391,69 @@ export class Game extends Component {
     }
     else{
       return(
-        <div> 
-          <div>
-            Your score is : {finalScore}
+        <Grid fluid>
+          <h3 className="d-flex justify-content-center">The drink to make </h3>
+          <div className="d-flex justify-content-center">
+            <input id="dimg" className="border-1 border-dark" type="image" alt="DrinkToMake" src={items[0].strDrinkThumb}/>
           </div>
-        
-          <div> 
-            Drink to make: {items[0].strDrink} 
-          </div>
+          <h3 className="d-flex justify-content-center">{items[0].strDrink}</h3>
           <br></br>
-          <div> 
-            Correct glass type: {items[0].strGlass}
+          <Row>
+            <Col xs md={4} className={"bg-success border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Correct Glass Type</h4>
+              <img id="gimg" className="mx-auto" type="image" alt="Correct Glass" src={glass}/>
+              <div className ="text-center">{items[0].strGlass}</div>
+            </Col>
+            <Col xs md={4} className={"bg-success border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Your Glass Type</h4>
+              <img id="gimg" className="mx-auto" type="image" alt="Correct Glass" src={glass}/>
+              <div className ="text-center">{glassNames[this.state.selectedGlass]}</div>
+            </Col>
+            <Col xs md={4} className={"bg-secondary border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Errors</h4>
+              <h4 className="text-center">{this.state.glassError}</h4>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs md={4} className={"bg-primary border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Correct Alcohol Ingredients</h4>
+              {this.renderResults(gameIngType.ALCOHOL)}                         
+            </Col>
+            <Col xs md={4} className={"bg-primary border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Your Alcohol Ingredients</h4>
+              {this.renderResults(gameIngType.SELECTALC)}                         
+            </Col>
+            <Col xs md={4} className={"bg-secondary border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Errors</h4>
+              <h4 className="text-center">{this.state.alcError}</h4>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs md={4} className={"bg-info border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Correct Non-Alcohol Ingredients</h4>
+              {this.renderResults(gameIngType.INGREDIENT)}                         
+            </Col>
+            <Col xs md={4} className={"bg-info border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Your Non-Alcohol Ingredients</h4>
+              {this.renderResults(gameIngType.SELECTING)}                         
+            </Col>
+            <Col xs md={4} className={"bg-secondary border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Errors</h4>
+              <h4 className="text-center">{this.state.nonError}</h4>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs md={12} className={"bg-danger border d-flex flex-column justify-content-center"}>
+              <h4 className="text-center">Total Score</h4>
+              <h4 className="text-center">{this.state.glassError}</h4>
+            </Col>
+          </Row>
+          <div className="d-flex justify-content-center">
+            <button onClick={() => this.handleAgain()} >Mix Another Drink?</button>
           </div>
-          <div>
-            Your glass choice: {glassNames[this.state.selectedGlass]} 
-          </div>
-          <br></br>
-          <div>
-            Correct Alcohol Choices: {this.state.goalAlcIng}
-          </div>
-          <div>
-            You Alcohol Choices: {this.state.selectedAlcohols}
-          </div>
-          <div>
-            Correct Ingredient Choices: {this.state.goalNonIng}
-          </div>
-          <div>
-            You Alcohol Choices: {this.state.selectedIngredients}
-          </div>
-          <button onClick={() => this.handleAgain()}> Again? </button>
-        </div>
+        </Grid>
       );
     };
   };
 };
+

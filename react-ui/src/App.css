@@ -45,6 +45,14 @@
   height: 150px auto;
 }
 
+#rimg {
+  display: block;
+  max-width:50px;
+  max-height:50px;
+  width: 50px auto;
+  height: 50px auto;
+}
+
 #dimg {
   display: block;
   max-width:200px;
