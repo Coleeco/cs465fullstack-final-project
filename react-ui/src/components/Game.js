@@ -79,7 +79,7 @@ export class Game extends Component {
   };
 
   renderResults(data){
-    const {goalNonIng,goalAlcIng, preIng, affIng, aIng, oIng} = this.state
+    const {goalNonIng,goalAlcIng, preIng, affIng} = this.state
 
     switch(data){
       default:
@@ -254,8 +254,8 @@ export class Game extends Component {
         });
       }
     )
-    this.populateExtras();
-    this.populateGlasses();
+    setTimeout(() => {this.populateExtras();}, 200);
+    setTimeout(() => {this.populateGlasses();}, 200);
   };
 
   populateGlasses(){
@@ -265,7 +265,7 @@ export class Game extends Component {
       (result) => {
         for(let i = 0; i < 5; ++i)
         {
-          this.state.glassNames.push(result.drinks[Math.floor(Math.random() * result.drinks.length)].strGlass)
+          this.state.glassNames.push(result.drinks[Math.floor(Math.random() * (result.drinks.length-1))].strGlass)
         }
       },
       (error) => {
@@ -349,7 +349,7 @@ export class Game extends Component {
 
     aerror = ((goalAlcIng.length - correctAlc.length) + incorrectAlc.length);
     nerror = ((goalNonIng.length - correctIng.length) + incorrectIng.length);
-    score = 100.0 - (100.0 * (((Math.min(goalAlcIng.length, aerror) + Math.min(goalNonIng.length, nerror) + gerror))/total));
+    score = Math.max(100.0 - ((100.0 * (aerror + nerror + gerror)/total)), 0);
 
     this.setState({
       finalScore: Number((score).toFixed(2)),
