@@ -6,7 +6,7 @@ const db = require('../queryDB');
 // GET logged in user Ex endpoint: http://localhost:5000/user/current
 router.get('/current', db.getCurrentUser);
 
-// GET log user out Ex endpoint: http://localhost:5000/user/logout
+// GET logout user Ex endpoint: http://localhost:5000/user/logout
 router.get('/logout', (req, resp) => {
    req.session.destroy();
    resp.end();

@@ -41,31 +41,30 @@ export default class App extends React.Component {
   }
 
   UserBanner() {
-    let user = this.state.user
-    if(user.loginname === ''){
-      return <div>No user logged in</div>
-    }
-    else {
+    let user = this.state.user;
+    if (user.loginname === "") {
+      return <div>No user logged in</div>;
+    } else {
       return (
-        <div className='bannerContainer'>
-            <Table variant='dark' size='small'>
-              <thead>
+        <div className="bannerContainer">
+          <Table variant="dark" size="small">
+            <thead>
               <tr>
                 <th>User</th>
                 <th>Score</th>
                 <th>Title</th>
               </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{user.loginname}</td>
-                  <td>{user.score}</td>
-                  <td>{user.title}</td>
-                </tr>
-              </tbody>
-            </Table>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{user.loginname}</td>
+                <td>{user.score}</td>
+                <td>{user.title}</td>
+              </tr>
+            </tbody>
+          </Table>
         </div>
-      )
+      );
     }
   }
 
@@ -92,7 +91,10 @@ export default class App extends React.Component {
               path="/login"
               render={(props) => <Login {...props} login={this.login} />}
             />
-            <Route path="/register" component={Register} />
+            <Route
+              path="/register"
+              render={(props) => <Register {...props} login={this.login} />}
+            />
             <Route path="/about" component={About} />
           </Switch>
         </div>

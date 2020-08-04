@@ -1,8 +1,38 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import { Redirect } from "react-router";
 import { postRequest } from "../ApiCaller";
+import { Modal, Button } from "react-bootstrap";
 
 export class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalShow: false,
+      modalBody: "",
+    };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.modalBody = this.modalBody.bind(this);
+  }
+
+  handleShow() {
+    this.setState({
+      modalShow: true,
+    });
+  }
+
+  handleClose() {
+    this.setState({
+      modalShow: false,
+    });
+  }
+
+  modalBody(msg) {
+    this.setState({
+      modalBody: msg,
+    });
+  }
+
   render() {
     return (
       <div className="container mt-5">
@@ -10,13 +40,28 @@ export class Login extends Component {
           <div className="col">
             <div className="card mx-auto">
               <div className="card-body">
+                <Modal show={this.state.modalShow} onHide={this.handleClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Login Status</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>{this.state.modalBody}</Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleClose}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
                 <h1
                   className="card-title"
                   style={{ borderBottom: "1px solid #efefef" }}
                 >
                   Cocktail Bar Backdoor
                 </h1>
-                <Form myProp={this.props.myProp} login={this.props.login} />
+                <Form
+                  login={this.props.login}
+                  show={this.handleShow}
+                  modalBody={this.modalBody}
+                />
               </div>
             </div>
           </div>
@@ -33,11 +78,13 @@ class Form extends React.Component {
       username: "",
       password: "",
       user: {},
-      redirect: false,
+      redirectHome: false,
+      redirectRegister: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clearForm = this.clearForm.bind(this);
+    this.toRegister = this.toRegister.bind(this);
   }
 
   handleChange(event) {
@@ -52,6 +99,7 @@ class Form extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault(event);
+    this.clearForm();
     const loginInfo = {
       loginname: this.state.username,
       password: this.state.password,
@@ -62,16 +110,20 @@ class Form extends React.Component {
         if (resp.ok) {
           return resp.json();
         } else {
-          this.clearForm();
-          throw new Error("no user logged on");
+          throw "User not found";
         }
       })
       .then((data) => {
         let user = data[0];
-        console.log('logging in user: ', user);
+        console.log("logging in user: ", user);
         this.props.login(user);
+        this.setState({ redirectHome: true });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        this.props.modalBody(error);
+        this.props.show();
+      });
   }
 
   clearForm() {
@@ -81,16 +133,19 @@ class Form extends React.Component {
     });
   }
 
+  toRegister() {
+    this.setState({ redirectRegister: true });
+  }
+
   render() {
-    if (this.state.redirect) {
+    if (this.state.redirectHome) {
       return <Redirect push to="/" />;
     }
+    if (this.state.redirectRegister) {
+      return <Redirect push to="/register" />;
+    }
     return (
-      <form
-        className="needs-validation"
-        noValidate
-        onSubmit={this.handleSubmit}
-      >
+      <form className="loginform" noValidate onSubmit={this.handleSubmit}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
@@ -127,6 +182,12 @@ class Form extends React.Component {
         >
           Cancel
         </button>
+        <div className="mt-5 text-center">
+          <span>Dont have an account? </span>
+          <a className="register" href="#" onClick={this.toRegister}>
+            Register
+          </a>
+        </div>
       </form>
     );
   }
