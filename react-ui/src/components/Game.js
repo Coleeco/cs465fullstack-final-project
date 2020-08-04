@@ -257,10 +257,36 @@ export class Game extends Component {
   renderHardmode(){
     if (this.props.hardmode)
     {
-
+      return(
+        <div className = "d-flex justify-content-center">
+          <button onClick = {() => this.handleHMClick(this.props.hmclick)} className="bg-danger">Hardmode <h6>On</h6></button>
+        </div>
+      );
     }
     else{
+      return(
+        <div className = "d-flex justify-content-center">
+          <button onClick = {() => this.handleHMClick(this.props.hmclick)} className="bg-success">Hardmode <h6>Off</h6></button>
+        </div>
+      );
+    }
+  }
 
+  renderHMLoad(){
+    if (this.props.hardmode)
+    {
+      return(
+        <div className = "d-flex justify-content-center">
+          <button className="bg-danger">Hardmode <h6>On</h6></button>
+        </div>
+      );
+    }
+    else{
+      return(
+        <div className = "d-flex justify-content-center">
+          <button className="bg-success">Hardmode <h6>Off</h6></button>
+        </div>
+      );
     }
   }
 
@@ -639,9 +665,7 @@ export class Game extends Component {
     {
       return(
         <div>
-          <div className = "d-flex justify-content-center">
-            <button className="bg-success">Hardmode <h6>Off</h6></button>
-          </div>
+          {this.renderHMLoad()}                         
         <Grid fluid>
           <Row>          
             <div className="scroll">
@@ -680,9 +704,7 @@ export class Game extends Component {
     else if(!submit && isLoaded) {
       return(
         <div>
-          <div className = "d-flex justify-content-center">
-            <button onClick = {() => this.handleHMClick(this.props.hmclick)} className="bg-success">Hardmode <h6>Off</h6></button>
-          </div>
+          {this.renderHardmode()}                         
         <Grid fluid>
           <Row>          
             <div className="scroll">
