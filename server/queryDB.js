@@ -24,7 +24,7 @@ const createUser = (request, response) => {
     [loginname, password],
     (error, results) => {
       if (error) {
-        throw error;
+        response.status(409).send(error.detail);
       }
       request.session.user = loginname;
       response.status(201).send(`User added`);
@@ -88,9 +88,10 @@ const addFavorite = (request, response) => {
     [loginname, drinkID],
     (error, results) => {
       if (error) {
-        throw error;
+        response.status(409).send(error.detail);
+      } else {
+        response.status(201).send(`drink added`);
       }
-      response.status(201).send(`drink added`);
     }
   );
 };
@@ -141,13 +142,21 @@ function queryDB() {
   // let password = 'password';
   // let drinkID = 99999;
   // *** BASIC QUERY TEST
-  // pool.query('SELECT * FROM titles ORDER BY minscore ASC', (err, res) => {
-  //   if(err){
-  //     throw err;
-  //   }
-  //   console.log(res.rows);
-  //   pool.end();
-  // });
+  let loginname = "postman";
+  let drinkID = 65555;
+  pool.query(
+    "insert into favorites (username, drinkid) values($1, $2)",
+    [loginname, drinkID],
+    (err, res) => {
+      if (err) {
+        console.log(err.detail);
+        throw err;
+      }
+      console.log(res);
+      // console.log(res.rows);
+      pool.end();
+    }
+  );
   // ** TEST INSERT QUERY
   // pool.query('INSERT INTO userdata (loginname, password) VALUES ($1, $2)', [loginname, password], (error, results) => {
   //   if (error) {
@@ -190,5 +199,5 @@ module.exports = {
   getUserFavorites,
   addFavorite,
   getTitles,
-  setScore
+  setScore,
 };
