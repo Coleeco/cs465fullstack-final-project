@@ -54,7 +54,7 @@ export class Game extends Component {
 
       keys: ["1","2","3","4","5","6","7","8"],
 
-      glassNames: ["glass type","glass type","glass type","glass type","glass type","glass type"],
+      glassNames: ["glass type"],
       abg: ["bg-primary"],
       ibg: ["bg-info"],
       gbg: ["bg-success"],
@@ -102,13 +102,14 @@ export class Game extends Component {
 
       keys: ["1","2","3","4","5","6","7","8"],
 
-      glassNames: ["glass type","glass type","glass type","glass type","glass type","glass type"],
+      glassNames: ["glass type"],
       abg: ["bg-primary"],
       ibg: ["bg-info"],
       gbg: ["bg-success"],
 
       hardmode: ""
     });
+
     this.componentDidMount();
   }
 
@@ -382,69 +383,142 @@ export class Game extends Component {
     {
       return;
     }
-
-    let atemp = this.state.abg;
-    let itemp = this.state.ibg;
-    let gtemp = this.state.gbg;
-    switch(ptype){
-      default:
-        console.log("ERROR in handleClick(i, ptype) enum not set")
-        break;
-      case gameIngType.GLASS:
-        if (this.state.selectedGlass > -1){
-          gtemp[this.state.selectedGlass] = "bg-success"
-          gtemp[i] = "bg-warning"
-          this.setState({
-            gbg: gtemp,
-            selectedGlass: i
-          });
-        }
-        else {
-          gtemp[i] = "bg-warning"
-          this.setState({
-            gbg: gtemp,
-            selectedGlass: i
-          });
-        }      
-        break;
-
-      case gameIngType.ALCOHOL:
-        if (this.state.selectedAlcohols.includes(i)){
-          for( let x = 0; x < this.state.selectedAlcohols.length; ++x){ 
-            if ( this.state.selectedAlcohols[x] === i) { 
-              this.state.selectedAlcohols.splice(x, 1); 
-              --x; 
-            }
+    var atemp = this.state.abg;
+    var itemp = this.state.ibg;
+    var gtemp = this.state.gbg;
+    console.log(this.props.hardmode)
+    if(this.props.hardmode)
+    {
+      switch(ptype){
+        default:
+          console.log("ERROR in handleClick(i, ptype) enum not set")
+          break;
+        case gameIngType.GLASS:
+          if (this.state.selectedGlass > -1){
+            gtemp[this.state.selectedGlass] = "bg-success"
+            gtemp[i] = "bg-warning"
+            this.setState({
+              gbg: gtemp,
+              selectedGlass: i
+            });
           }
-          atemp[i] = "bg-primary"
-        }
-        else {
-          atemp[i] = "bg-warning"
-          this.state.selectedAlcohols.push(i); 
-        }
-        this.setState({
-          abg: atemp
-        });
-        break;
+          else {
+            gtemp[i] = "bg-warning"
+            this.setState({
+              gbg: gtemp,
+              selectedGlass: i
+            });
+          }      
+          break;
 
-      case gameIngType.INGREDIENT:
-        if (this.state.selectedIngredients.includes(i)){
-          for( let x = 0; x < this.state.selectedIngredients.length; ++x){ 
-            if ( this.state.selectedIngredients[x] === i) { 
-              this.state.selectedIngredients.splice(x, 1); 
-              --x; 
+        case gameIngType.ALCOHOL:
+          if (this.state.selectedAlcohols.includes(i)){
+            for( let x = 0; x < this.state.selectedAlcohols.length; ++x){ 
+              if ( this.state.selectedAlcohols[x] === i) { 
+                this.state.selectedAlcohols.splice(x, 1); 
+                --x; 
+              }
             }
+            atemp[i] = "bg-primary"
           }
-          itemp[i] = "bg-info"
-        }
-        else{
-          itemp[i] = "bg-warning"
-          this.state.selectedIngredients.push(i);
-        }
-        this.setState({
-          ibg: itemp,
-        });
-        break;
+          else {
+            atemp[i] = "bg-warning"
+            this.state.selectedAlcohols.push(i); 
+          }
+          this.setState({
+            abg: atemp
+          });
+          break;
+
+        case gameIngType.INGREDIENT:
+          if (this.state.selectedIngredients.includes(i)){
+            for( let x = 0; x < this.state.selectedIngredients.length; ++x){ 
+              if ( this.state.selectedIngredients[x] === i) { 
+                this.state.selectedIngredients.splice(x, 1); 
+                --x; 
+              }
+            }
+            itemp[i] = "bg-info"
+          }
+          else{
+            itemp[i] = "bg-warning"
+            this.state.selectedIngredients.push(i);
+          }
+          this.setState({
+            ibg: itemp,
+          });
+          break;
+      }
+    }
+    else{
+      switch(ptype){
+        default:
+          console.log("ERROR in handleClick(i, ptype) enum not set")
+          break;
+        case gameIngType.GLASS:
+          if (this.state.selectedGlass > -1){
+            gtemp[this.state.selectedGlass] = "bg-success"
+            gtemp[i] = "bg-warning"
+            this.setState({
+              gbg: gtemp,
+              selectedGlass: i
+            });
+          }
+          else {
+            gtemp[i] = "bg-warning"
+            this.setState({
+              gbg: gtemp,
+              selectedGlass: i
+            });
+          }      
+          break;
+
+        case gameIngType.ALCOHOL:
+          if (this.state.selectedAlcohols.includes(i)){
+            for( let x = 0; x < this.state.selectedAlcohols.length; ++x){ 
+              if ( this.state.selectedAlcohols[x] === i) { 
+                this.state.selectedAlcohols.splice(x, 1); 
+                --x; 
+              }
+            }
+            atemp[i] = "bg-primary"
+          }
+          else {
+            if(this.state.selectedAlcohols.length >= this.state.goalAlcIng.length){
+              let temp = this.state.selectedAlcohols.shift();
+              atemp[temp] = "bg-primary";
+            }
+            atemp[i] = "bg-warning"
+            this.state.selectedAlcohols.push(i); 
+          }
+          this.setState({
+            abg: atemp
+          });
+          break;
+
+        case gameIngType.INGREDIENT:
+          if (this.state.selectedIngredients.includes(i)){
+            for( let x = 0; x < this.state.selectedIngredients.length; ++x){ 
+              if ( this.state.selectedIngredients[x] === i) { 
+                this.state.selectedIngredients.splice(x, 1); 
+                --x; 
+              }
+            }
+            itemp[i] = "bg-info"
+          }
+          else{
+            if(this.state.selectedIngredients.length >= this.state.goalNonIng.length){
+              let temp = this.state.selectedIngredients.shift();
+              itemp[temp] = "bg-info";
+            }
+            itemp[i] = "bg-warning"
+            this.state.selectedIngredients.push(i);
+          }
+          this.setState({
+            ibg: itemp,
+          });
+          break;
+      }
     }
   };
 
@@ -550,9 +624,8 @@ export class Game extends Component {
 
   //Last function called before considered loaded
   shiftArray(){
-    for (let i = 0; i < 6; ++i){
-      this.state.glassNames.shift();
-    }
+    
+    this.state.glassNames.shift();
 
     let goalGlass = this.state.glassNames.shift();
     this.state.glassNames.splice(Math.floor(Math.random() * (this.state.glassNames.length-1)),0, goalGlass);
@@ -589,6 +662,7 @@ export class Game extends Component {
       alert("Please Select an Inredient!");
       return;
     }
+
     let {glassNames, selectedGlass, items, selectedAlcohols, selectedIngredients, aIng, oIng, goalAlcIng, goalNonIng} = this.state;
     let score = 100.0;
     let total = goalAlcIng.length + goalNonIng.length + 1;
@@ -629,7 +703,13 @@ export class Game extends Component {
 
     aerror = ((goalAlcIng.length - correctAlc.length) + incorrectAlc.length);
     nerror = ((goalNonIng.length - correctIng.length) + incorrectIng.length);
-    score = Math.max(100.0 - ((100.0 * (aerror + nerror + gerror)/total)), 0);
+
+    if(this.props.hardmode){
+      score = Math.max(((100.0 * total) - ((100.0 * total) * (aerror + nerror + gerror)/total)), 0);
+    }
+    else{
+      score = Math.max(100.0 - ((100.0 * (aerror + nerror + gerror)/total)), 0);
+    }
 
     this.setState({
       finalScore: Number((score).toFixed(2)),
@@ -658,7 +738,7 @@ export class Game extends Component {
     {
       console.log(error);
       return(
-        <div>An error occured trying to access cocktailDB API</div>
+        <div>An error occured trying to access the cocktailDB API</div>
       )
     }
     else if(!isLoaded)
