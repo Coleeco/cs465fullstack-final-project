@@ -20,9 +20,14 @@ export class Navigation extends Component {
       );
     } else {
       loginlogout = (
+        <>
         <NavLink className="d-inline p-2 bg-dark text-white" to="/login">
           Login
         </NavLink>
+        <NavLink className="d-inline p-2 bg-dark text-white" to="/register">
+          Sign Up 
+        </NavLink>
+        </>
       );
     }
 
