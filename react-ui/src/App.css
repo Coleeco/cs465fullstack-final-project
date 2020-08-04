@@ -42,11 +42,11 @@
 }
 
 #gimg {
-  display: block;
+  
   max-width:150px;
   max-height:100px;
   width: 150px auto;
-  height: 150px auto;
+  height: 100px auto;
 }
 
 #rimg {
@@ -63,4 +63,36 @@
   max-height:200px;
   width: 200px auto;
   height: 200px auto;
+}
+
+.scroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  height: 160px;
+}
+
+.container {
+  position: relative;
+}
+
+.text-block {
+  position: absolute;
+  bottom: -80px;
+  left: 50%;  
+  margin-left: -55px;
+  color: black;
+  text-wrap: normal;
+
+}
+
+.ctext {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;  
+  margin-left: -100px;
+  color: black;
+  text-wrap: normal;
+
 }

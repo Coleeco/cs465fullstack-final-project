@@ -13,35 +13,6 @@ const gameIngType = {
     SELECTING: 'seling',
 }
 
-class GameIngredient extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      clicked: false,
-    }
-  };
-
-  render() {
-    const { url, bg, name, myIndex, aurl } = this.props;  
-    if(aurl === glass || aurl === ingredient || aurl === alcohol){
-      return (
-        <Col xs md={2} onClick={() => this.props.onClick()}  className={bg[myIndex] + " border d-flex flex-column justify-content-center"}>
-          <img id="gimg" className="mx-auto" type="image" alt={name} src={aurl}/>
-          <div className ="text-center">{name}</div>
-        </Col>
-      );
-    }
-    else{
-      return (
-        <Col xs md={2} onClick={() => this.props.onClick()}  className={bg[myIndex] + " border d-flex flex-column justify-content-center"}>
-          <img id="gimg" className="mx-auto" type="image" alt={name} src={url}/>
-          <div className ="text-center">{name}</div>
-        </Col>
-      );
-    }
-  }
-};
-
 export class Game extends Component {
   constructor(props) {
     super(props);
@@ -55,9 +26,6 @@ export class Game extends Component {
       goalNonIng: [], //Goal Non Alc ingredients
       aIng: [], //array of alcoholic ingredients
       oIng: [], //array of non alocholic ingredients
-      
-      aUrl: [alcohol, alcohol, alcohol, alcohol, alcohol, alcohol], //array of url images for alcohol ingredients
-      oUrl: [ingredient, ingredient, ingredient, ingredient, ingredient, ingredient], //array of url images for non alcohol ingredients
       
       extras: [],  //extra drinks data
       items: [{strDrinkThumb: goal, strDrink: "Cocktail"}], //Goal drink to make data
@@ -78,26 +46,100 @@ export class Game extends Component {
       alcError: 0,
       nonError: 0,
 
-      gi: 0,
-      ai: 0,
-      ni: 0,
-
       gBGc: "bg-success",
       aBGc: "bg-primary",
       iBGc: "bg-info",
       wBGc: "bg-warning",
       dBGc: "bg-danger",
 
-      glassNames: ["glass type","glass type","glass type","glass type","glass type","glass type",],
-      abg: ["bg-primary", "bg-primary", "bg-primary", "bg-primary", "bg-primary", "bg-primary"],
-      ibg: ["bg-info", "bg-info", "bg-info", "bg-info", "bg-info", "bg-info"],
-      gbg: ["bg-success", "bg-success", "bg-success", "bg-success", "bg-success", "bg-success"]
+      keys: ["1","2","3","4","5","6","7","8"],
+
+      glassNames: ["glass type","glass type","glass type","glass type","glass type","glass type"],
+      abg: ["bg-primary"],
+      ibg: ["bg-info"],
+      gbg: ["bg-success"],
     };
+
   };
 
-  //Render an ingredient game piece
-  renderIngredient(turl, tbg, tname ="Ingredient", i, tpieceType){
-    return <GameIngredient  onClick={() => this.handleClick(i, tpieceType)} url = {this.state.preIng + tname + this.state.affIng} bg = {tbg} name = {tname} pieceType = {tpieceType} myIndex={i} aurl = {turl}/>;
+  renderLoadingPiece(data){
+    const {gbg, abg, ibg, keys} = this.state
+
+    switch(data){
+      default:
+        console.log("ENUM not set for renderGamePiece(edata)");
+        break;
+      case gameIngType.INGREDIENT:        
+          return(
+          keys.map((key) => (
+            <span key={key} className="container">
+              <img id="gimg" className= {ibg[0] + " border-1 m-3"} type="image" alt="ingredient" src={ingredient}/>
+              <p className="text-block">Ingredient</p>
+            </span>
+              
+          ))
+        );  
+      case gameIngType.ALCOHOL:
+        return(
+          keys.map((key) => (
+            <span key={key} className="container">
+              <img id="gimg" className= {abg[0] + " border-1 m-3"} type="image" alt="alcohol" src={alcohol}/>
+              <p className="text-block">Alcohol</p>
+            </span>
+              
+          ))
+        );  
+      case gameIngType.GLASS:
+        return(
+          keys.map((key) => (
+            <span key={key} className="container">
+              <img id="gimg" className= {gbg[0] + " border-1 m-3"} type="image" alt="glass"src={glass}/>
+              <p className="text-block">Glass</p>
+            </span>
+              
+          ))
+        );      
+    }
+  };
+  
+  renderGamePiece(data){
+    const {aIng,oIng, glassNames, preIng, affIng, gbg, abg, ibg} = this.state
+
+    switch(data){
+      default:
+        console.log("ENUM not set for renderGamePiece(data)");
+        break;
+      case gameIngType.INGREDIENT:        
+          return(
+          oIng.map((non, i) => (
+            <span key={non} className="container">
+              <img id="gimg" onClick={() => this.handleClick(i, data)} onMouseOver={() => this.handleMouseOver(i, data)}  onMouseLeave={() => this.handleMouseLeave(i, data)} className= {ibg[i] + " border-1 m-3"} type="image" alt={non}src={preIng+ non + affIng}/>
+              <p className="text-block">{non.substring(0, Math.min(non.length, 16))}</p>
+            </span>
+              
+          ))
+        );  
+      case gameIngType.ALCOHOL:
+        return(
+          aIng.map((alc, i) => (
+            <span key={alc} className="container">
+              <img id="gimg" onClick={() => this.handleClick(i, data)} onMouseOver={() => this.handleMouseOver(i, data)}  onMouseLeave={() => this.handleMouseLeave(i, data)} className= {abg[i] + " border-1 m-3"} type="image" alt={alc}src={preIng+ alc + affIng}/>
+              <p className="text-block">{alc.substring(0, Math.min(alc.length, 16))}</p>
+            </span>
+              
+          ))
+        );  
+      case gameIngType.GLASS:
+        return(
+          glassNames.map((gname, i) => (
+            <span key={gname} className="container">
+              <img id="gimg" onClick={() => this.handleClick(i, data)} onMouseOver={() => this.handleMouseOver(i, data)}  onMouseLeave={() => this.handleMouseLeave(i, data)} className= {gbg[i] + " border-1 m-3"} type="image" alt={gname}src={glass}/>
+              <p className="text-block">{gname.substring(0, Math.min(gname.length, 16))}</p>
+            </span>
+              
+          ))
+        );      
+    }
   };
 
   renderResults(data){
@@ -162,6 +204,87 @@ export class Game extends Component {
     }
   };
 
+  handleMouseOver(i, data){
+    const {gbg, abg, ibg} = this.state
+    var temp = [];
+
+    switch(data){
+      default:
+        console.log("ENUM not set for ingredient handleMouseOver(i, data) function call");
+        break;
+      case gameIngType.INGREDIENT: 
+        temp = ibg;
+        temp[i] = "bg-secondary"
+        this.setState({
+          ibg: temp
+        })
+        break;
+      case gameIngType.ALCOHOL:
+        temp = abg;
+        temp[i] = "bg-secondary"
+        this.setState({
+          abg: temp
+        })
+        break;
+      case gameIngType.GLASS:
+        temp =gbg;
+        temp[i] = "bg-secondary"
+        this.setState({
+          gbg: temp
+        })
+        break;
+      }
+
+    return;
+  };
+
+    handleMouseLeave(i, data){
+    const {gbg, abg, ibg, selectedIngredients, selectedAlcohols, selectedGlass} = this.state
+    var temp =[];
+
+    switch(data){
+      default:
+        console.log("ENUM not set for ingredient handleMouseOver(i, data) function call");
+        break;
+      case gameIngType.INGREDIENT: 
+        temp = ibg;
+        if(selectedIngredients.includes(i)){
+          temp[i] = "bg-warning"
+        }
+        else{
+          temp[i] = "bg-info"
+        }
+        this.setState({
+          ibg: temp
+        })
+        break;
+      case gameIngType.ALCOHOL:
+        temp = abg;
+        if(selectedAlcohols.includes(i)){
+          temp[i] = "bg-warning"
+        }
+        else{
+          temp[i] = "bg-primary"
+        }
+        this.setState({
+          abg: temp
+        })
+        break;
+      case gameIngType.GLASS:
+        temp = gbg;
+        if(selectedGlass === i)
+        {
+          temp[i] = "bg-warning"
+        }
+        else{
+          temp[i] = "bg-success"
+        }
+        break;
+    }
+
+    return;
+  };
+
   handleClick(i, ptype){    
     if(!this.state.isLoaded)
     {
@@ -173,7 +296,7 @@ export class Game extends Component {
     let gtemp = this.state.gbg;
     switch(ptype){
       default:
-        console.log("ERROR in handleClick() enum not set")
+        console.log("ERROR in handleClick(i, ptype) enum not set")
         break;
       case gameIngType.GLASS:
         if (this.state.selectedGlass > -1){
@@ -227,7 +350,7 @@ export class Game extends Component {
           this.state.selectedIngredients.push(i);
         }
         this.setState({
-          ibg: itemp
+          ibg: itemp,
         });
         break;
     }
@@ -242,16 +365,14 @@ export class Game extends Component {
         .then(res => res.json())
         .then(
           (result) => {
-            if(result.ingredients[0].strAlcohol && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
+            if(result.ingredients[0].strAlcohol==="Yes" && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
               this.state.aIng.push(result.ingredients[0].strIngredient);
-              this.state.aUrl.push(this.state.preIng + result.ingredients[0].strIngredient + this.state.affIng);
               this.state.abg.push(this.state.aBGc);
               if(goal)
                 this.state.goalAlcIng.push(result.ingredients[0].strIngredient);
             }
-            else if (!this.state.oIng.includes(result.ingredients[0].strIngredient) && result.ingredients[0].strAlcohol != "Yes"){
+            else if (!this.state.oIng.includes(result.ingredients[0].strIngredient) && result.ingredients[0].strAlcohol !== "Yes"){
               this.state.oIng.push(result.ingredients[0].strIngredient);
-              this.state.oUrl.push(this.state.preIng + result.ingredients[0].strIngredient + this.state.affIng);
               this.state.ibg.push(this.state.iBGc);
               if(goal)
                 this.state.goalNonIng.push(result.ingredients[0].strIngredient);
@@ -338,8 +459,6 @@ export class Game extends Component {
   //Last function called before considered loaded
   shiftArray(){
     for (let i = 0; i < 6; ++i){
-      this.state.aUrl.shift();
-      this.state.oUrl.shift();
       this.state.glassNames.shift();
     }
 
@@ -350,18 +469,12 @@ export class Game extends Component {
     {
       let goalAlc = this.state.aIng.shift();
       this.state.aIng.splice(Math.floor(Math.random() * (this.state.aIng.length-1)),0, goalAlc);
-
-      let alcURL = this.state.aUrl.shift();
-      this.state.aUrl.splice(Math.floor(Math.random() * (this.state.aUrl.length-1)),0, alcURL);
     };
 
     for(let i = 0; i < this.state.goalNonIng.length; ++i )
     {
       let goalIng = this.state.oIng.shift();
       this.state.oIng.splice(Math.floor(Math.random() * (this.state.oIng.length-1)),0, goalIng);
-
-      let nonURL = this.state.oUrl.shift();
-      this.state.oUrl.splice(Math.floor(Math.random() * (this.state.oUrl.length-1)),0, nonURL);
     };
 
     this.setState({isLoaded: true});
@@ -447,91 +560,8 @@ export class Game extends Component {
     window.location.reload(true);
   }
 
-  handleLR(data, direction){
-    if(!this.state.isLoaded)
-    {
-      return;
-    }
-
-    const { glassNames, aIng, oIng, ai, gi, ni } = this.state;
-    switch(data){
-      default:
-        console.log("ENUM not set for handleLR(data)");
-        break;
-
-      case gameIngType.INGREDIENT:
-        if(direction){
-          if(ni === (oIng.length-5)){
-            return;
-          }
-          else{
-            this.setState({
-              ni: (this.state.ni+1)
-            })
-          }
-        }
-        else{
-          if(ni === 0){
-            return;
-          }
-          else{
-            this.setState({
-              ni: (this.state.ni-1)
-            })
-          }
-        }
-        break;
-
-      case gameIngType.GLASS:
-        if(direction){
-          if(gi === (glassNames.length-5)){
-            return;
-          }
-          else{
-            this.setState({
-              gi: (this.state.gi+1)
-            })
-          }
-        }
-        else{
-          if(gi === 0){
-            return;
-          }
-          else{
-            this.setState({
-              gi: (this.state.gi-1)
-            })
-          }
-        }
-        break;
-
-      case gameIngType.ALCOHOL:
-        if(direction){
-          if(ai === (aIng.length-5)){
-            return;
-          }
-          else{
-            this.setState({
-              ai: (this.state.ai+1)
-            })
-          }
-        }
-        else{
-          if(ai === 0){
-            return;
-          }
-          else{
-            this.setState({
-              ai: (this.state.ai-1)
-            })
-          }
-        }
-        break;
-    }
-  }
-
   render() {
-    const { error, submit, items, aIng, oIng, aUrl, oUrl, glassNames, finalScore, ai, ni, gi, abg, gbg, ibg } = this.state;
+    const { error, submit, items, isLoaded, glassNames, finalScore} = this.state;
     if(error)
     {
       console.log(error);
@@ -539,55 +569,78 @@ export class Game extends Component {
         <div>An error occured trying to access cocktailDB API</div>
       )
     }
-    else if(!submit) {
-      return (
+    else if(!isLoaded)
+    {
+      return(
+        <div>
         <Grid fluid>
-        <br></br>
-        <Row>
-          <Col xs md={1} className={"border d-flex flex-column justify-content-center"}>
-            <button onClick={() => this.handleLR(gameIngType.GLASS, false)}>Left</button>
-          </Col>
-          {this.renderIngredient(glass, gbg, glassNames[gi], gi, gameIngType.GLASS)}
-          {this.renderIngredient(glass, gbg, glassNames[gi+1], gi+1, gameIngType.GLASS)}
-          {this.renderIngredient(glass, gbg, glassNames[gi+2], gi+2, gameIngType.GLASS)}
-          {this.renderIngredient(glass, gbg, glassNames[gi+3], gi+3, gameIngType.GLASS)}
-          {this.renderIngredient(glass, gbg, glassNames[gi+4], gi+4, gameIngType.GLASS)}
+          <Row>          
+            <div className="scroll">
+              {this.renderLoadingPiece(gameIngType.GLASS)}                         
+            </div>
+          </Row>
+          <Row>
+            <div className="scroll">
+              {this.renderLoadingPiece(gameIngType.ALCOHOL)}                         
+            </div>          
+          </Row>
+          <Row>
+            <div className="scroll">
+              {this.renderLoadingPiece(gameIngType.INGREDIENT)}                         
+            </div>          
+          </Row>
+          <Row>
+            <Col xs md={4}>
+              <h4 className="mt-4 pl-4">Select from the ingredients listed above to make the drink shown here.  </h4>
+            </Col>
+            <Col xs md={4}>
+              <div className="mt-4 d-flex justify-content-center">
+                <input id="dimg" className="border-1 border-dark" type="image" alt="DrinkToMake" src={goal}/>
+                </div>
+              <h3 className="text-center">Drink To Make</h3>
+            </Col>
+            <Col>
+              <button className="mt-4"> Submit </button>
+            </Col>
+          </Row>
           
-          <Col xs md={1} className={"border d-flex flex-column justify-content-center"}>
-            <button onClick={() => this.handleLR(gameIngType.GLASS, true)}>Right</button>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs md={1} className={"border d-flex flex-column justify-content-center"}>
-            <button onClick={() => this.handleLR(gameIngType.ALCOHOL, false)}>Left</button>
-          </Col>
-          {this.renderIngredient(aUrl[ai], abg, aIng[ai], ai, gameIngType.ALCOHOL)}
-          {this.renderIngredient(aUrl[ai+1], abg, aIng[ai+1], ai+1, gameIngType.ALCOHOL)}
-          {this.renderIngredient(aUrl[ai+2], abg, aIng[ai+2], ai+2, gameIngType.ALCOHOL)}
-          {this.renderIngredient(aUrl[ai+3], abg, aIng[ai+3], ai+3, gameIngType.ALCOHOL)}
-          {this.renderIngredient(aUrl[ai+4], abg, aIng[ai+4], ai+4, gameIngType.ALCOHOL)}
-          <Col xs md={1} className={"border d-flex flex-column justify-content-center"}>
-            <button onClick={() => this.handleLR(gameIngType.ALCOHOL, true)}>Right</button>
-          </Col>
-        </Row>
-        <Row>
-        <Col xs md={1} className={"border d-flex flex-column justify-content-center"}>
-            <button onClick={() => this.handleLR(gameIngType.INGREDIENT, false)}>Left</button>
-          </Col>
-          {this.renderIngredient(oUrl[ni], ibg, oIng[ni], ni, gameIngType.INGREDIENT)}
-          {this.renderIngredient(oUrl[ni+1], ibg, oIng[ni+1], ni+1, gameIngType.INGREDIENT)}
-          {this.renderIngredient(oUrl[ni+2], ibg, oIng[ni+2], ni+2, gameIngType.INGREDIENT)}
-          {this.renderIngredient(oUrl[ni+3], ibg, oIng[ni+3], ni+3, gameIngType.INGREDIENT)}
-          {this.renderIngredient(oUrl[ni+4], ibg, oIng[ni+4], ni+4, gameIngType.INGREDIENT)}
-          <Col xs md={1} className={"border d-flex flex-column justify-content-center"}>
-            <button onClick={() => this.handleLR(gameIngType.INGREDIENT, true)}>Right</button>
-          </Col>
-        </Row>
-          <div className="m-5 d-flex justify-content-center">
-            <input id="dimg" className="border-1 border-dark" type="image" alt="DrinkToMake" src={items[0].strDrinkThumb}/>
-          </div>
-          <h3 className="d-flex justify-content-center">{items[0].strDrink}</h3>
-          <button onClick={() => this.handleSubmit()}> Submit </button>
+        </Grid>
+        </div>
+      );
+    }
+    else if(!submit && isLoaded) {
+      return(
+        <Grid fluid>
+          <Row>          
+            <div className="scroll">
+              {this.renderGamePiece(gameIngType.GLASS)}                         
+            </div>
+          </Row>
+          <Row>
+            <div className="scroll">
+              {this.renderGamePiece(gameIngType.ALCOHOL)}                         
+            </div>          
+          </Row>
+          <Row>
+            <div className="scroll">
+              {this.renderGamePiece(gameIngType.INGREDIENT)}                         
+            </div>          
+          </Row>
+          <Row>
+            <Col xs md={4}>
+              <h4 className="mt-4 pl-4">Select from the ingredients listed above to make the drink shown here.  </h4>
+            </Col>
+            <Col xs md={4}>
+              <div className="mt-4 d-flex justify-content-center">
+                <input id="dimg" className="border-1 border-dark" type="image" alt="DrinkToMake" src={items[0].strDrinkThumb}/>
+                </div>
+              <h3 className="text-center">{items[0].strDrink}</h3>
+            </Col>
+            <Col>
+              <button className="mt-4" onClick={() => this.handleSubmit()}> Submit </button>
+            </Col>
+          </Row>
+          
         </Grid>
       );
     }
