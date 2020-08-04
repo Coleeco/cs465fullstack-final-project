@@ -18,10 +18,16 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       user: { loginname: "", score: "" , title: "" },
+      gameHardmode: false,
     };
     this.logout = this.logout.bind(this);
     this.login = this.login.bind(this);
     this.UserBanner = this.UserBanner.bind(this);
+    this.hardmode = this.hardmode.bind(this);
+  }
+
+  hardmode(){
+    this.setState({gameHardmode: !this.state.gameHardmode});
   }
 
   login(user) {
@@ -78,7 +84,9 @@ export default class App extends React.Component {
           <Navigation user={this.state.user} logout={this.logout} />
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/game" component={Game} />
+            <Route path="/game" 
+              render={(props) => <Game {...props} hardmode={this.state.gameHardmode} hmclick = {this.hardmode}/>} 
+              />
             <Route path="/search" component={Search} />
             <Route
               path="/login"

@@ -19,7 +19,7 @@ export class Game extends Component {
     this.state = {
       isLoaded: false,
       submit: false,
-      
+
       finalScore: 0,
       
       goalAlcIng: [], //Goal Alc inggredints
@@ -58,9 +58,59 @@ export class Game extends Component {
       abg: ["bg-primary"],
       ibg: ["bg-info"],
       gbg: ["bg-success"],
-    };
 
+      hardmode: ""
+    };
   };
+
+  resetGame(){
+    this.setState({
+      isLoaded: false,
+      submit: false,
+
+      finalScore: 0,
+      
+      goalAlcIng: [], 
+      goalNonIng: [], 
+      aIng: [], 
+      oIng: [],
+      
+      extras: [], 
+      items: [{strDrinkThumb: goal, strDrink: "Cocktail"}], 
+
+      preIng: "https://www.thecocktaildb.com/images/ingredients/", 
+      affIng: "-Small.png", 
+      
+      selectedGlass: -1,
+      selectedAlcohols: [],
+      selectedIngredients: [],
+
+      correctSelAlc: [],
+      incorrectSelAlc: [],
+      correctSelNon: [],
+      incorrectSelNon: [],
+
+      glassError: 0,
+      alcError: 0,
+      nonError: 0,
+
+      gBGc: "bg-success",
+      aBGc: "bg-primary",
+      iBGc: "bg-info",
+      wBGc: "bg-warning",
+      dBGc: "bg-danger",
+
+      keys: ["1","2","3","4","5","6","7","8"],
+
+      glassNames: ["glass type","glass type","glass type","glass type","glass type","glass type"],
+      abg: ["bg-primary"],
+      ibg: ["bg-info"],
+      gbg: ["bg-success"],
+
+      hardmode: ""
+    });
+    this.componentDidMount();
+  }
 
   renderLoadingPiece(data){
     const {gbg, abg, ibg, keys} = this.state
@@ -203,6 +253,22 @@ export class Game extends Component {
         );
     }
   };
+
+  renderHardmode(){
+    if (this.props.hardmode)
+    {
+
+    }
+    else{
+
+    }
+  }
+
+  handleHMClick(func){
+    func();
+    this.resetGame();
+    return;
+  }
 
   handleMouseOver(i, data){
     const {gbg, abg, ibg} = this.state
@@ -365,13 +431,13 @@ export class Game extends Component {
         .then(res => res.json())
         .then(
           (result) => {
-            if(result.ingredients[0].strAlcohol==="Yes" && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
+            if(result.ingredients[0].strAlcohol!=null && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
               this.state.aIng.push(result.ingredients[0].strIngredient);
               this.state.abg.push(this.state.aBGc);
               if(goal)
                 this.state.goalAlcIng.push(result.ingredients[0].strIngredient);
             }
-            else if (!this.state.oIng.includes(result.ingredients[0].strIngredient) && result.ingredients[0].strAlcohol !== "Yes"){
+            else if (!this.state.oIng.includes(result.ingredients[0].strIngredient) && result.ingredients[0].strAlcohol == null){
               this.state.oIng.push(result.ingredients[0].strIngredient);
               this.state.ibg.push(this.state.iBGc);
               if(goal)
@@ -557,7 +623,7 @@ export class Game extends Component {
   };
 
   handleAgain(){
-    window.location.reload(true);
+    this.resetGame();
   }
 
   render() {
@@ -573,6 +639,9 @@ export class Game extends Component {
     {
       return(
         <div>
+          <div className = "d-flex justify-content-center">
+            <button className="bg-success">Hardmode <h6>Off</h6></button>
+          </div>
         <Grid fluid>
           <Row>          
             <div className="scroll">
@@ -610,6 +679,10 @@ export class Game extends Component {
     }
     else if(!submit && isLoaded) {
       return(
+        <div>
+          <div className = "d-flex justify-content-center">
+            <button onClick = {() => this.handleHMClick(this.props.hmclick)} className="bg-success">Hardmode <h6>Off</h6></button>
+          </div>
         <Grid fluid>
           <Row>          
             <div className="scroll">
@@ -642,6 +715,7 @@ export class Game extends Component {
           </Row>
           
         </Grid>
+        </div>
       );
     }
     else{
