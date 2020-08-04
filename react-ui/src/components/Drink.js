@@ -6,12 +6,13 @@ function Drink(props) {
         return (
             <div className='drink' key={index}>
                 <h1>{item.strDrink}</h1>
-                <img src={item.strDrinkThumb} alt={item.strDrink}/>
+                {/* TODO: Adjust image formatting */}
+                <img src={item.strDrinkThumb} alt={item.strDrink} id='drinkImage' height='200px' width='200px'/>
             </div>
         );
     });
 
-    return <div className='container'>{element}</div>;
+    return <div className='drinkContainer'>{element}</div>;
 }
 
 export default Drink;
