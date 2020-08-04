@@ -242,14 +242,14 @@ export class Game extends Component {
         .then(res => res.json())
         .then(
           (result) => {
-            if(result.ingredients[0].strAlcohol != null && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
+            if(result.ingredients[0].strAlcohol && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
               this.state.aIng.push(result.ingredients[0].strIngredient);
               this.state.aUrl.push(this.state.preIng + result.ingredients[0].strIngredient + this.state.affIng);
               this.state.abg.push(this.state.aBGc);
               if(goal)
                 this.state.goalAlcIng.push(result.ingredients[0].strIngredient);
             }
-            else if (!this.state.oIng.includes(result.ingredients[0].strIngredient)){
+            else if (!this.state.oIng.includes(result.ingredients[0].strIngredient) && result.ingredients[0].strAlcohol != "Yes"){
               this.state.oIng.push(result.ingredients[0].strIngredient);
               this.state.oUrl.push(this.state.preIng + result.ingredients[0].strIngredient + this.state.affIng);
               this.state.ibg.push(this.state.iBGc);
@@ -437,6 +437,10 @@ export class Game extends Component {
       correctSelNon: correctIng,
       incorrectSelNon: incorrectIng
     })
+
+    console.log(aIng);
+    console.log(oIng);
+    console.log(glassNames)
   };
 
   handleAgain(){
