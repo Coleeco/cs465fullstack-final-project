@@ -709,11 +709,11 @@ export class Game extends Component {
       score = Math.max(((100.0 * total) - ((100.0 * total) * (aerror + nerror + gerror)/total)), 0);
     }
     else{
-      score = Math.max(100.0 - ((100.0 * (aerror + nerror + gerror)/total)), 0);
+      score = Number((Math.max(100.0 - ((100.0 * (aerror + nerror + gerror)/total)), 0)).toFixed(0));
     }
 
     this.setState({
-      finalScore: Number((score).toFixed(2)),
+      finalScore: score,
       submit: true,
       glassError: gerror,
       alcError: aerror,
