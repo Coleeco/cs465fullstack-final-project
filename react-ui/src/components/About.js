@@ -1,12 +1,50 @@
-import React, {Component} from 'react'; //Import component from react for the class to extend from.
-
+import React, { Component } from "react"; //Import component from react for the class to extend from.
+import { Card } from "react-bootstrap";
+import glass from "./glass.png";
+import "./About.css";
 export class About extends Component {
+	render() {
+		return (
+			<React.Fragment>
+				<h1>About the authors</h1>
+				<div className="mt-d d-flex justify-content-center">
+					<Card id="aboutCard">
+						<Card.Img
+							variant="top"
+							src={glass}
+							alt="Favorite Drink"
+						/>
+						<Card.Body>
+							<Card.Title>Jordan Co</Card.Title>
+							<Card.Text>Filler</Card.Text>
+						</Card.Body>
+					</Card>
 
-    render(){
-        return(
-            <div className="mt-d d-flex justify-content-center">
-                <h3>Welcome! This is the about page!</h3>
-            </div>
-        )
-    }
+					<Card id="aboutCard">
+						<Card.Img
+							variant="top"
+							src={glass}
+							alt="Favorite Drink"
+						/>
+						<Card.Body>
+							<Card.Title>Todd Graham</Card.Title>
+							<Card.Text>Filler</Card.Text>
+						</Card.Body>
+					</Card>
+
+					<Card id="aboutCard">
+						<Card.Img
+							variant="top"
+							src={glass}
+							alt="Favorite Drink"
+						/>
+						<Card.Body>
+							<Card.Title>Erik Jastad</Card.Title>
+							<Card.Text>Filler</Card.Text>
+						</Card.Body>
+					</Card>
+				</div>
+			</React.Fragment>
+		);
+	}
 }
