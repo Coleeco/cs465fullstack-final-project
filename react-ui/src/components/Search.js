@@ -65,10 +65,16 @@ export class Search extends Component {
 							/>
 						</div>
 						<div class="btnrow">
-							<button onClick={this.searchFunction}>
+							<button
+								id="searchButton"
+								onClick={this.searchFunction}
+							>
 								Search
 							</button>
-							<button onClick={this.randomFunction}>
+							<button
+								id="searchButton"
+								onClick={this.randomFunction}
+							>
 								Random
 							</button>
 						</div>
