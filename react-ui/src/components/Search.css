@@ -4,12 +4,12 @@
 } */
 
 .drinkContainer {
-    display: flex;
-    flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 Card {
-    /* width: 32%; */
-    margin: 5px;
-    padding: 5px 10px;
-};
+	/* width: 32%; */
+	margin: 5px;
+	padding: 5px 10px;
+}
