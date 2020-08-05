@@ -8,20 +8,8 @@
     flex-wrap: wrap;
 }
 
-.drink {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid black;
-    width: 30%;
-    height: 500px;
+Card {
+    /* width: 32%; */
     margin: 5px;
     padding: 5px 10px;
 };
-/* 
-#drinkImage {
-    display: block;
-    max-width: 200px;
-    max-height: 200px;
-    width: 200px auto;
-    height: 100px auto;
-}; */

@@ -15,10 +15,7 @@ export class Search extends Component {
     }
 
     searchFunction(event) {
-
         const searchValue = document.getElementById('searchbar').value;
-
-        console.log(searchValue);
 
         event.preventDefault();
 
