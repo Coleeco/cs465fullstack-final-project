@@ -727,7 +727,7 @@ export class Game extends Component {
     if(this.props.user !== ""){
       const UpdateInfo = {
         loginname: this.props.user,
-        score: this.state.finalScore
+        score: score
       };
 
       postRequest("/user/setscore", UpdateInfo)
