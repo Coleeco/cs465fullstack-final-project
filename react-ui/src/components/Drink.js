@@ -4,11 +4,11 @@ import { Card } from "react-bootstrap";
 
 function Drink(props) {
 	if (props.data === null) {
-		return <h1>No results found</h1>;
+		return <h1 id="SearchEmpty">No results found</h1>;
 	} else {
 		let element = props.data.map((item, index) => {
 			return (
-				<Card style={{ width: "32%" }}>
+				<Card>
 					{/* TODO: Change style */}
 					<Card.Img
 						variant="top"
