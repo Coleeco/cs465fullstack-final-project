@@ -1,6 +1,15 @@
-#ToddsOldButton {
+#searchButton {
 	margin: 10px 5px;
 	width: 47%;
+	color: white;
+	background-color: cornflowerblue;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+#searchButton:hover {
+	color: black;
+	background-color: white;
 }
 
 .drinkContainer {
