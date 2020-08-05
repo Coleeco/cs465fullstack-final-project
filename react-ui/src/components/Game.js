@@ -735,9 +735,6 @@ export class Game extends Component {
       postRequest("/user/setscore", UpdateInfo)
         .then((resp) => {
           if (resp.ok) {
-            console.log("Testing setscore postRequest");
-            console.log(resp);
-            console.log(UpdateInfo);
             return resp.json();
           } else {
             throw "User not found";
