@@ -8,8 +8,7 @@ function Drink(props) {
 	} else {
 		let element = props.data.map((item, index) => {
 			return (
-				<Card>
-					{/* TODO: Change style */}
+				<Card id="drinkCard">
 					<Card.Img
 						variant="top"
 						src={item.strDrinkThumb}
