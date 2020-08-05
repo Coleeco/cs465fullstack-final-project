@@ -725,26 +725,28 @@ export class Game extends Component {
     })
 
     console.log(this.props.user);
-    
-  /*
-    const UpdateInfo = {
-      loginname: this.state.username,
-      score: this.state.finalScore
-    };
+    if(this.props.user !== ""){
+      const UpdateInfo = {
+        loginname: this.props.user,
+        score: this.state.finalScore
+      };
 
-    postRequest("/user/setscore", UpdateInfo)
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        } else {
-          throw "User not found";
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      postRequest("/user/setscore", UpdateInfo)
+        .then((resp) => {
+          if (resp.ok) {
+            return resp.json();
+          } else {
+            throw "User not found";
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  /*
+    
   */
-  
+
     console.log(aIng);
     console.log(oIng);
     console.log(glassNames)
