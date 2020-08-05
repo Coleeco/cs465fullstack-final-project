@@ -84,7 +84,7 @@ export default class App extends React.Component {
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/game" 
-              render={(props) => <Game {...props} hardmode={this.state.gameHardmode} hmclick = {this.hardmode}/>} 
+              render={(props) => <Game {...props} hardmode={this.state.gameHardmode} hmclick = {this.hardmode} user={this.state.user.loginname}/>} 
               />
             <Route path="/search" component={Search} />
             <Route

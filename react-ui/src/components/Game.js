@@ -4,6 +4,7 @@ import glass from './glass.png'
 import ingredient from './Ingredient.png'
 import alcohol from './Alcohol.png'
 import goal from './Goal.png'
+import { postRequest } from "../ApiCaller";
 
 const gameIngType = {
     GLASS: 'glass',
@@ -386,7 +387,7 @@ export class Game extends Component {
     var atemp = this.state.abg;
     var itemp = this.state.ibg;
     var gtemp = this.state.gbg;
-    console.log(this.props.hardmode)
+    
     if(this.props.hardmode)
     {
       switch(ptype){
@@ -723,9 +724,31 @@ export class Game extends Component {
       incorrectSelNon: incorrectIng
     })
 
+    console.log(this.props.user);
+    
+  /*
+    const UpdateInfo = {
+      loginname: this.state.username,
+      score: this.state.finalScore
+    };
+
+    postRequest("/user/setscore", UpdateInfo)
+      .then((resp) => {
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          throw "User not found";
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  */
+  
     console.log(aIng);
     console.log(oIng);
     console.log(glassNames)
+
   };
 
   handleAgain(){
