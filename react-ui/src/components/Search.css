@@ -8,7 +8,7 @@
 	flex-wrap: wrap;
 }
 
-.card {
+#drinkCard {
 	width: 32%;
 	margin: 5px;
 	padding-bottom: 10px;
