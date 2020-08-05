@@ -724,7 +724,6 @@ export class Game extends Component {
       incorrectSelNon: incorrectIng
     })
 
-    console.log(this.props.user);
     if(this.props.user !== ""){
       const UpdateInfo = {
         loginname: this.props.user,
@@ -734,6 +733,9 @@ export class Game extends Component {
       postRequest("/user/setscore", UpdateInfo)
         .then((resp) => {
           if (resp.ok) {
+            console.log("Testing setscore postRequest");
+            console.log(resp);
+            console.log(UpdateInfo);
             return resp.json();
           } else {
             throw "User not found";
@@ -743,13 +745,6 @@ export class Game extends Component {
           console.log(error);
         });
     }
-  /*
-    
-  */
-
-    console.log(aIng);
-    console.log(oIng);
-    console.log(glassNames)
 
   };
 
