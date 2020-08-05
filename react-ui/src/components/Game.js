@@ -532,17 +532,19 @@ export class Game extends Component {
         .then(res => res.json())
         .then(
           (result) => {
-            if(result.ingredients[0].strAlcohol!=null && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
-              this.state.aIng.push(result.ingredients[0].strIngredient);
-              this.state.abg.push(this.state.aBGc);
-              if(goal)
-                this.state.goalAlcIng.push(result.ingredients[0].strIngredient);
-            }
-            else if (!this.state.oIng.includes(result.ingredients[0].strIngredient) && result.ingredients[0].strAlcohol == null){
-              this.state.oIng.push(result.ingredients[0].strIngredient);
-              this.state.ibg.push(this.state.iBGc);
-              if(goal)
-                this.state.goalNonIng.push(result.ingredients[0].strIngredient);
+            if(result.ingredients){
+              if(result.ingredients[0].strAlcohol!=null && !this.state.aIng.includes(result.ingredients[0].strIngredient)) {
+                this.state.aIng.push(result.ingredients[0].strIngredient);
+                this.state.abg.push(this.state.aBGc);
+                if(goal)
+                  this.state.goalAlcIng.push(result.ingredients[0].strIngredient);
+              }
+              else if (!this.state.oIng.includes(result.ingredients[0].strIngredient) && result.ingredients[0].strAlcohol == null){
+                this.state.oIng.push(result.ingredients[0].strIngredient);
+                this.state.ibg.push(this.state.iBGc);
+                if(goal)
+                  this.state.goalNonIng.push(result.ingredients[0].strIngredient);
+              }
             }
           },       
           (error) => {
