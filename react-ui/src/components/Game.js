@@ -724,10 +724,10 @@ export class Game extends Component {
       incorrectSelNon: incorrectIng
     })
 
-    if(this.props.user !== ""){
+    if(this.props.userinfo.loginname !== ""){
       const UpdateInfo = {
-        loginname: this.props.user,
-        score: score
+        loginname: this.props.userinfo,loginname,
+        score: this.props.userinfo.score + score
       };
 
       postRequest("/user/setscore", UpdateInfo)
@@ -744,6 +744,10 @@ export class Game extends Component {
         .catch((error) => {
           console.log(error);
         });
+
+      let usertemp = this.props.userinfo;
+      temp.score = UpdateInfo.score;
+      this.props.refreshScore(temp);
     }
 
   };
