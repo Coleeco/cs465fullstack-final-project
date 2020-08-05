@@ -726,7 +726,7 @@ export class Game extends Component {
 
     if(this.props.userinfo.loginname !== ""){
       const UpdateInfo = {
-        loginname: this.props.userinfo,loginname,
+        loginname: this.props.userinfo.loginname,
         score: this.props.userinfo.score + score
       };
 
@@ -746,8 +746,8 @@ export class Game extends Component {
         });
 
       let usertemp = this.props.userinfo;
-      temp.score = UpdateInfo.score;
-      this.props.refreshScore(temp);
+      usertemp.score = UpdateInfo.score;
+      this.props.refreshScore(usertemp);
     }
 
   };
