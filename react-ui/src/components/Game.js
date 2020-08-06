@@ -744,9 +744,13 @@ export class Game extends Component {
           console.log(error);
         });
 
-        let titles = getRequest("/titles")
+        getRequest("/titles")
         .then((resp) => {
           if (resp.ok) {
+            let titles = resp.json();
+            console.log(titles);
+            console.log(titles[0])
+            console.log(titles[0].minscore)
             return resp.json();
           } else {
             throw "Titles not found";
@@ -755,7 +759,7 @@ export class Game extends Component {
         .catch((error) => {
           console.log(error);
         });
-      console.log(titles);
+      
       let usertemp = this.props.userinfo;
       usertemp.score = UpdateInfo.score;
       this.props.refreshScore(usertemp);
