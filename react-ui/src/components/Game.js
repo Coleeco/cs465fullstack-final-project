@@ -4,7 +4,7 @@ import glass from './glass.png'
 import ingredient from './Ingredient.png'
 import alcohol from './Alcohol.png'
 import goal from './Goal.png'
-import { postRequest } from "../ApiCaller";
+import { postRequest, getRequest } from "../ApiCaller";
 
 const gameIngType = {
     GLASS: 'glass',
@@ -744,7 +744,7 @@ export class Game extends Component {
           console.log(error);
         });
 
-        postRequest("/titles", UpdateInfo)
+        getRequest("/titles")
         .then((resp) => {
           if (resp.ok) {
             console.log(resp);
