@@ -74,7 +74,7 @@ export class Search extends Component {
 					<form className="cocktail-search">
 						<h3>Welcome to cocktail search!</h3>
 						<AddFav user="Jordan" id="99999" />
-						<div class="form-search">
+						<div className="form-search">
 							<input
 								id="searchbar"
 								placeholder="Search a cocktail by..."
@@ -87,7 +87,7 @@ export class Search extends Component {
 								<option value="i">Ingredient</option>
 							</select>
 						</div>
-						<div class="btnrow">
+						<div className="btnrow">
 							<button
 								id="searchButton"
 								onClick={this.searchFunction}
