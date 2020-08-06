@@ -20,10 +20,10 @@ export class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoaded: false,
-      submit: false,
+      isLoaded: false,  //Once the api calls are all loaded, this is set to true causing the render function to populate non placeholders
+      submit: false,  //When a user clicks submit this state is set to true causing the render function to show the results of the game
 
-      finalScore: 0,
+      finalScore: 0,  //Contains the finalscore after a game submission is made
       
       goalAlcIng: [], //Goal Alc inggredints
       goalNonIng: [], //Goal Non Alc ingredients
@@ -128,6 +128,7 @@ export class Game extends Component {
       default:
         console.log("ENUM not set for renderGamePiece(edata)");
         break;
+
       case gameIngType.INGREDIENT:        
           return(
           keys.map((key) => (
@@ -170,6 +171,7 @@ export class Game extends Component {
       default:
         console.log("ENUM not set for renderGamePiece(data)");
         break;
+
       case gameIngType.INGREDIENT:        
           return(
           oIng.map((non, i) => (
@@ -180,6 +182,7 @@ export class Game extends Component {
               
           ))
         );  
+
       case gameIngType.ALCOHOL:
         return(
           aIng.map((alc, i) => (
@@ -190,6 +193,7 @@ export class Game extends Component {
               
           ))
         );  
+
       case gameIngType.GLASS:
         return(
           glassNames.map((gname, i) => (
@@ -212,6 +216,7 @@ export class Game extends Component {
       default:
         console.log("ENUM not set for renderResults(data)");
         break;
+
       case gameIngType.INGREDIENT:        
         return (
           <div>
@@ -223,6 +228,7 @@ export class Game extends Component {
             {goalNonIng.map((non) => (<div key = {non} className ="text-center">{non}</div>))}
           </div>
         );
+
       case gameIngType.ALCOHOL:
         return (
           <div>
@@ -234,6 +240,7 @@ export class Game extends Component {
             {goalAlcIng.map((alc) => (<div key = {alc} className ="text-center">{alc}</div>))}
           </div>
         );
+
       case gameIngType.SELECTALC:
         return (
           <div>
@@ -249,6 +256,7 @@ export class Game extends Component {
             {this.state.incorrectSelAlc.map((alc) => (<div key = {alc} className ="text-center">{alc}</div>))}
           </div>
         );
+
       case gameIngType.SELECTING:
         return (
           <div>
@@ -272,15 +280,15 @@ export class Game extends Component {
     if (this.props.hardmode)
     {
       return(
-        <div className = "d-flex justify-content-center">
-          <button onClick = {() => this.handleHMClick(this.props.hmclick)} className="bg-danger">Hardmode <h6>On</h6></button>
+        <div className = "d-flex mt-2 justify-content-center">
+          <button onClick = {() => this.handleHMClick(this.props.hmclick)}>Hardmode <h6 className="bg-danger">On</h6></button>
         </div>
       );
     }
     else{
       return(
-        <div className = "d-flex justify-content-center">
-          <button onClick = {() => this.handleHMClick(this.props.hmclick)} className="bg-success">Hardmode <h6>Off</h6></button>
+        <div className = "d-flex mt-2 justify-content-center">
+          <button onClick = {() => this.handleHMClick(this.props.hmclick)}>Hardmode <h6 className="bg-success">Off</h6></button>
         </div>
       );
     }
@@ -291,15 +299,15 @@ export class Game extends Component {
     if (this.props.hardmode)
     {
       return(
-        <div className = "d-flex justify-content-center">
-          <button className="bg-danger">Hardmode <h6>On</h6></button>
+        <div className = "d-flex mt-2 justify-content-center">
+          <button>Hardmode <h6 className="bg-danger">On</h6></button>
         </div>
       );
     }
     else{
       return(
-        <div className = "d-flex justify-content-center">
-          <button className="bg-success">Hardmode <h6>Off</h6></button>
+        <div className = "d-flex mt-2 justify-content-center">
+          <button>Hardmode <h6 className="bg-success">Off</h6></button>
         </div>
       );
     }
@@ -322,6 +330,7 @@ export class Game extends Component {
       default:
         console.log("ENUM not set for ingredient handleMouseOver(i, data) function call");
         break;
+
       case gameIngType.INGREDIENT: 
         temp = ibg;
         temp[i] = "bg-secondary"
@@ -329,6 +338,7 @@ export class Game extends Component {
           ibg: temp
         })
         break;
+
       case gameIngType.ALCOHOL:
         temp = abg;
         temp[i] = "bg-secondary"
@@ -336,6 +346,7 @@ export class Game extends Component {
           abg: temp
         })
         break;
+
       case gameIngType.GLASS:
         temp =gbg;
         temp[i] = "bg-secondary"
@@ -358,6 +369,7 @@ export class Game extends Component {
       default:
         console.log("ENUM not set for ingredient handleMouseOver(i, data) function call");
         break;
+
       case gameIngType.INGREDIENT: 
         temp = ibg;
         if(selectedIngredients.includes(i)){
@@ -370,6 +382,7 @@ export class Game extends Component {
           ibg: temp
         })
         break;
+
       case gameIngType.ALCOHOL:
         temp = abg;
         if(selectedAlcohols.includes(i)){
@@ -382,6 +395,7 @@ export class Game extends Component {
           abg: temp
         })
         break;
+
       case gameIngType.GLASS:
         temp = gbg;
         if(selectedGlass === i)
@@ -416,6 +430,7 @@ export class Game extends Component {
         default:
           console.log("ERROR in handleClick(i, ptype) enum not set")
           break;
+
         case gameIngType.GLASS:
           if (this.state.selectedGlass > -1){
             gtemp[this.state.selectedGlass] = "bg-success"
@@ -480,6 +495,7 @@ export class Game extends Component {
         default:
           console.log("ERROR in handleClick(i, ptype) enum not set")
           break;
+
         case gameIngType.GLASS:
           if (this.state.selectedGlass > -1){
             gtemp[this.state.selectedGlass] = "bg-success"
@@ -785,9 +801,10 @@ export class Game extends Component {
         .then((res) => {
           if (res.ok) {
             return res.json();
-          } else {
-            throw "User not found";
-          }
+          }          
+        },
+        (error) => {
+          console.log(error);
         })
         .catch((error) => {
           console.log(error);
