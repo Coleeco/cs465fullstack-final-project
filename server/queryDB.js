@@ -81,17 +81,16 @@ const getCurrentUser = (request, response) => {
 };
 
 const addFavorite = (request, response) => {
-  const { loginname, drinkID } = request.body;
+  console.log(`favorite table insert: ${request.body}`);
+  const { username, drinkid } = request.body;
 
   pool.query(
     "INSERT INTO favorites (username, drinkid) VALUES ($1, $2)",
-    [loginname, drinkID],
+    [username, drinkid],
     (error, results) => {
       if (error) {
         response.status(409).send(error.detail);
-      } else {
-        response.status(201).send(`drink added`);
-      }
+      } else response.status(200).send(`drink added`);
     }
   );
 };
@@ -138,26 +137,26 @@ const setScore = (request, response) => {
 
 // QUERY TEST BED
 function queryDB() {
-  // let loginname = "testuser";
+  // let loginname = "newuser";
   // let password = 'password';
   // let drinkID = 99999;
   // *** BASIC QUERY TEST
   let loginname = "postman";
-  let drinkID = 65555;
-  pool.query(
-    "insert into favorites (username, drinkid) values($1, $2)",
-    [loginname, drinkID],
-    (err, res) => {
-      if (err) {
-        console.log(err.detail);
-        throw err;
-      }
-      console.log(res);
-      // console.log(res.rows);
-      pool.end();
-    }
-  );
-  // ** TEST INSERT QUERY
+  let drinkID = 220900;
+  // pool.query(
+  //   "insert into favorites (username, drinkid) values($1, $2)",
+  //   [loginname, drinkID],
+  //   (err, res) => {
+  //     if (err) {
+  //       console.log(err.detail);
+  //       throw err;
+  //     }
+  //     console.log(res);
+  //     // console.log(res.rows);
+  //     pool.end();
+  //   }
+  // );
+  // // ** TEST INSERT QUERY
   // pool.query('INSERT INTO userdata (loginname, password) VALUES ($1, $2)', [loginname, password], (error, results) => {
   //   if (error) {
   //     throw error
@@ -165,7 +164,7 @@ function queryDB() {
   //   console.log(results);
   //   pool.end();
   // })
-  // ** TEST LOGIN CREDENTIAL RETRIEVAL
+  // // ** TEST LOGIN CREDENTIAL RETRIEVAL
   //  pool.query('SELECT loginname FROM userdata WHERE loginname = $1 AND password = $2', [loginname, password], (error, results) => {
   //   if (error) {
   //     throw error
@@ -177,20 +176,21 @@ function queryDB() {
   //   pool.end();
   // })
   // ** TEST ADDING FAVORITE
-  // pool.query(
-  //   "INSERT INTO favorites (username, drinkid) VALUES ($1, $2)",
-  //   [loginname, drinkID],
-  //   (error, results) => {
-  //     if (error) {
-  //       throw error;
+  //   pool.query(
+  //     "INSERT INTO favorites (username, drinkid) VALUES ($1, $2)",
+  //     [loginname, drinkID],
+  //     (error, results) => {
+  //       if (error) {
+  //         throw error;
+  //       }
+  //       console.log(results);
+  //       pool.end();
   //     }
-  //     console.log(results);
-  //     pool.end();
-  //   }
-  // );
+  //   );
 }
 
 // queryDB();
+
 module.exports = {
   logUserIn,
   getUsers,

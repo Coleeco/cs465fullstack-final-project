@@ -7,6 +7,7 @@ const postRequest = (url, data) => {
         },
         body: JSON.stringify(data)
     })
+    .then()
     .catch((error) => console.log(error));
 }
 

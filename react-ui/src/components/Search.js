@@ -1,6 +1,7 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import "./Search.css";
 import Drink from "./Drink.js";
+import { AddFav } from "./Favorites"
 
 export class Search extends Component {
 	constructor(props) {
@@ -58,6 +59,7 @@ export class Search extends Component {
 				<div className="mt-d d-flex justify-content-center">
 					<form className="cocktail-search">
 						<h3>Welcome to cocktail search!</h3>
+						<AddFav user="Jordan" id="99999" />
 						<div class="form-search">
 							<input
 								id="searchbar"

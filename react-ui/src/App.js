@@ -8,6 +8,7 @@ import { Search } from "./components/Search";
 import { About } from "./components/About";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
+import Favorites from "./components/Favorites";
 import { getRequest } from "./ApiCaller";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -96,6 +97,7 @@ export default class App extends React.Component {
               render={(props) => <Register {...props} login={this.login} />}
             />
             <Route path="/about" component={About} />
+            <Route path="/fav" component={Favorites} />
           </Switch>
         </div>
       </BrowserRouter>
