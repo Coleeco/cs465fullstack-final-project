@@ -733,9 +733,9 @@ export class Game extends Component {
       };
 
       postRequest("/user/setscore", UpdateInfo)
-        .then((resp) => {
-          if (resp.ok) {
-            return resp.json();
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
           } else {
             throw "User not found";
           }
@@ -744,23 +744,17 @@ export class Game extends Component {
           console.log(error);
         });
 
-        getRequest("/titles")
-        .then((resp) => {
-          if (resp.ok) {
-            let titles = JSON.parse(resp)
-            console.log(titles);
-/*            console.log(titles.PromiseValue);
-            console.log(titles.PromiseValue[0]);
-            console.log(titles.PromiseValue[0].minscore);*/
-            return resp.json();
-          } else {
-            throw "Titles not found";
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      
+      getRequest("/titles")
+        .then(res => res.json())
+        .then(
+            (result) => {
+              console.log(result);
+            },
+            (error) => {
+              console.log(error);
+            }
+        )
+
       let usertemp = this.props.userinfo;
       usertemp.score = UpdateInfo.score;
       this.props.refreshScore(usertemp);
