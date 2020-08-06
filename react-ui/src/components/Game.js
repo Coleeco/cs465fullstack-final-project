@@ -744,11 +744,23 @@ export class Game extends Component {
           console.log(error);
         });
 
+        postRequest("/titles", UpdateInfo)
+        .then((resp) => {
+          if (resp.ok) {
+            console.log(resp);
+            return resp.json();
+          } else {
+            throw "Titles not found";
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       let usertemp = this.props.userinfo;
       usertemp.score = UpdateInfo.score;
       this.props.refreshScore(usertemp);
     }
-
   };
 
   handleAgain(){
