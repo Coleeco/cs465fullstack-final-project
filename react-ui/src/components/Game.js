@@ -762,13 +762,16 @@ export class Game extends Component {
                 }
               }
               usertemp.title = mytitle;
+              console.log(mytitle);
+              console.log(usertemp);
+              this.props.refreshScore(usertemp);
             },
             (error) => {
               console.log(error);
             }
         )
 
-      this.props.refreshScore(usertemp);
+      
     }
   };
 
