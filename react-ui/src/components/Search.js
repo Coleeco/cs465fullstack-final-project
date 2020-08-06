@@ -1,6 +1,7 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import "./Search.css";
 import Drink from "./Drink.js";
+import DrinkFilter from "./DrinkFilter";
 import { AddFav } from "./Favorites";
 
 export class Search extends Component {
@@ -9,18 +10,31 @@ export class Search extends Component {
 		this.state = {
 			drinks: [],
 			isLoaded: false,
+			select: "name",
 		};
 
 		this.searchFunction = this.searchFunction.bind(this);
 		this.randomFunction = this.randomFunction.bind(this);
+		this.updateDropDown = this.updateDropDown.bind(this);
+	}
+
+	updateDropDown(event) {
+		this.setState({ select: document.getElementById("dropdown").value });
 	}
 
 	searchFunction(event) {
 		const searchValue = document.getElementById("searchbar").value;
-
 		event.preventDefault();
+		this.updateDropDown(event);
+		let url = "";
+		const { select } = this.state;
 
-		let url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchValue}`;
+		if (this.state.select !== "name") {
+			url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${this.state.select}=${searchValue}`;
+		} else {
+			url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchValue}`;
+		}
+		console.log(url);
 
 		fetch(url)
 			.then((response) => response.json())
@@ -52,7 +66,7 @@ export class Search extends Component {
 	}
 
 	render() {
-		const { drinks, isLoaded } = this.state;
+		const { drinks, isLoaded, select } = this.state;
 
 		return (
 			<React.Fragment>
@@ -63,8 +77,17 @@ export class Search extends Component {
 						<div class="form-search">
 							<input
 								id="searchbar"
-								placeholder="Search a cocktail by name"
+								placeholder="Search a cocktail by..."
 							/>
+							<select
+								id="dropdown"
+								// onChange={this.handleDropdownChange}
+							>
+								<option value="name">Name</option>
+								<option value="i">Ingredient</option>
+								<option value="c">Category</option>
+								<option value="g">Glass</option>
+							</select>
 						</div>
 						<div class="btnrow">
 							<button
@@ -83,7 +106,8 @@ export class Search extends Component {
 					</form>
 				</div>
 
-				<Drink data={drinks} />
+				{this.state.select !== "name" && <DrinkFilter data={drinks} />}
+				{this.state.select === "name" && <Drink data={drinks} />}
 			</React.Fragment>
 		);
 	}
