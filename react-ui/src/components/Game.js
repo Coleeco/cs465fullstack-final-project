@@ -755,9 +755,9 @@ export class Game extends Component {
               let mytitle = result[0].name;
               for (const title in result){
                 console.log(title);
-                console.log(UpdateInfo.score + " >? " + title.minscore)
-                if(UpdateInfo.score > title.minscore){
-                  mytitle = title.name;
+                console.log(UpdateInfo.score + " >? " + result[title].minscore)
+                if(UpdateInfo.score > result[title].minscore){
+                  mytitle = result[title].name;
                 }
                 else{
                   break;
