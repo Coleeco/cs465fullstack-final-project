@@ -23,6 +23,10 @@
 	padding-bottom: 10px;
 }
 
+#drinkCard:hover {
+	opacity: 0.8;
+}
+
 #SearchEmpty {
 	text-align: center;
 	margin: 20px 10px;

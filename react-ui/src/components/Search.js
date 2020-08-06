@@ -1,7 +1,7 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import "./Search.css";
 import Drink from "./Drink.js";
-import { AddFav } from "./Favorites"
+import { AddFav } from "./Favorites";
 
 export class Search extends Component {
 	constructor(props) {
