@@ -754,6 +754,8 @@ export class Game extends Component {
               console.log(result);
               let mytitle = result[0].name;
               for (const title in result){
+                console.log(title);
+                console.log(UpdateInfo.score + " >? " + title.minscore)
                 if(UpdateInfo.score > title.minscore){
                   mytitle = title.name;
                 }
@@ -762,8 +764,6 @@ export class Game extends Component {
                 }
               }
               usertemp.title = mytitle;
-              console.log(mytitle);
-              console.log(usertemp);
               this.props.refreshScore(usertemp);
             },
             (error) => {
