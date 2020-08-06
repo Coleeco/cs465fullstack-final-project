@@ -749,8 +749,9 @@ export class Game extends Component {
           if (resp.ok) {
             let titles = resp.json();
             console.log(titles);
-            console.log(titles[0])
-            console.log(titles[0].minscore)
+            console.log(titles.PromiseValue);
+            console.log(titles.PromiseValue[0]);
+            console.log(titles.PromiseValue[0].minscore);
             return resp.json();
           } else {
             throw "Titles not found";
