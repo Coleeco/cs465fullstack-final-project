@@ -30,7 +30,6 @@ function DrinkFilter(props) {
 
 function handleDrinkClick(drink) {
 	console.log(drink.strDrink);
-	let listIngredients = parseIng(drink);
 	return (
 		<Card id="clickedDrinkCard">
 			<Card.Img

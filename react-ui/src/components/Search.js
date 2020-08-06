@@ -30,7 +30,7 @@ export class Search extends Component {
 		const { select } = this.state;
 
 		if (this.state.select !== "name") {
-			url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${this.state.select}=${searchValue}`;
+			url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchValue}`;
 		} else {
 			url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchValue}`;
 		}
@@ -81,12 +81,10 @@ export class Search extends Component {
 							/>
 							<select
 								id="dropdown"
-								// onChange={this.handleDropdownChange}
+								onChange={this.updateDropDown}
 							>
 								<option value="name">Name</option>
 								<option value="i">Ingredient</option>
-								<option value="c">Category</option>
-								<option value="g">Glass</option>
 							</select>
 						</div>
 						<div class="btnrow">
@@ -106,6 +104,7 @@ export class Search extends Component {
 					</form>
 				</div>
 
+				{/* Depending on the type of search (and the parameters returned from the API) we use a different Drink template */}
 				{this.state.select !== "name" && <DrinkFilter data={drinks} />}
 				{this.state.select === "name" && <Drink data={drinks} />}
 			</React.Fragment>

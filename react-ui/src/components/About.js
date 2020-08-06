@@ -6,7 +6,7 @@ export class About extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<h1>About the authors</h1>
+				<h1 id="aboutH1">About the Authors</h1>
 				<div className="mt-d d-flex justify-content-center">
 					<Card id="aboutCard">
 						<Card.Img
