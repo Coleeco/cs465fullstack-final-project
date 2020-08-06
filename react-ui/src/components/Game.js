@@ -732,6 +732,9 @@ export class Game extends Component {
         score: this.props.userinfo.score + score
       };
 
+      var usertemp = this.props.userinfo;
+      usertemp.score = UpdateInfo.score;
+
       postRequest("/user/setscore", UpdateInfo)
         .then((res) => {
           if (res.ok) {
@@ -749,14 +752,22 @@ export class Game extends Component {
         .then(
             (result) => {
               console.log(result);
+              let mytitle = result[0].name;
+              for (const title in result){
+                if(UpdateInfo.score > title.minscore){
+                  mytitle = title.name;
+                }
+                else{
+                  break;
+                }
+              }
+              usertemp.title = mytitle;
             },
             (error) => {
               console.log(error);
             }
         )
 
-      let usertemp = this.props.userinfo;
-      usertemp.score = UpdateInfo.score;
       this.props.refreshScore(usertemp);
     }
   };
