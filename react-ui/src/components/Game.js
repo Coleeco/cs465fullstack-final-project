@@ -6,6 +6,7 @@ import alcohol from './Alcohol.png'
 import goal from './Goal.png'
 import { postRequest, getRequest } from "../ApiCaller";
 
+//Enumeration used to determine what to render
 const gameIngType = {
     GLASS: 'glass',
     ALCOHOL: 'alcohol',
@@ -14,6 +15,7 @@ const gameIngType = {
     SELECTING: 'seling',
 }
 
+//This class runs the cocktail mastery game
 export class Game extends Component {
   constructor(props) {
     super(props);
@@ -34,36 +36,38 @@ export class Game extends Component {
       preIng: "https://www.thecocktaildb.com/images/ingredients/",  //ingredient prefix address
       affIng: "-Small.png", //ingredient postfix address
       
-      selectedGlass: -1,
-      selectedAlcohols: [],
-      selectedIngredients: [],
+      selectedGlass: -1,  //Store the glass selected by the user
+      selectedAlcohols: [], //Stores the Alcohols selected by the user
+      selectedIngredients: [],  //Stores the Ingredients selected by the user
 
-      correctSelAlc: [],
+      correctSelAlc: [],  //When submiting the following 4 arrays contain the correct and incorrect selections made by the user
       incorrectSelAlc: [],
       correctSelNon: [],
       incorrectSelNon: [],
 
-      glassError: 0,
+      glassError: 0,  //The following 3 variables contain the number of errors the user made in each category
       alcError: 0,
       nonError: 0,
 
-      gBGc: "bg-success",
+      gBGc: "bg-success", //The following 5 variables store boot strapnames for easy background color assignments
       aBGc: "bg-primary",
       iBGc: "bg-info",
       wBGc: "bg-warning",
       dBGc: "bg-danger",
 
-      keys: ["1","2","3","4","5","6","7","8"],
+      keys: ["1","2","3","4","5","6","7","8"],  //this array contains unique keys to be used for rendering the loading display
 
-      glassNames: ["glass type"],
-      abg: ["bg-primary"],
+      glassNames: ["glass type"], //this array contains all the names of the glasses for the game
+      abg: ["bg-primary"],  //the following 3 arrays contain the current background color for alcohols, ingredients and glasses
       ibg: ["bg-info"],
       gbg: ["bg-success"],
 
-      hardmode: ""
+      hardmode: ""  //used to determine if the game is in hardmode
     };
   };
 
+  //This function resets the game by setting all of the state variables back to their default setting, I tried to implement by saving the default state to a variable and then simply assigning the state to that default variable
+  //For some reason this method would result in certain display errors which is why it is implemented how it is.
   resetGame(){
     this.setState({
       isLoaded: false,
@@ -111,10 +115,13 @@ export class Game extends Component {
       hardmode: ""
     });
 
+    //Call DidMount to start the game
     this.componentDidMount();
   }
 
+  //This function takes in an ENUM value of gameIngType and renders a loading ingredient as a placeholder until the api calls finish
   renderLoadingPiece(data){
+    //Get a reference to the background arrays and the unique keys to be used
     const {gbg, abg, ibg, keys} = this.state
 
     switch(data){
@@ -154,7 +161,9 @@ export class Game extends Component {
     }
   };
   
+  //This function take in an ENUM of gameIngType and renders the respective loaded game piece
   renderGamePiece(data){
+    //Get references to alcohols ingredient and glassnames, url prefix and affix, and backgrounds 
     const {aIng,oIng, glassNames, preIng, affIng, gbg, abg, ibg} = this.state
 
     switch(data){
@@ -194,7 +203,9 @@ export class Game extends Component {
     }
   };
 
+  //This function renders the errors and score the user earned when making the specified drink, it takes in an ENUM of gameIngType
   renderResults(data){
+    //Get references to goal alcohols and ingredients and the url prefix and affix
     const {goalNonIng,goalAlcIng, preIng, affIng} = this.state
 
     switch(data){
@@ -256,6 +267,7 @@ export class Game extends Component {
     }
   };
 
+  //This function determines how to render the hardmode button when the game is loaded
   renderHardmode(){
     if (this.props.hardmode)
     {
@@ -274,6 +286,7 @@ export class Game extends Component {
     }
   }
 
+  //This function determines how to render the hardemode button when the game is not loaded
   renderHMLoad(){
     if (this.props.hardmode)
     {
@@ -292,13 +305,16 @@ export class Game extends Component {
     }
   }
 
+  //This function handles the game swapping from hardmode on and off, it takes a function as the input that is passed in as a property from App.js
   handleHMClick(func){
     func();
     this.resetGame();
     return;
   }
 
+  //This function handles behaviour when the mouse moves over an ingreient, it takes in an index that identifies the ingredient in the respective array and an ENUM of gameIngType
   handleMouseOver(i, data){
+    //Get references to each ingredients respective background arrays
     const {gbg, abg, ibg} = this.state
     var temp = [];
 
@@ -332,7 +348,9 @@ export class Game extends Component {
     return;
   };
 
-    handleMouseLeave(i, data){
+  //This function handles the behaviour when the mouse stops hovering over an ingredient, it takes in an index to identify the respective ingredient in its respective array and an ENUM of gameIngType
+  handleMouseLeave(i, data){
+    //Get references to background arrays and selected game pieces
     const {gbg, abg, ibg, selectedIngredients, selectedAlcohols, selectedGlass} = this.state
     var temp =[];
 
@@ -379,15 +397,19 @@ export class Game extends Component {
     return;
   };
 
+  //This function handles the behaviour for when a game piece is clicked, it takes in an index to identify the piece clicked in its respective array and an ENUM of gameIngType to determine which array
   handleClick(i, ptype){    
+    //If the game is not loaded yet then do nothing
     if(!this.state.isLoaded)
     {
       return;
     }
+    //Get references to the background arrays for each ingredient type
     var atemp = this.state.abg;
     var itemp = this.state.ibg;
     var gtemp = this.state.gbg;
     
+    //This section defines the hardmode behaviour where the player can select as many ingredients as they want, if already selected clicking again deselects the ingredient
     if(this.props.hardmode)
     {
       switch(ptype){
@@ -451,6 +473,8 @@ export class Game extends Component {
           break;
       }
     }
+    //This section defines the behaviour of user selections when hardmode is off, it checks if the number of user selections exceeds the length of goal ingredients and automatically deselects the first ingredient selected
+    //If the user selects an ingredient that is already selected it will then be deselected
     else{
       switch(ptype){
         default:
@@ -523,7 +547,9 @@ export class Game extends Component {
     }
   };
 
+  //This function parses all of the ingredients for the passed in drink from cocktailDB Api, it then checks if each ingredient is alcoholic or not with another API call, it also checks if the ingredient is already in the array of respective ingredients
   parseIngredients(drink, goal = false){
+    //Loop through each element of drink to see if it is an ingredient
     for (var ingredient in drink){
       var stringTemp = ingredient.split("strIngredient");
       if (stringTemp[0] === "" && drink[ingredient] != null)
@@ -558,6 +584,7 @@ export class Game extends Component {
     }
   };
 
+  //This function is implicitly called by the component and starts the data fetching to assemble the game and state
   componentDidMount() {
     fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
     .then(res => res.json())
@@ -576,10 +603,12 @@ export class Game extends Component {
         });
       }
     )
+    //After a short delay populate additional drink ingredients and glasses, a delay is used to help ensure that the first ingredients and glass in the respective arrays is the goal glass and ingredients
     setTimeout(() => {this.populateExtras();}, 200);
     setTimeout(() => {this.populateGlasses();}, 200);
   };
 
+  //This function gets a list of all the glasses at cocktailDB and randomly selects some to add to the game
   populateGlasses(){
     fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?g=list")
     .then(res => res.json())
@@ -603,6 +632,7 @@ export class Game extends Component {
     )
   };
 
+  //This function gets additional drinks and calls to parse their ingredients to add to the game
   populateExtras(){
     for(let i = 0; i < 9; ++i){
       fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
@@ -622,10 +652,11 @@ export class Game extends Component {
         }
       )  
     };
+    //Wait for two seconds then call shiftArray which finalizes the game loading and state
     setTimeout(() => {this.shiftArray();}, 2000);
   };
 
-  //Last function called before considered loaded
+  //Last function called before considered loaded, this function shifts the goal ingredients that are always at the front and reinserts them randomly into their respective arrays
   shiftArray(){
     
     this.state.glassNames.shift();
@@ -648,24 +679,29 @@ export class Game extends Component {
     this.setState({isLoaded: true});
   };
 
+  //This function handles behaviour when a user submits a drink for scoring
   handleSubmit(){
+    //If not loaded yet, do nothing
     if(!this.state.isLoaded)
     {
       return;
     }
 
+    //If no glass is selected alert the user
     if(this.state.selectedGlass < 0)
     {
       alert("Please Select a Glass!");
       return;
     }
 
+    //If no ingredients were selected from either category then alert the user
     if(this.state.selectedAlcohols.length === 0 && this.state.selectedIngredients.length === 0)
     {
       alert("Please Select an Inredient!");
       return;
     }
 
+    //Get references for easy access and set up some temporary variables
     let {glassNames, selectedGlass, items, selectedAlcohols, selectedIngredients, aIng, oIng, goalAlcIng, goalNonIng} = this.state;
     let score = 100.0;
     let total = goalAlcIng.length + goalNonIng.length + 1;
@@ -677,6 +713,7 @@ export class Game extends Component {
     let correctIng = [];
     let incorrectIng = [];
 
+    //Check if the correct glass was selected
     if(glassNames[selectedGlass] === items[0].strGlass){
       gerror = 0;
     }
@@ -684,6 +721,7 @@ export class Game extends Component {
       gerror = 1;
     }
 
+    //Check if the correct alcohols were selected
     for (var alcs in selectedAlcohols)
     {
       if(goalAlcIng.includes(aIng[selectedAlcohols[alcs]])){
@@ -694,6 +732,7 @@ export class Game extends Component {
       }
     }
 
+    //Check if the correct ingredients were selected
     for (var ings in selectedIngredients)
     {
       if(goalNonIng.includes(oIng[selectedIngredients[ings]])){
@@ -704,9 +743,11 @@ export class Game extends Component {
       }
     }
 
+    //Calculate the errors made amongst the alcohols and ingredients
     aerror = ((goalAlcIng.length - correctAlc.length) + incorrectAlc.length);
     nerror = ((goalNonIng.length - correctIng.length) + incorrectIng.length);
 
+    //If this is hardmode, increase the maximum score to 100 * the total number of ingredients, otherwise the score max is 100.  Bothmodes then have a reduction from the maxscore possible based on the errors made
     if(this.props.hardmode){
       score = Math.max(((100.0 * total) - ((100.0 * total) * (aerror + nerror + gerror)/total)), 0);
     }
@@ -714,6 +755,7 @@ export class Game extends Component {
       score = Number((Math.max(100.0 - ((100.0 * (aerror + nerror + gerror)/total)), 0)).toFixed(0));
     }
 
+    //Set the state data
     this.setState({
       finalScore: score,
       submit: true,
@@ -726,15 +768,19 @@ export class Game extends Component {
       incorrectSelNon: incorrectIng
     })
 
+    //Check if a user is logged in to update their score and title in the database and on the page
     if(this.props.userinfo.loginname !== ""){
+      //Package the data to update the score in the database
       const UpdateInfo = {
         loginname: this.props.userinfo.loginname,
         score: this.props.userinfo.score + score
       };
 
+      //Setup the user info up, to pass for updating the page display
       var usertemp = this.props.userinfo;
       usertemp.score = UpdateInfo.score;
 
+      //Update the score in the DB
       postRequest("/user/setscore", UpdateInfo)
         .then((res) => {
           if (res.ok) {
@@ -747,15 +793,14 @@ export class Game extends Component {
           console.log(error);
         });
 
+      //Get the titles
       getRequest("/titles")
         .then(res => res.json())
         .then(
             (result) => {
-              console.log(result);
+              //Check if the users current score exceeds the minscore for a title
               let mytitle = result[0].name;
               for (const title in result){
-                console.log(title);
-                console.log(UpdateInfo.score + " >? " + result[title].minscore)
                 if(UpdateInfo.score > result[title].minscore){
                   mytitle = result[title].name;
                 }
@@ -764,6 +809,7 @@ export class Game extends Component {
                 }
               }
               usertemp.title = mytitle;
+              //Update the user display information contained back in App.js
               this.props.refreshScore(usertemp);
             },
             (error) => {
@@ -775,12 +821,17 @@ export class Game extends Component {
     }
   };
 
+  //Handle the user clicking they want to mix another drink
   handleAgain(){
     this.resetGame();
   }
 
+  //Render the game
   render() {
+    //Get state references for easy access
     const { error, submit, items, isLoaded, glassNames, finalScore} = this.state;
+
+    //If an error was return during API calls
     if(error)
     {
       console.log(error);
@@ -788,6 +839,7 @@ export class Game extends Component {
         <div>An error occured trying to access the cocktailDB API</div>
       )
     }
+    //If the game is not loaded yet, render placeholders
     else if(!isLoaded)
     {
       return(
@@ -828,6 +880,7 @@ export class Game extends Component {
         </div>
       );
     }
+    //If the game is loaded and no submission was made then render the loaded game pieces
     else if(!submit && isLoaded) {
       return(
         <div>
@@ -867,6 +920,7 @@ export class Game extends Component {
         </div>
       );
     }
+    //If the game is loaded and a submission was made then render the results
     else{
       return(
         <Grid fluid>
