@@ -54,29 +54,34 @@ export class Home extends Component {
 			<React.Fragment>
 				<h1 id="aboutH1">Welcome to Cocktail Mastery!</h1>
 				<div className="mt-d d-flex justify-content-center">
-					<div
-						className="card flex-row flex-wrap border-dark"
-						id="homeRandomCard"
-					>
-						<div className="card-header">
-							<img
-								id="homeRandomImg"
-								src={this.state.randDrink.strDrinkThumb}
-								alt={this.state.randDrink.strDrink}
-							/>
-						</div>
-						<div className="card-body">
-							<h3 className="card-title">
-								Drink of the Minute:{" "}
-								{this.state.randDrink.strDrink}
-							</h3>
-							<p className="card-text">
-								<b>Type:</b> {this.state.randDrink.strAlcoholic}
-							</p>
-							<p className="card-text">
-								<b>Ingredients:</b>
-								{this.parseIngMeasure(this.state.randDrink)}
-							</p>
+					<div class="card" id="homeRandomCard">
+						<div class="row" id="rowHome">
+							<div class="col-auto">
+								<img
+									id="homeRandomImg"
+									src={this.state.randDrink.strDrinkThumb}
+									alt={this.state.randDrink.strDrink}
+									class="img-fluid rounded"
+								/>
+							</div>
+							<div class="col">
+								<div class="card-block px-2">
+									<h3 className="card-title">
+										Drink of the Minute:{" "}
+										{this.state.randDrink.strDrink}
+									</h3>
+									<p className="card-text">
+										<b>Type:</b>{" "}
+										{this.state.randDrink.strAlcoholic}
+									</p>
+									<p className="card-text">
+										<b>Ingredients:</b>
+										{this.parseIngMeasure(
+											this.state.randDrink
+										)}
+									</p>
+								</div>
+							</div>
 						</div>
 						<p id="homeRandomInstructions">
 							<b>Instructions:</b>
