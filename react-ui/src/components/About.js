@@ -1,6 +1,5 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import { Card } from "react-bootstrap";
-import glass from "./glass.png";
 import "./About.css";
 import GitHubLogo from "./GitHub-Mark-32px.png";
 export class About extends Component {
@@ -8,6 +7,8 @@ export class About extends Component {
 		super(props);
 		this.state = {
 			drink1: [],
+			drink2: [],
+			drink3: [],
 		};
 	}
 
