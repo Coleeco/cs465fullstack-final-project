@@ -34,7 +34,6 @@ export class Search extends Component {
 		} else {
 			url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchValue}`;
 		}
-		console.log(url);
 
 		fetch(url)
 			.then((response) => response.json())

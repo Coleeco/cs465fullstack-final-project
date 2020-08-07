@@ -1,8 +1,32 @@
-#aboutCard {
-	width: 32%;
-	margin: 20px 5px;
-	padding-bottom: 10px;
-	border: 4px solid black;
+@media (min-width: 414px) {
+	#aboutCard {
+		width: 95%;
+		margin: 20px 5px;
+		padding-bottom: 10px;
+		border: 4px solid black;
+	}
+}
+
+@media (min-width: 768px) {
+	#aboutCard {
+		width: 48%;
+		margin: 20px 5px;
+		padding-bottom: 10px;
+		border: 4px solid black;
+	}
+}
+
+@media (min-width: 1024px) {
+	#aboutCard {
+		width: 32%;
+		margin: 20px 5px;
+		padding-bottom: 10px;
+		border: 4px solid black;
+	}
+}
+
+#aboutCard:hover {
+	border: 4px solid red;
 }
 
 #aboutH1 {
