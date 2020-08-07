@@ -1,0 +1,9 @@
+#homeRandomImg {
+	max-width: 200px;
+	max-height: 200px;
+}
+
+#homeRandomCard {
+	width: 100%;
+	border: 4px solid black;
+}
