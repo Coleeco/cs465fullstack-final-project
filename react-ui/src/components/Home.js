@@ -68,18 +68,18 @@ export class Home extends Component {
 					</div>
 				</div>
 				<div className="mt-d d-flex justify-content-center">
-					<div class="card" id="homeRandomCard">
-						<div class="row" id="rowHome">
-							<div class="col-auto">
+					<div className="card" id="homeRandomCard">
+						<div className="row" id="rowHome">
+							<div className="col-auto">
 								<img
 									id="homeRandomImg"
 									src={this.state.randDrink.strDrinkThumb}
 									alt={this.state.randDrink.strDrink}
-									class="img-fluid rounded"
+									className="img-fluid rounded"
 								/>
 							</div>
 							<div class="col">
-								<div class="card-block px-2">
+								<div className="card-block px-2">
 									<h3 className="card-title">
 										Drink of the Minute:{" "}
 										{this.state.randDrink.strDrink}

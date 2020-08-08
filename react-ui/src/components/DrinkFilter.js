@@ -10,47 +10,45 @@ function DrinkFilter(props) {
 		return <h1 id="SearchEmpty">No results found</h1>;
 	} else {
 		let element = props.data.map((item, index) => {
-			let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
+			// let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
 
-			fetch(url)
-				.then((response) => response.json())
-				.then((data) => {
-					return data.drinks;
-				})
-				.then((drinks) => {
-					drinks.forEach((item) => {
-						drink.push(item);
-					});
-				})
-				.catch((error) => console.log(error));
-			console.log(drink);
+			// fetch(url)
+			// 	.then((response) => response.json())
+			// 	.then((data) => {
+			// 		return data.drinks;
+			// 	})
+			// 	.then((drinks) => {
+			// 		drinks.forEach((item) => {
+			// 			drink.push(item);
+			// 		});
+			// 	})
+			// 	.catch((error) => console.log(error));
+			// console.log(drink);
 
-			// return (
-			// 	<Card>
-			// 		<Card.Body>
-			// 			<Card.Title>{drink[index].strDrink}</Card.Title>
-			// 		</Card.Body>
-			// 	</Card>
-			// );
+			return (
+				<Card
+					id="drinkCard"
+					onClick={() => handleDrinkClick(item)}
+					key={index}
+				>
+					<Card.Img
+						variant="top"
+						src={item.strDrinkThumb}
+						alt={item.strDrink}
+					/>
+					<Card.Body>
+						<Card.Title>{item.strDrink}</Card.Title>
+						{/* <Card.Text>Type: {item.strAlcoholic}</Card.Text>
+						<Card.Text>Category: {item.strCategory}</Card.Text>
+						<Card.Text>Ingredients: {listIngredients}</Card.Text> */}
+					</Card.Body>
+				</Card>
+			);
 		});
 
 		return <div className="drinkContainer">{element}</div>;
 	}
 }
-
-// function fetchUrl(id) {
-// 	let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-// 	let drink = [];
-
-// 	fetch(url)
-// 		.then((response) => response.json())
-// 		.then((data) => {
-// 			returnData(data.drinks[0]);
-// 		})
-// 		.catch((error) => console.log(error));
-
-// 	console.log(drink.drinks);
-// }
 
 // function parseIng(drink) {
 // 	let listIngredients = "";

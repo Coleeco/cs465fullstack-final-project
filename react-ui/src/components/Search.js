@@ -69,9 +69,15 @@ export class Search extends Component {
 
 		return (
 			<React.Fragment>
+				<div id="searchHeader">
+					<h1>Cocktail Search</h1>
+					<p>
+						Search for drinks based off either their name or
+						ingredient.
+					</p>
+				</div>
 				<div className="mt-d d-flex justify-content-center">
 					<form className="cocktail-search">
-						<h3>Welcome to cocktail search!</h3>
 						<AddFav user="Jordan" id="99999" />
 						<div className="form-search">
 							<input
