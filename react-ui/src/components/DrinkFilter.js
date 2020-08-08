@@ -38,20 +38,6 @@ function DrinkFilter(props) {
 	}
 }
 
-// function fetchUrl(id) {
-// 	let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-// 	let drink = [];
-
-// 	fetch(url)
-// 		.then((response) => response.json())
-// 		.then((data) => {
-// 			returnData(data.drinks[0]);
-// 		})
-// 		.catch((error) => console.log(error));
-
-// 	console.log(drink.drinks);
-// }
-
 // function parseIng(drink) {
 // 	let listIngredients = "";
 // 	for (var ingredient in drink) {
