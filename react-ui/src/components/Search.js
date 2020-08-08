@@ -191,26 +191,29 @@ export class DrinkFilter extends Component {
 	}
 
 	formatCards() {
-		console.log(this.props.data);
-		let element = this.props.data.map((item, index) => {
-			return (
-				<Card
-					id="drinkCard"
-					onClick={() => this.handleDrinkClick(item)}
-					key={index}
-				>
-					<Card.Img
-						variant="top"
-						src={item.strDrinkThumb}
-						alt={item.strDrink}
-					/>
-					<Card.Body>
-						<Card.Title>{item.strDrink}</Card.Title>
-					</Card.Body>
-				</Card>
-			);
-		});
-		return <div className="drinkContainer">{element}</div>;
+		if (this.props.data === null) {
+			return <h1 id="searchEmpty">No results found</h1>;
+		} else {
+			let element = this.props.data.map((item, index) => {
+				return (
+					<Card
+						id="drinkCard"
+						onClick={() => this.handleDrinkClick(item)}
+						key={index}
+					>
+						<Card.Img
+							variant="top"
+							src={item.strDrinkThumb}
+							alt={item.strDrink}
+						/>
+						<Card.Body>
+							<Card.Title>{item.strDrink}</Card.Title>
+						</Card.Body>
+					</Card>
+				);
+			});
+			return <div className="drinkContainer">{element}</div>;
+		}
 	}
 
 	render() {
