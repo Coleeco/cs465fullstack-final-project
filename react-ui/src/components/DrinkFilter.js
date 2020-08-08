@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import "./Search.css";
 import { Card } from "react-bootstrap";
 
 function DrinkFilter(props) {
-	let drink = [];
+	// let drink = [];
+	// let drinkName = [];
 	if (props.data === null) {
 		return <h1 id="SearchEmpty">No results found</h1>;
 	} else if (props.data.length === 0) {
@@ -19,11 +20,31 @@ function DrinkFilter(props) {
 			// 	})
 			// 	.then((drinks) => {
 			// 		drinks.forEach((item) => {
-			// 			drink.push(item);
+			// 			drink[index] = item;
 			// 		});
 			// 	})
 			// 	.catch((error) => console.log(error));
-			// console.log(drink);
+
+			// async function fetchSingle(url) {
+			// 	try {
+			// 		let response = await fetch(url);
+
+			// 		if (response.status === 200) {
+			// 			let data = await response.json();
+			// 			addToDrink(data.drinks[0]);
+			// 		}
+			// 	} catch (error) {
+			// 		console.log(error);
+			// 	}
+			// }
+
+			// function addToDrink(data) {
+			// 	drink[index] = data;
+			// 	drinkName[index] = data.strDrink;
+			// }
+
+			// fetchSingle(url);
+			// console.log(drinkName[index]);
 
 			return (
 				<Card
@@ -45,7 +66,6 @@ function DrinkFilter(props) {
 				</Card>
 			);
 		});
-
 		return <div className="drinkContainer">{element}</div>;
 	}
 }
