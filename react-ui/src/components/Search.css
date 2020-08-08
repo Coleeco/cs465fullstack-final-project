@@ -1,11 +1,142 @@
-#searchButton {
-	margin: 10px 5px;
-	width: 48%;
-	color: white;
-	padding: 10px 0px;
-	background-color: black;
-	border: 1px solid black;
-	border-radius: 5px;
+@media (max-width: 768px) {
+	#searchHeader {
+		border: 4px solid black;
+		border-radius: 5px;
+		margin: 10px auto;
+		padding: 5px;
+		text-align: center;
+		width: 90%;
+	}
+
+	h1 {
+		font-size: 1.5em;
+	}
+
+	.cocktail-search {
+		width: 90%;
+	}
+
+	#searchButton {
+		margin: 10px 5px;
+		width: 46%;
+		color: white;
+		padding: 10px 0px;
+		background-color: black;
+		border: 1px solid black;
+		border-radius: 5px;
+	}
+
+	#drinkCard {
+		width: 90%;
+		margin: 5px;
+		padding-bottom: 10px;
+	}
+
+	#searchbar {
+		width: 75%;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid black;
+		padding: 5px 10px;
+	}
+
+	#dropdown {
+		width: 25%;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid black;
+	}
+}
+
+@media (min-width: 768px) {
+	#searchHeader {
+		border: 4px solid black;
+		border-radius: 5px;
+		margin: 10px auto;
+		padding: 10px;
+		text-align: center;
+		width: 75%;
+	}
+
+	.cocktail-search {
+		width: 70%;
+	}
+
+	#searchButton {
+		margin: 10px 5px;
+		width: 48%;
+		color: white;
+		padding: 10px 0px;
+		background-color: black;
+		border: 1px solid black;
+		border-radius: 5px;
+	}
+
+	#drinkCard {
+		width: 48%;
+		margin: 5px;
+		padding-bottom: 10px;
+	}
+
+	#searchbar {
+		width: 80%;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid black;
+		padding: 5px 10px;
+	}
+
+	#dropdown {
+		width: 20%;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid black;
+	}
+}
+@media (min-width: 1024px) {
+	#searchHeader {
+		border: 4px solid black;
+		border-radius: 5px;
+		margin: 10px auto;
+		padding: 10px;
+		text-align: center;
+		width: 50%;
+	}
+
+	.cocktail-search {
+		width: 50%;
+	}
+
+	#searchButton {
+		margin: 10px 5px;
+		width: 48%;
+		color: white;
+		padding: 10px 0px;
+		background-color: black;
+		border: 1px solid black;
+		border-radius: 5px;
+	}
+
+	#drinkCard {
+		width: 32%;
+		margin: 5px;
+		padding-bottom: 10px;
+	}
+
+	#searchbar {
+		width: 81%;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid black;
+		padding: 5px 10px;
+	}
+
+	#dropdown {
+		width: 19%;
+		height: 35px;
+		border-radius: 5px;
+		border: 1px solid black;
+	}
 }
 
 #searchButton:hover {
@@ -13,24 +144,9 @@
 	background-color: white;
 }
 
-#searchHeader {
-	border: 4px solid black;
-	border-radius: 5px;
-	margin: 10px auto;
-	padding: 10px;
-	text-align: center;
-	width: 50%;
-}
-
 .drinkContainer {
 	display: flex;
 	flex-wrap: wrap;
-}
-
-#drinkCard {
-	width: 32%;
-	margin: 5px;
-	padding-bottom: 10px;
 }
 
 #drinkCard:hover {
@@ -41,26 +157,4 @@
 #SearchEmpty {
 	text-align: center;
 	margin: 20px 10px;
-}
-
-#searchbar {
-	width: 80%;
-	height: 35px;
-	border-radius: 5px;
-	border: 1px solid black;
-	padding: 5px 10px;
-}
-
-#dropdown {
-	width: 20%;
-	height: 35px;
-	border-radius: 5px;
-	border: 1px solid black;
-}
-
-h5 {
-	text-align: center;
-}
-.cocktail-search {
-	width: 50%;
 }
