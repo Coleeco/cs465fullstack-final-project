@@ -28,8 +28,21 @@
 	color: #61dafb;
 }
 
-.bannerContainer {
+.title {
+	height: 5em;
+	background-color: #eee;
+	border-radius: 0.4em;
+
+}
+
+h1 {
+	margin: 2em;
 	display: inline;
+}
+
+.bannerContainer {
+	float: right;
+	font-size: smaller;
 }
 
 @keyframes App-logo-spin {

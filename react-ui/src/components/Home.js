@@ -53,7 +53,7 @@ export class Home extends Component {
 		return (
 			<React.Fragment>
 				<div className="justify-content-center" id="homeHeader">
-					<h1 id="homeH1">Welcome to Cocktail Mastery!</h1>
+					<h2 id="homeH1">Welcome to Cocktail Mastery!</h2>
 					<div className="justify-content-center" id="homeIntro">
 						<p>
 							This website was designed for those interested in

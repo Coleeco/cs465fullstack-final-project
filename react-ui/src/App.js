@@ -15,105 +15,129 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Jumbotron, Table } from "react-bootstrap";
 
 export default class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			user: { loginname: "", score: "", title: "" },
-			gameHardmode: false,
-		};
-		this.logout = this.logout.bind(this);
-		this.login = this.login.bind(this);
-		this.UserBanner = this.UserBanner.bind(this);
-		this.hardmode = this.hardmode.bind(this);
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: { loginname: "", score: "", title: "" },
+      gameHardmode: false,
+    };
+    this.logout = this.logout.bind(this);
+    this.login = this.login.bind(this);
+    this.UserBanner = this.UserBanner.bind(this);
+    this.hardmode = this.hardmode.bind(this);
+  }
 
-	hardmode() {
-		this.setState({ gameHardmode: !this.state.gameHardmode });
-	}
+  componentDidMount() {
+    if (this.state.user.loginname !== "") {
+      getRequest("/titles")
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+          let i;
+          for (i = 0; i < data.length - 1; ++i) {
+            let minScore = data[i].minscore;
+            let nextScore = data[i + 1].minscore;
+            let name = data[i].name;
+            let score = parseInt(this.state.user.score);
+            if (score >= minScore && score < nextScore) {
+              this.setState((prevState) => ({
+                user: {
+                  loginname: prevState.loginname,
+                  score: prevState.score,
+                  title: name,
+                },
+              }));
+              break;
+            }
+          }
+        });
+    }
+  }
 
-	login(user) {
-		this.setState({ user: user });
-		console.log(user);
-	}
+  hardmode() {
+    this.setState({ gameHardmode: !this.state.gameHardmode });
+  }
 
-	logout() {
-		getRequest("/user/logout");
-		this.setState({ user: { loginname: "", score: "", title: "" } });
-	}
+  login(user) {
+    this.setState({ user: user });
+  }
 
-	UserBanner() {
-		let user = this.state.user;
-		if (user.loginname === "") {
-			return <div>No user logged in</div>;
-		} else {
-			return (
-				<div className="bannerContainer">
-					<Table variant="dark" size="small">
-						<thead>
-							<tr>
-								<th>User</th>
-								<th>Score</th>
-								<th>Title</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{user.loginname}</td>
-								<td>{user.score}</td>
-								<td>{user.title}</td>
-							</tr>
-						</tbody>
-					</Table>
-				</div>
-			);
-		}
-	}
+  logout() {
+    getRequest("/user/logout");
+    this.setState({ user: { loginname: "", score: "", title: "" } });
+  }
 
-	render() {
-		return (
-			// Set a router block to render different pages based on path
-			<BrowserRouter>
-				<div className="container">
-					{/* <h3 className="m-3 d-flex justify-content-center">
+  UserBanner() {
+    let user = this.state.user;
+    let title = user.title === "" ? "N/A" : user.title;
+    console.log(title);
+    if (user.loginname !== "") {
+      return (
+        <div className="bannerContainer">
+          <Table size="sm" striped variant="dark">
+            <thead>
+              <tr>
+                <th>User</th>
+                <td>{user.loginname}</td>
+                <th>Score</th>
+                <td>{user.score}</td>
+                <th>Title</th>
+                <td>{title}</td>
+              </tr>
+            </thead>
+          </Table>
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+  render() {
+    return (
+      // Set a router block to render different pages based on path
+      <BrowserRouter>
+        <div className="container">
+          {/* <h3 className="m-3 d-flex justify-content-center">
             Cocktail Mastery 
           </h3> */}
-					<Jumbotron>
-						<h2>Cocktail Mastery</h2>
-						<this.UserBanner />
-					</Jumbotron>
-					<Navigation user={this.state.user} logout={this.logout} />
-					<Switch>
-						<Route path="/" component={Home} exact />
-						<Route
-							path="/game"
-							render={(props) => (
-								<Game
-									{...props}
-									hardmode={this.state.gameHardmode}
-									hmclick={this.hardmode}
-									userinfo={this.state.user}
-									refreshScore={this.login}
-								/>
-							)}
-						/>
-						<Route path="/search" component={Search} />
-						<Route
-							path="/login"
-							render={(props) => (
-								<Login {...props} login={this.login} />
-							)}
-						/>
-						<Route
-							path="/register"
-							render={(props) => (
-								<Register {...props} login={this.login} />
-							)}
-						/>
-						<Route path="/about" component={About} />
-						<Route path="/fav" component={Favorites} />
-					</Switch>
-				</div>
-			</BrowserRouter>
-		);
-	}
+          <Jumbotron className="my-0 pt-4 title">
+            {/* <div className="row">
+              <div className="col-sm-8"> */}
+            <h1>Cocktail Mastery</h1>
+            <span>
+              <this.UserBanner />
+            </span>
+          </Jumbotron>
+          <Navigation user={this.state.user} logout={this.logout} />
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route
+              path="/game"
+              render={(props) => (
+                <Game
+                  {...props}
+                  hardmode={this.state.gameHardmode}
+                  hmclick={this.hardmode}
+                  userinfo={this.state.user}
+                  refreshScore={this.login}
+                />
+              )}
+            />
+            <Route path="/search" component={Search} />
+            <Route
+              path="/login"
+              render={(props) => <Login {...props} login={this.login} />}
+            />
+            <Route
+              path="/register"
+              render={(props) => <Register {...props} login={this.login} />}
+            />
+            <Route path="/about" component={About} />
+            <Route path="/fav" component={Favorites} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
 }
