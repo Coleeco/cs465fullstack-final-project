@@ -90,12 +90,14 @@ export class DrinkFilter extends Component {
 						/>
 						<Card.Body>
 							<Card.Title>{item.strDrink}</Card.Title>
-							{user === "" ? (
-								<></>
-							) : (
-								<AddFav user={user} id={item.idDrink} />
-							)}
 						</Card.Body>
+						{user === "" ? (
+							<></>
+						) : (
+							<Card.Footer>
+								<AddFav user={user} id={item.idDrink} />
+							</Card.Footer>
+						)}
 					</Card>
 				);
 			});

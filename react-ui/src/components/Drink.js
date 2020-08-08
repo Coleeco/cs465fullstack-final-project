@@ -167,19 +167,21 @@ export class Drink extends Component {
 							alt={item.strDrink}
 							onClick={() => this.handleDrinkClick(item)}
 						/>
-						<Card.Body>
+						<Card.Body onClick={() => this.handleDrinkClick(item)}>
 							<Card.Title>{item.strDrink}</Card.Title>
-							{user === "" ? (
-								<></>
-							) : (
-								<AddFav user={user} id={item.idDrink} />
-							)}
 							<Card.Text>Type: {item.strAlcoholic}</Card.Text>
 							<Card.Text>Category: {item.strCategory}</Card.Text>
 							<Card.Text>
 								Ingredients: {listIngredients}
 							</Card.Text>
 						</Card.Body>
+						{user === "" ? (
+							<></>
+						) : (
+							<Card.Footer>
+								<AddFav user={user} id={item.idDrink} />
+							</Card.Footer>
+						)}
 					</Card>
 				);
 			});
