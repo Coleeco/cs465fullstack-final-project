@@ -52,7 +52,21 @@ export class Home extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<h1 id="aboutH1">Welcome to Cocktail Mastery!</h1>
+				<div className="justify-content-center" id="homeHeader">
+					<h1 id="homeH1">Welcome to Cocktail Mastery!</h1>
+					<div className="justify-content-center" id="homeIntro">
+						<p>
+							This website was designed for those interested in
+							mastering their mixology skills! To do this, we have
+							created a handy reference guide found under the
+							search tab, and once you are ready to test your
+							skills, you can play the mixology game! Please sign
+							in if you would like to save your scores and unlock
+							new titles in your journey to become a full-fledged
+							mixologist!
+						</p>
+					</div>
+				</div>
 				<div className="mt-d d-flex justify-content-center">
 					<div class="card" id="homeRandomCard">
 						<div class="row" id="rowHome">
