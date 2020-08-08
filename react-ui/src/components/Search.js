@@ -17,7 +17,7 @@ export class Search extends Component {
 		this.updateDropDown = this.updateDropDown.bind(this);
 	}
 
-	updateDropDown(event) {
+	updateDropDown() {
 		this.setState({ select: document.getElementById("dropdown").value });
 	}
 
@@ -26,7 +26,6 @@ export class Search extends Component {
 		event.preventDefault();
 		this.updateDropDown(event);
 		let url = "";
-		const { select } = this.state;
 
 		if (this.state.select !== "name") {
 			url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchValue}`;
@@ -64,7 +63,7 @@ export class Search extends Component {
 	}
 
 	render() {
-		const { drinks, isLoaded, select } = this.state;
+		const { drinks } = this.state;
 
 		return (
 			<React.Fragment>

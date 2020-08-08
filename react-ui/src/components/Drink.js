@@ -97,7 +97,6 @@ export class Drink extends Component {
 			item.strInstructions
 		);
 		this.props.showModal();
-		console.log(item.idDrink);
 	}
 
 	parseIng(drink) {

@@ -48,7 +48,6 @@ export class About extends Component {
 	}
 
 	render() {
-		console.log(this.state.drink1);
 		return (
 			<React.Fragment>
 				<div className="d-flex justify-content-center">

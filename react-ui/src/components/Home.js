@@ -86,7 +86,7 @@ export class Home extends Component {
 									className="img-fluid rounded"
 								/>
 							</div>
-							<div class="col">
+							<div className="col">
 								<div className="card-block px-2">
 									<h3 className="card-title">
 										Drink of the Minute:{" "}
@@ -98,10 +98,8 @@ export class Home extends Component {
 									</p>
 									<p className="card-text">
 										<b>Ingredients:</b>
-										{this.parseIngMeasure(
-											this.state.randDrink
-										)}
 									</p>
+									{this.parseIngMeasure(this.state.randDrink)}
 								</div>
 							</div>
 						</div>
