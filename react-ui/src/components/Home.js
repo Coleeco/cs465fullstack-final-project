@@ -30,10 +30,18 @@ export class Home extends Component {
 		for (var ingredient in drink) {
 			var ingTemp = ingredient.split("strIngredient");
 			var measureTemp = ingredient.split("strMeasure");
-			if (ingTemp[0] === "" && drink[ingredient] != null) {
+			if (
+				ingTemp[0] === "" &&
+				drink[ingredient] != null &&
+				drink[ingredient] !== ""
+			) {
 				listIngredients.push(drink[ingredient]);
 			}
-			if (measureTemp[0] === "" && drink[ingredient] != null) {
+			if (
+				measureTemp[0] === "" &&
+				drink[ingredient] != null &&
+				drink[ingredient] !== ""
+			) {
 				listMeasures.push(drink[ingredient]);
 			}
 		}
