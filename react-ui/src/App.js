@@ -98,7 +98,10 @@ export default class App extends React.Component {
                 />
               )}
             />
-            <Route path="/search" component={Search} />
+            <Route
+              path="/search"
+              render={(props) => <Search {...props} user={this.state.user} />}
+            />
             <Route
               path="/login"
               render={(props) => <Login {...props} login={this.login} />}
@@ -108,7 +111,10 @@ export default class App extends React.Component {
               render={(props) => <Register {...props} login={this.login} />}
             />
             <Route path="/about" component={About} />
-            <Route path="/fav" component={Favorites} />
+            <Route
+              path="/fav"
+              render={(props) => <Search {...props} user={this.state.user} />}
+            />
           </Switch>
         </div>
       </BrowserRouter>

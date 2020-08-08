@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { postRequest } from "../ApiCaller";
 
-const Favorites = () => {
+const Favorites = ({user}) => {
   return (
     <div className="mt-d d-flex justify-content-center">
+    
       <h3>Welcome to cocktail mastery! This is the favorites page!</h3>
       <AddFav user="Jordan" id="444444444" />
     </div>
@@ -33,6 +34,7 @@ const AddFav = ({ user, id }) => {
       delay(1500).then(() => {
         postRequest("/user/favs/add", favorite).then((resp) => {
           if (resp.ok) {
+            console.log(`adding favorite ${favorite}`)
             setAdding(false);
             setAdded(true);
           } 
