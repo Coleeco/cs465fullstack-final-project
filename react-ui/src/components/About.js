@@ -51,10 +51,10 @@ export class About extends Component {
 		console.log(this.state.drink1);
 		return (
 			<React.Fragment>
-				<div className="mt-d d-flex justify-content-center">
+				<div className="d-flex justify-content-center">
 					<h1 id="aboutH1">About the Authors</h1>
 				</div>
-				<div className="mt-d d-flex justify-content-center">
+				<div className="d-flex justify-content-center">
 					<Card id="aboutCard">
 						<Card.Img
 							variant="top"

@@ -75,7 +75,7 @@ export class Home extends Component {
 						</p>
 					</div>
 				</div>
-				<div className="mt-d d-flex justify-content-center">
+				<div className="d-flex justify-content-center">
 					<div className="card" id="homeRandomCard">
 						<div className="row" id="rowHome">
 							<div className="col-auto">

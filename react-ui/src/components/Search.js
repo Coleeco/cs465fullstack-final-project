@@ -75,7 +75,7 @@ export class Search extends Component {
 						ingredient.
 					</p>
 				</div>
-				<div className="mt-d d-flex justify-content-center">
+				<div className="d-flex justify-content-center">
 					<form className="cocktail-search">
 						<div className="form-search">
 							<input
