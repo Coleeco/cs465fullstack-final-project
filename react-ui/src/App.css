@@ -32,7 +32,6 @@
 	height: 5em;
 	background-color: #eee;
 	border-radius: 0.4em;
-
 }
 
 h1 {
@@ -105,4 +104,8 @@ h1 {
 	margin-left: -100px;
 	color: black;
 	text-wrap: normal;
+}
+
+#siteContainer {
+	width: 100%;
 }
