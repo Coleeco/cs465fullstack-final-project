@@ -88,7 +88,7 @@ export class Search extends Component {
               <button id="searchButton" onClick={this.randomFunction}>
                 Random
               </button>
-			  <h5> Click on the drink images for more info</h5>
+              <h5> Click on the drink images for more info</h5>
             </div>
           </form>
         </div>
@@ -139,34 +139,25 @@ export class SearchDrinkFilterModal extends Component {
   render() {
     return (
       <div className="container mt-5">
-        <div className="row">
-          <div className="col">
-            <div className="card mx-auto">
-              <div className="card-body">
-                <Modal show={this.state.modalShow} onHide={this.modalClose}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>{this.state.modalTitle}</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    For more information, search {this.state.modalTitle} by
-                    name.
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="primary" onClick={this.modalClose}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-                <DrinkFilter
-                  data={this.props.data}
-                  showModal={this.modalShow}
-                  modalUpdate={this.modalUpdate}
-                  user={this.props.user}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal show={this.state.modalShow} onHide={this.modalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.modalTitle}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            For more information, search {this.state.modalTitle} by name.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.modalClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <DrinkFilter
+          data={this.props.data}
+          showModal={this.modalShow}
+          modalUpdate={this.modalUpdate}
+          user={this.props.user}
+        />
       </div>
     );
   }
@@ -186,23 +177,27 @@ export class DrinkFilter extends Component {
 
   formatCards() {
     let user = this.props.user.loginname;
-    let element = this.props.data.map((item, index) => {
-      return (
-        <Card id="drinkCard" key={index}>
-          <Card.Img
-            variant="top"
-            src={item.strDrinkThumb}
-            alt={item.strDrink}
-            onClick={() => this.handleDrinkClick(item)}
-          />
-          <Card.Body>
-            <Card.Title>{item.strDrink}</Card.Title>
-            {user === "" ? <></> : <AddFav user={user} id={item.idDrink} />}
-          </Card.Body>
-        </Card>
-      );
-    });
-    return <div className="drinkContainer">{element}</div>;
+    if (this.props.data === null) {
+      return <h1 id="searchEmpty">No results found</h1>;
+    } else {
+      let element = this.props.data.map((item, index) => {
+        return (
+          <Card id="drinkCard" key={index}>
+            <Card.Img
+              variant="top"
+              src={item.strDrinkThumb}
+              alt={item.strDrink}
+              onClick={() => this.handleDrinkClick(item)}
+            />
+            <Card.Body>
+              <Card.Title>{item.strDrink}</Card.Title>
+              {user === "" ? <></> : <AddFav user={user} id={item.idDrink} />}
+            </Card.Body>
+          </Card>
+        );
+      });
+      return <div className="drinkContainer">{element}</div>;
+    }
   }
 
   render() {
@@ -254,41 +249,33 @@ export class SearchDrinkModal extends Component {
   render() {
     return (
       <div className="container mt-5">
-        <div className="row">
-          <div className="col">
-            <div className="card mx-auto">
-              <div className="card-body">
-                <Modal show={this.state.modalShow} onHide={this.modalClose}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>{this.state.modalTitle}</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <b>Type:</b> {this.state.modalType}
-                    <br />
-                    <b>Glass:</b> {this.state.modalGlass}
-                    <br />
-                    <b>Category:</b> {this.state.modalCategory}
-                    <br />
-                    <b>Ingredients:</b> {this.state.modalIngredients}
-                    <b>Instructions:</b> {this.state.modalInstructions}
-                    <br />
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="primary" onClick={this.modalClose}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-                <Drink
-                  data={this.props.data}
-                  showModal={this.modalShow}
-                  modalUpdate={this.modalUpdate}
-                  user={this.props.user}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal show={this.state.modalShow} onHide={this.modalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.modalTitle}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <b>Type:</b> {this.state.modalType}
+            <br />
+            <b>Glass:</b> {this.state.modalGlass}
+            <br />
+            <b>Category:</b> {this.state.modalCategory}
+            <br />
+            <b>Ingredients:</b> {this.state.modalIngredients}
+            <b>Instructions:</b> {this.state.modalInstructions}
+            <br />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.modalClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Drink
+          data={this.props.data}
+          showModal={this.modalShow}
+          modalUpdate={this.modalUpdate}
+          user={this.props.user}
+        />
       </div>
     );
   }
@@ -312,13 +299,18 @@ export class Drink extends Component {
       item.strInstructions
     );
     this.props.showModal();
+    console.log(item.idDrink);
   }
 
   parseIng(drink) {
     let listIngredients = "";
     for (var ingredient in drink) {
       var stringTemp = ingredient.split("strIngredient");
-      if (stringTemp[0] === "" && drink[ingredient] != null) {
+      if (
+        stringTemp[0] === "" &&
+        drink[ingredient] != null &&
+        drink[ingredient] !== ""
+      ) {
         if (ingredient === "strIngredient1") {
           listIngredients += drink[ingredient];
         } else {
@@ -335,10 +327,18 @@ export class Drink extends Component {
     for (var ingredient in drink) {
       var ingTemp = ingredient.split("strIngredient");
       var measureTemp = ingredient.split("strMeasure");
-      if (ingTemp[0] === "" && drink[ingredient] != null) {
+      if (
+        ingTemp[0] === "" &&
+        drink[ingredient] != null &&
+        drink[ingredient] !== ""
+      ) {
         listIngredients.push(drink[ingredient]);
       }
-      if (measureTemp[0] === "" && drink[ingredient] != null) {
+      if (
+        measureTemp[0] === "" &&
+        drink[ingredient] != null &&
+        drink[ingredient] !== ""
+      ) {
         listMeasures.push(drink[ingredient]);
       }
     }
@@ -356,27 +356,31 @@ export class Drink extends Component {
 
   formatCards() {
     let user = this.props.user.loginname;
-    let element = this.props.data.map((item, index) => {
-      let listIngredients = this.parseIng(item);
-      return (
-        <Card id="drinkCard" key={index}>
-          <Card.Img
-            variant="top"
-            src={item.strDrinkThumb}
-            alt={item.strDrink}
-            onClick={() => this.handleDrinkClick(item)}
-          />
-          <Card.Body>
-            <Card.Title>{item.strDrink}</Card.Title>
-            {user === "" ? <></> : <AddFav user={user} id={item.idDrink} />}
-            <Card.Text>Type: {item.strAlcoholic}</Card.Text>
-            <Card.Text>Category: {item.strCategory}</Card.Text>
-            <Card.Text>Ingredients: {listIngredients}</Card.Text>
-          </Card.Body>
-        </Card>
-      );
-    });
-    return <div className="drinkContainer">{element}</div>;
+    if (this.props.data === null) {
+      return <h1 id="searchEmpty">No results found</h1>;
+    } else {
+      let element = this.props.data.map((item, index) => {
+        let listIngredients = this.parseIng(item);
+        return (
+          <Card id="drinkCard" key={index}>
+            <Card.Img
+              variant="top"
+              src={item.strDrinkThumb}
+              alt={item.strDrink}
+              onClick={() => this.handleDrinkClick(item)}
+            />
+            <Card.Body>
+              <Card.Title>{item.strDrink}</Card.Title>
+              {user === "" ? <></> : <AddFav user={user} id={item.idDrink} />}
+              <Card.Text>Type: {item.strAlcoholic}</Card.Text>
+              <Card.Text>Category: {item.strCategory}</Card.Text>
+              <Card.Text>Ingredients: {listIngredients}</Card.Text>
+            </Card.Body>
+          </Card>
+        );
+      });
+      return <div className="drinkContainer">{element}</div>;
+    }
   }
 
   render() {

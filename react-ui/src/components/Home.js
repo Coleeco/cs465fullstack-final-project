@@ -30,10 +30,18 @@ export class Home extends Component {
 		for (var ingredient in drink) {
 			var ingTemp = ingredient.split("strIngredient");
 			var measureTemp = ingredient.split("strMeasure");
-			if (ingTemp[0] === "" && drink[ingredient] != null) {
+			if (
+				ingTemp[0] === "" &&
+				drink[ingredient] != null &&
+				drink[ingredient] !== ""
+			) {
 				listIngredients.push(drink[ingredient]);
 			}
-			if (measureTemp[0] === "" && drink[ingredient] != null) {
+			if (
+				measureTemp[0] === "" &&
+				drink[ingredient] != null &&
+				drink[ingredient] !== ""
+			) {
 				listMeasures.push(drink[ingredient]);
 			}
 		}
@@ -100,6 +108,23 @@ export class Home extends Component {
 						<p id="homeRandomInstructions">
 							<b>Instructions:</b>
 							<br /> {this.state.randDrink.strInstructions}
+						</p>
+					</div>
+				</div>
+				<div className="justify-content-center" id="homeHeader">
+					<h2 id="homeH1">Game Instructions!</h2>
+					<div className="justify-content-center" id="homeIntro">
+						<p>
+							Click on the Game tab to test your mixology skills.
+							To earn points, choose the correct glass and
+							ingredients. Once you submit, your guesses will be
+							evaluated and a score will be assigned. There are
+							two modes in the game, normal and hard mode. In
+							normal mode, your points are limited but the system
+							will help to guide you by limiting selections in
+							each row to the correct number of ingredients. The
+							trade off of normal mode is the amount of potential
+							points to be scored!
 						</p>
 					</div>
 				</div>
