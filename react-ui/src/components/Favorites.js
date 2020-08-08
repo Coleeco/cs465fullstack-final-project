@@ -11,19 +11,6 @@ const Favorites = () => {
   );
 };
 
-// function simulateNetworkRequest() {
-//   return new Promise((resolve) => setTimeout(resolve, 2000));
-// }
-
-// function postAddFav(user, id) {
-//   let favorite = {
-//       username: user,
-//       drinkid: id
-//   }
-//   console.log(favorite);
-//   return postRequest("/user/favs/add", favorite)
-//   .then((resolve) => setTimeout(resolve, 2000));
-// }
 
 // Button commponent to add drinkID to users favorites.
 // Input: drinkid
@@ -52,7 +39,7 @@ const AddFav = ({ user, id }) => {
         });
       });
     }
-  }, [adding]);
+  }, [adding, favorite]);
 
   const handleClick = () => setAdding(true);
 

@@ -25,9 +25,10 @@ const createUser = (request, response) => {
     (error, results) => {
       if (error) {
         response.status(409).send(error.detail);
+      } else {
+        request.session.user = loginname;
+        response.status(201).send(`User added`);
       }
-      request.session.user = loginname;
-      response.status(201).send(`User added`);
     }
   );
 };

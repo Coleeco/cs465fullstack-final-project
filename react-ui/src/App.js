@@ -8,8 +8,8 @@ import { Search } from "./components/Search";
 import { About } from "./components/About";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
+import { getRequest} from "./ApiCaller";
 import Favorites from "./components/Favorites";
-import { getRequest } from "./ApiCaller";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Jumbotron, Table } from "react-bootstrap";
@@ -27,40 +27,13 @@ export default class App extends React.Component {
 		this.hardmode = this.hardmode.bind(this);
 	}
 
-	componentDidMount() {
-		if (this.state.user.loginname !== "") {
-			getRequest("/titles")
-				.then((resp) => resp.json())
-				.then((data) => {
-					console.log(data);
-					let i;
-					for (i = 0; i < data.length - 1; ++i) {
-						let minScore = data[i].minscore;
-						let nextScore = data[i + 1].minscore;
-						let name = data[i].name;
-						let score = parseInt(this.state.user.score);
-						if (score >= minScore && score < nextScore) {
-							this.setState((prevState) => ({
-								user: {
-									loginname: prevState.loginname,
-									score: prevState.score,
-									title: name,
-								},
-							}));
-							break;
-						}
-					}
-				});
-		}
-	}
+  hardmode() {
+    this.setState({ gameHardmode: !this.state.gameHardmode });
+  }
 
-	hardmode() {
-		this.setState({ gameHardmode: !this.state.gameHardmode });
-	}
-
-	login(user) {
-		this.setState({ user: user });
-	}
+  login(user) {
+      this.setState({ user: user });
+  }
 
 	logout() {
 		getRequest("/user/logout");

@@ -1,6 +1,6 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import { Redirect } from "react-router";
-import { postRequest } from "../ApiCaller";
+import { postRequest, getTitle } from "../ApiCaller";
 import { Modal, Button } from "react-bootstrap";
 
 export class Login extends Component {
@@ -110,20 +110,21 @@ class Form extends React.Component {
         if (resp.ok) {
           return resp.json();
         } else {
-          throw "User not found";
+         this.props.modalBody('No User Found');
+         this.props.show();
+         throw Error('Unauthorized')
         }
       })
       .then((data) => {
         let user = data[0];
-        console.log("logging in user: ", user);
-        this.props.login(user);
-        this.setState({ redirectHome: true });
+        getTitle(user.score).then((name) => {
+          user.title = name;
+          console.log("logging in user: ", user);
+          this.props.login(user);
+          this.setState({ redirectHome: true });
+        });
       })
-      .catch((error) => {
-        console.log(error);
-        this.props.modalBody(error);
-        this.props.show();
-      });
+      .catch(error => console.log(error));
   }
 
   clearForm() {

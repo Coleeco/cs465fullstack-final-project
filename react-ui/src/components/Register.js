@@ -116,14 +116,14 @@ class RegForm extends Component {
             // this.props.show();
             this.setState({redirectLogin: true})
           } else {
-            throw "User already exist, Please login";
+            this.props.modalBody("User already exist, Please login");
+            this.props.show();
+            // throw Error("User already exist")
           }
         })
-        .catch((error) => {
-          console.log(error);
-          this.props.modalBody(error);
-          this.props.show();
-        });
+        // .catch((error) => {
+        //   console.log(error);
+        // });
     }
   }
 
