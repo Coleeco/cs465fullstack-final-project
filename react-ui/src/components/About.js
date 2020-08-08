@@ -83,7 +83,11 @@ export class About extends Component {
 						/>
 						<Card.Body>
 							<Card.Title>Todd Graham</Card.Title>
-							<Card.Text>Filler</Card.Text>
+							<Card.Text>
+								Todd is graduate student of computer science at
+								Portland State. His favorite drink is a habanero
+								margarita.
+							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/toddgraham121">
 									<img
