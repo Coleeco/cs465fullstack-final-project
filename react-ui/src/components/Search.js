@@ -1,7 +1,6 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import "./Search.css";
 import { SearchDrinkModal } from "./Drink.js";
-import { SearchDrinkFilterModal } from "./DrinkFilter.js";
 
 export class Search extends Component {
 	constructor(props) {
@@ -128,22 +127,14 @@ export class Search extends Component {
 				{this.state.random === true && (
 					<SearchDrinkModal data={drinks} user={this.props.user} />
 				)}
-				{this.state.random === false &&
-					this.state.select !== "name" && (
-						<SearchDrinkFilterModal
-							data={drinks}
-							user={this.props.user}
-							error={this.state.error}
-						/>
-					)}
-				{this.state.random === false &&
-					this.state.select === "name" && (
-						<SearchDrinkModal
-							data={drinks}
-							user={this.props.user}
-							error={this.state.error}
-						/>
-					)}
+				{this.state.random === false && (
+					<SearchDrinkModal
+						data={drinks}
+						user={this.props.user}
+						error={this.state.error}
+						select={this.state.select}
+					/>
+				)}
 			</React.Fragment>
 		);
 	}
