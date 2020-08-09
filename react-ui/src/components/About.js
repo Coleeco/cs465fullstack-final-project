@@ -55,7 +55,10 @@ export class About extends Component {
 					<h1 id="aboutH1">About the Authors</h1>
 				</div>
 				{/* Create cards for each of the authors and use the state for drink image */}
-				<div className="d-flex justify-content-center">
+				<div
+					className="d-flex justify-content-center"
+					id="aboutContainer"
+				>
 					<Card id="aboutCard">
 						<Card.Img
 							variant="top"
