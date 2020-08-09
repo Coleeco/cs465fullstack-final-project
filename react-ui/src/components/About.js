@@ -64,7 +64,12 @@ export class About extends Component {
 						/>
 						<Card.Body>
 							<Card.Title>Jordan Co</Card.Title>
-							<Card.Text>Filler</Card.Text>
+							<Card.Text>
+								Jordan is an undergraduate student that is
+								graduating Fall 2020! He's not much of a
+								drinker, but he does enjoy Moscow Mules and most
+								beers.
+							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/Coleeco">
 									<img

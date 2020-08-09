@@ -1,6 +1,19 @@
-#homeRandomImg {
-	max-width: 250px;
-	max-height: 250px;
+@media (max-width: 768px) {
+	#homeRandomImg {
+		max-width: 150px;
+		max-height: 150px;
+	}
+
+	#card-title {
+		font-size: 1.3em;
+	}
+}
+
+@media (min-width: 768px) {
+	#homeRandomImg {
+		max-width: 250px;
+		max-height: 250px;
+	}
 }
 
 #homeRandomCard {

@@ -95,7 +95,7 @@ export class Home extends Component {
 							</div>
 							<div className="col">
 								<div className="card-block px-2">
-									<h3 className="card-title">
+									<h3 className="card-title" id="card-title">
 										Drink of the Minute:{" "}
 										{this.state.randDrink.strDrink}
 									</h3>
