@@ -11,6 +11,7 @@ export class Search extends Component {
 			isLoaded: false,
 			select: "name",
 			random: false,
+			error: false,
 		};
 
 		this.searchFunction = this.searchFunction.bind(this);
@@ -32,6 +33,7 @@ export class Search extends Component {
 
 		this.setState({
 			random: false,
+			error: false,
 		});
 
 		// Either search by name or ingredient
@@ -49,7 +51,9 @@ export class Search extends Component {
 					isLoaded: true,
 				});
 			})
-			.catch((error) => console.log(error));
+			.catch(() => {
+				this.setState({ error: true });
+			});
 
 		event.preventDefault();
 	}
@@ -129,6 +133,7 @@ export class Search extends Component {
 						<SearchDrinkFilterModal
 							data={drinks}
 							user={this.props.user}
+							error={this.state.error}
 						/>
 					)}
 				{this.state.random === false &&
@@ -136,6 +141,7 @@ export class Search extends Component {
 						<SearchDrinkModal
 							data={drinks}
 							user={this.props.user}
+							error={this.state.error}
 						/>
 					)}
 			</React.Fragment>

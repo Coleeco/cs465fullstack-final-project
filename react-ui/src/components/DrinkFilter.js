@@ -76,6 +76,7 @@ export class SearchDrinkFilterModal extends Component {
 					showModal={this.modalShow}
 					modalUpdate={this.modalUpdate}
 					user={this.props.user}
+					error={this.props.error}
 				/>
 			</div>
 		);
@@ -94,26 +95,7 @@ export class DrinkFilter extends Component {
 	}
 
 	componentDidMount() {
-		this.props.data.map((item) => {
-			let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
-
-			fetch(url)
-				.then((response) => response.json())
-				.then((data) => {
-					return data.drinks;
-				})
-				.then((drinks) => {
-					this.state.drink.push(drinks[0]);
-				})
-				.catch((error) => console.log(error));
-		});
-	}
-
-	componentDidUpdate(prevProps) {
-		if (this.props.data !== prevProps.data) {
-			this.setState({
-				drink: [],
-			});
+		if (this.props.data !== null) {
 			this.props.data.map((item) => {
 				let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
 
@@ -123,13 +105,36 @@ export class DrinkFilter extends Component {
 						return data.drinks;
 					})
 					.then((drinks) => {
-						this.setState({
-							isLoaded: true,
-						});
 						this.state.drink.push(drinks[0]);
 					})
 					.catch((error) => console.log(error));
 			});
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.data !== prevProps.data) {
+			this.setState({
+				drink: [],
+			});
+			if (this.props.data !== null) {
+				this.props.data.map((item) => {
+					let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
+
+					fetch(url)
+						.then((response) => response.json())
+						.then((data) => {
+							return data.drinks;
+						})
+						.then((drinks) => {
+							this.setState({
+								isLoaded: true,
+							});
+							this.state.drink.push(drinks[0]);
+						})
+						.catch((error) => console.log(error));
+				});
+			}
 		}
 	}
 
@@ -209,8 +214,9 @@ export class DrinkFilter extends Component {
 	// Format Cards for printing results in the search bar
 	formatCards() {
 		let user = this.props.user.loginname;
+		// console.log(this.props.error);
 		// Error checking, if the data is empty
-		if (this.props.data === null) {
+		if (this.props.data === null || this.props.error === true) {
 			return <h1 id="searchEmpty">No results found</h1>;
 		} else {
 			if (this.state.isLoaded === false) {
