@@ -17,16 +17,19 @@ export class Search extends Component {
 		this.updateDropDown = this.updateDropDown.bind(this);
 	}
 
+	// Update dropdown value (select variable)
 	updateDropDown() {
 		this.setState({ select: document.getElementById("dropdown").value });
 	}
 
+	// Search function, dependent on the value of select
 	searchFunction(event) {
 		const searchValue = document.getElementById("searchbar").value;
 		event.preventDefault();
 		this.updateDropDown(event);
 		let url = "";
 
+		// Either search by name or ingredient
 		if (this.state.select !== "name") {
 			url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchValue}`;
 		} else {
@@ -46,6 +49,7 @@ export class Search extends Component {
 		event.preventDefault();
 	}
 
+	// Search for a random drink
 	randomFunction(event) {
 		let url = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
 
@@ -75,6 +79,7 @@ export class Search extends Component {
 					</p>
 				</div>
 				<div className="d-flex justify-content-center">
+					{/* Form for search bar */}
 					<form className="cocktail-search">
 						<div className="form-search">
 							<input
@@ -102,7 +107,6 @@ export class Search extends Component {
 							>
 								Random
 							</button>
-							<h5> Click on the drink images for more info</h5>
 						</div>
 					</form>
 				</div>

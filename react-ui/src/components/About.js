@@ -16,6 +16,7 @@ export class About extends Component {
 		this.fetchUrl();
 	}
 
+	// Fill drink1, drink2 and drink3 with random drink items
 	fetchUrl() {
 		let url = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
 
@@ -53,6 +54,7 @@ export class About extends Component {
 				<div className="d-flex justify-content-center">
 					<h1 id="aboutH1">About the Authors</h1>
 				</div>
+				{/* Create cards for each of the authors and use the state for drink image */}
 				<div className="d-flex justify-content-center">
 					<Card id="aboutCard">
 						<Card.Img

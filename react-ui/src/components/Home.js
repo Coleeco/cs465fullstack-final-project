@@ -11,6 +11,7 @@ export class Home extends Component {
 		this.parseIngMeasure = this.parseIngMeasure.bind(this);
 	}
 
+	// Once mounted, find a random drink to display
 	componentDidMount() {
 		let url = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
 
@@ -24,12 +25,14 @@ export class Home extends Component {
 			.catch((error) => console.log(error));
 	}
 
+	// Parse ingredients and measurements for card, returns an unordered list with the ingredients and measurements
 	parseIngMeasure(drink) {
 		let listIngredients = [];
 		let listMeasures = [];
 		for (var ingredient in drink) {
 			var ingTemp = ingredient.split("strIngredient");
 			var measureTemp = ingredient.split("strMeasure");
+			// Check if drinkIngredient is valid
 			if (
 				ingTemp[0] === "" &&
 				drink[ingredient] != null &&
@@ -37,6 +40,7 @@ export class Home extends Component {
 			) {
 				listIngredients.push(drink[ingredient]);
 			}
+			// Check if the drink measurement is valid
 			if (
 				measureTemp[0] === "" &&
 				drink[ingredient] != null &&
@@ -46,6 +50,7 @@ export class Home extends Component {
 			}
 		}
 
+		// Combine ingredients and measurements into list items
 		let element = listIngredients.map((item, index) => {
 			return (
 				<li key={index}>
@@ -60,6 +65,7 @@ export class Home extends Component {
 	render() {
 		return (
 			<React.Fragment>
+				{/* Introduction header */}
 				<div className="justify-content-center" id="homeHeader">
 					<h2 id="homeH1">Welcome to Cocktail Mastery!</h2>
 					<div className="justify-content-center" id="homeIntro">
@@ -75,6 +81,7 @@ export class Home extends Component {
 						</p>
 					</div>
 				</div>
+				{/* Random drink of the minute */}
 				<div className="d-flex justify-content-center">
 					<div className="card" id="homeRandomCard">
 						<div className="row" id="rowHome">
@@ -109,6 +116,7 @@ export class Home extends Component {
 						</p>
 					</div>
 				</div>
+				{/* Drink instructions */}
 				<div className="justify-content-center" id="homeHeader">
 					<h2 id="homeH1">Game Instructions!</h2>
 					<div className="justify-content-center" id="homeIntro">

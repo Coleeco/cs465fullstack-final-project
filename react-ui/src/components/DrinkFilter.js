@@ -6,8 +6,9 @@ import { AddFav } from "./Favorites";
 export class SearchDrinkFilterModal extends Component {
 	constructor(props) {
 		super(props);
+		// State elements for each of the items to display for the modal
 		this.state = {
-			modalShow: false,
+			modalShow: false, // When true, modal will show
 			modalTitle: "",
 		};
 
@@ -28,6 +29,7 @@ export class SearchDrinkFilterModal extends Component {
 		});
 	}
 
+	// Update modal values with input variables
 	modalUpdate(title) {
 		this.setState({
 			modalTitle: title,
@@ -36,6 +38,7 @@ export class SearchDrinkFilterModal extends Component {
 
 	render() {
 		return (
+			// Modal with all of the drink information to be displayed when clicked
 			<div className="container mt-5">
 				<Modal show={this.state.modalShow} onHide={this.modalClose}>
 					<Modal.Header closeButton>
@@ -69,18 +72,22 @@ export class DrinkFilter extends Component {
 		this.handleDrinkClick = this.handleDrinkClick.bind(this);
 	}
 
+	// Whenever a drink is clicked, update the modal and show with all additional information
 	handleDrinkClick(item) {
 		this.props.modalUpdate(item.strDrink);
 		this.props.showModal();
 	}
 
+	// Format Cards for printing results in the search bar
 	formatCards() {
 		let user = this.props.user.loginname;
+		// Error checking, if the data is empty
 		if (this.props.data === null) {
 			return <h1 id="searchEmpty">No results found</h1>;
 		} else {
 			let element = this.props.data.map((item, index) => {
 				return (
+					// Clickable card, clicking expands all of the information in modal
 					<Card id="drinkCard" key={index}>
 						<Card.Img
 							variant="top"
@@ -91,6 +98,7 @@ export class DrinkFilter extends Component {
 						<Card.Body>
 							<Card.Title>{item.strDrink}</Card.Title>
 						</Card.Body>
+						{/* If logged in, add a footer with an add favorites button */}
 						{user === "" ? (
 							<></>
 						) : (

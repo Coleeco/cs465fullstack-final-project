@@ -6,8 +6,9 @@ import { AddFav } from "./Favorites";
 export class SearchDrinkModal extends Component {
 	constructor(props) {
 		super(props);
+		// State elements for each of the items to display for the modal
 		this.state = {
-			modalShow: false,
+			modalShow: false, // When true, modal will show
 			modalTitle: "",
 			modalIngredients: "",
 			modalType: "",
@@ -33,6 +34,7 @@ export class SearchDrinkModal extends Component {
 		});
 	}
 
+	// Update modal values with input variables
 	modalUpdate(title, type, category, glass, ingredients, instructions) {
 		this.setState({
 			modalTitle: title,
@@ -46,6 +48,7 @@ export class SearchDrinkModal extends Component {
 
 	render() {
 		return (
+			// Modal with all of the drink information to be displayed when clicked
 			<div className="container mt-5">
 				<Modal show={this.state.modalShow} onHide={this.modalClose}>
 					<Modal.Header closeButton>
@@ -86,6 +89,7 @@ export class Drink extends Component {
 		this.handleDrinkClick = this.handleDrinkClick.bind(this);
 	}
 
+	// Whenever a drink is clicked, update the modal and show with all additional information
 	handleDrinkClick(item) {
 		let ingredients = this.parseIngMeasure(item);
 		this.props.modalUpdate(
@@ -99,15 +103,18 @@ export class Drink extends Component {
 		this.props.showModal();
 	}
 
+	// Parse ingredients for the cards, returns a comma separated string
 	parseIng(drink) {
 		let listIngredients = "";
 		for (var ingredient in drink) {
 			var stringTemp = ingredient.split("strIngredient");
+			// Check if drinkIngredient is valid
 			if (
 				stringTemp[0] === "" &&
 				drink[ingredient] != null &&
 				drink[ingredient] !== ""
 			) {
+				// If it is the first ingredient, add it to the string, if not add a comma and the ingredient
 				if (ingredient === "strIngredient1") {
 					listIngredients += drink[ingredient];
 				} else {
@@ -118,12 +125,14 @@ export class Drink extends Component {
 		return listIngredients;
 	}
 
+	// Parse ingredients and measurements for Modal, returns an unordered list with the ingredients and measurements
 	parseIngMeasure(drink) {
 		let listIngredients = [];
 		let listMeasures = [];
 		for (var ingredient in drink) {
 			var ingTemp = ingredient.split("strIngredient");
 			var measureTemp = ingredient.split("strMeasure");
+			// Check if drinkIngredient is valid
 			if (
 				ingTemp[0] === "" &&
 				drink[ingredient] != null &&
@@ -131,6 +140,7 @@ export class Drink extends Component {
 			) {
 				listIngredients.push(drink[ingredient]);
 			}
+			// Check if the drink measurement is valid
 			if (
 				measureTemp[0] === "" &&
 				drink[ingredient] != null &&
@@ -140,6 +150,7 @@ export class Drink extends Component {
 			}
 		}
 
+		// Combine ingredients and measurements into list items
 		let element = listIngredients.map((item, index) => {
 			return (
 				<li key={index}>
@@ -151,14 +162,17 @@ export class Drink extends Component {
 		return <ul>{element}</ul>;
 	}
 
+	// Format Cards for printing results in the search bar
 	formatCards() {
 		let user = this.props.user.loginname;
+		// Error checking, if the data is empty
 		if (this.props.data === null) {
 			return <h1 id="searchEmpty">No results found</h1>;
 		} else {
 			let element = this.props.data.map((item, index) => {
 				let listIngredients = this.parseIng(item);
 				return (
+					// Clickable card, clicking expands all of the information in modal
 					<Card id="drinkCard" key={index}>
 						<Card.Img
 							variant="top"
@@ -174,6 +188,7 @@ export class Drink extends Component {
 								Ingredients: {listIngredients}
 							</Card.Text>
 						</Card.Body>
+						{/* If logged in, add a footer with an add favorites button */}
 						{user === "" ? (
 							<></>
 						) : (
