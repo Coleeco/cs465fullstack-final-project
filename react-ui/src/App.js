@@ -65,7 +65,6 @@ export default class App extends React.Component {
 		}
 	}
 
-<<<<<<< Updated upstream
 	render() {
 		return (
 			// Set a router block to render different pages based on path
@@ -136,60 +135,4 @@ export default class App extends React.Component {
 			</BrowserRouter>
 		);
 	}
-=======
-  render() {
-    return (
-      // Set a router block to render different pages based on path
-      <BrowserRouter>
-        <div className="container" id="siteContainer">
-          <Jumbotron className="my-0 pt-4 title">
-            <h1>
-              <img className="icon" src="/martini.png" alt="martini icon"></img>
-              Cocktail Mastery
-              <span>
-                <img className="icon" src="/liquor.png" alt="liquor icon"></img>
-              </span>
-            </h1>
-            <span>
-              <this.UserBanner />
-            </span>
-          </Jumbotron>
-          <Navigation user={this.state.user} logout={this.logout} />
-          <Switch>
-            <Route path="/" component={Home} exact />
-            <Route
-              path="/game"
-              render={(props) => (
-                <Game
-                  {...props}
-                  hardmode={this.state.gameHardmode}
-                  hmclick={this.hardmode}
-                  userinfo={this.state.user}
-                  refreshScore={this.login}
-                />
-              )}
-            />
-            <Route
-              path="/search"
-              render={(props) => <Search {...props} user={this.state.user} />}
-            />
-            <Route
-              path="/login"
-              render={(props) => <Login {...props} login={this.login} />}
-            />
-            <Route
-              path="/register"
-              render={(props) => <Register {...props} login={this.login} />}
-            />
-            <Route path="/about" component={About} />
-            <Route
-              path="/fav"
-              render={(props) => <Favorites {...props} user={this.state.user} />}
-            />
-          </Switch>
-        </div>
-      </BrowserRouter>
-    );
-  }
->>>>>>> Stashed changes
 }
