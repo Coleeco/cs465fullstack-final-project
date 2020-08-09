@@ -96,7 +96,7 @@ export class DrinkFilter extends Component {
 
 	componentDidMount() {
 		if (this.props.data !== null) {
-			this.props.data.map((item) => {
+			this.props.data.forEach((item) => {
 				let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
 
 				fetch(url)
@@ -118,7 +118,7 @@ export class DrinkFilter extends Component {
 				drink: [],
 			});
 			if (this.props.data !== null) {
-				this.props.data.map((item) => {
+				this.props.data.forEach((item) => {
 					let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
 
 					fetch(url)
