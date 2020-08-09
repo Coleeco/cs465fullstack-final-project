@@ -123,7 +123,7 @@ export class About extends Component {
 							<Card.Text>
 								Erik is an undergraduate student graduating this
 								Summer. He only drinks at social events, and he
-								can enjoy just about any drink.
+								can enjoy just about any well made drink.
 							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/esjastad">
