@@ -107,7 +107,7 @@ export class Search extends Component {
 								<option value="i">Ingredient</option>
 							</select>
 						</div>
-						<div className="btnrow">
+						<div className="btnrow d-flex justify-content-center">
 							<button
 								id="searchButton"
 								onClick={this.searchFunction}

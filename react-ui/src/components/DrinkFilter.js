@@ -214,7 +214,7 @@ export class DrinkFilter extends Component {
 	// Format Cards for printing results in the search bar
 	formatCards() {
 		let user = this.props.user.loginname;
-		// console.log(this.props.error);
+
 		// Error checking, if the data is empty
 		if (this.props.data === null || this.props.error === true) {
 			return <h1 id="searchEmpty">No results found</h1>;
