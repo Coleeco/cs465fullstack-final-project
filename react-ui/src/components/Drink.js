@@ -77,6 +77,7 @@ export class SearchDrinkModal extends Component {
 						showModal={this.modalShow}
 						modalUpdate={this.modalUpdate}
 						user={this.props.user}
+						error={this.props.error}
 					/>
 				)}
 				{this.props.select === "i" && (
@@ -85,6 +86,7 @@ export class SearchDrinkModal extends Component {
 						showModal={this.modalShow}
 						modalUpdate={this.modalUpdate}
 						user={this.props.user}
+						error={this.props.error}
 					/>
 				)}
 			</div>

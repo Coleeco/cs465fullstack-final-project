@@ -125,7 +125,12 @@ export class Search extends Component {
 
 				{/* Depending on the type of search (and the parameters returned from the API) we use a different Drink template */}
 				{this.state.random === true && (
-					<SearchDrinkModal data={drinks} user={this.props.user} />
+					<SearchDrinkModal
+						data={drinks}
+						user={this.props.user}
+						error={this.state.error}
+						select="name"
+					/>
 				)}
 				{this.state.random === false && (
 					<SearchDrinkModal
