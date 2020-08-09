@@ -93,8 +93,8 @@ export class About extends Component {
 							<Card.Title>Todd Graham</Card.Title>
 							<Card.Text>
 								Todd is graduate student of computer science at
-								Portland State. His favorite drink is a habanero
-								margarita.
+								Portland State. His favorite cocktail is a
+								habanero margarita, but any spice will do.
 							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/toddgraham121">
@@ -117,7 +117,11 @@ export class About extends Component {
 						/>
 						<Card.Body>
 							<Card.Title>Erik Jastad</Card.Title>
-							<Card.Text>Filler</Card.Text>
+							<Card.Text>
+								Erik is an undergraduate student graduating this
+								Summer. He only drinks at social events, and he
+								can enjoy just about any drink.
+							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/esjastad">
 									<img

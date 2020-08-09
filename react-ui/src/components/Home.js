@@ -59,7 +59,7 @@ export class Home extends Component {
 			);
 		});
 
-		return <ul>{element}</ul>;
+		return <ul id="card-list">{element}</ul>;
 	}
 
 	render() {
@@ -99,11 +99,11 @@ export class Home extends Component {
 										Drink of the Minute:{" "}
 										{this.state.randDrink.strDrink}
 									</h3>
-									<p className="card-text">
+									<p className="card-text" id="card-text">
 										<b>Type:</b>{" "}
 										{this.state.randDrink.strAlcoholic}
 									</p>
-									<p className="card-text">
+									<p className="card-text" id="card-text">
 										<b>Ingredients:</b>
 									</p>
 									{this.parseIngMeasure(this.state.randDrink)}
