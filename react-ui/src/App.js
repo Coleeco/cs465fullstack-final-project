@@ -127,7 +127,7 @@ export default class App extends React.Component {
 						<Route
 							path="/fav"
 							render={(props) => (
-								<Search {...props} user={this.state.user} />
+								<Favorites {...props} user={this.state.user} />
 							)}
 						/>
 					</Switch>
