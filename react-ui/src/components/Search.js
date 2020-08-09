@@ -10,6 +10,7 @@ export class Search extends Component {
 			drinks: [],
 			isLoaded: false,
 			select: "name",
+			random: false,
 		};
 
 		this.searchFunction = this.searchFunction.bind(this);
@@ -28,6 +29,10 @@ export class Search extends Component {
 		event.preventDefault();
 		this.updateDropDown(event);
 		let url = "";
+
+		this.setState({
+			random: false,
+		});
 
 		// Either search by name or ingredient
 		if (this.state.select !== "name") {
@@ -52,6 +57,10 @@ export class Search extends Component {
 	// Search for a random drink
 	randomFunction(event) {
 		let url = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
+
+		this.setState({
+			random: true,
+		});
 
 		fetch(url)
 			.then((response) => response.json())
@@ -112,15 +121,23 @@ export class Search extends Component {
 				</div>
 
 				{/* Depending on the type of search (and the parameters returned from the API) we use a different Drink template */}
-				{this.state.select !== "name" && (
-					<SearchDrinkFilterModal
-						data={drinks}
-						user={this.props.user}
-					/>
-				)}
-				{this.state.select === "name" && (
+				{this.state.random === true && (
 					<SearchDrinkModal data={drinks} user={this.props.user} />
 				)}
+				{this.state.random === false &&
+					this.state.select !== "name" && (
+						<SearchDrinkFilterModal
+							data={drinks}
+							user={this.props.user}
+						/>
+					)}
+				{this.state.random === false &&
+					this.state.select === "name" && (
+						<SearchDrinkModal
+							data={drinks}
+							user={this.props.user}
+						/>
+					)}
 			</React.Fragment>
 		);
 	}
