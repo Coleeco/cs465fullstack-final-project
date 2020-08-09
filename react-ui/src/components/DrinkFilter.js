@@ -111,6 +111,9 @@ export class DrinkFilter extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.data !== prevProps.data) {
+			this.setState({
+				drink: [],
+			});
 			this.props.data.map((item) => {
 				let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.idDrink}`;
 
