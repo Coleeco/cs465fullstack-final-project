@@ -45,11 +45,11 @@
 }
 
 #homeHeader {
-	width: 100%;
+	width: 99%;
 	text-align: center;
 	border: 4px solid black;
 	border-radius: 5px;
-	margin: 10px 0px;
+	margin: 10px auto;
 }
 
 #homeH1 {
