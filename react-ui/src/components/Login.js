@@ -185,7 +185,7 @@ class Form extends React.Component {
         </button>
         <div className="mt-5 text-center">
           <span>Dont have an account? </span>
-          <a className="register" href="#" onClick={this.toRegister}>
+          <a className="register" href="/#" onClick={this.toRegister}>
             Register
           </a>
         </div>

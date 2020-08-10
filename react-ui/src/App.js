@@ -12,7 +12,6 @@ import { getRequest } from "./ApiCaller";
 import Favorites from "./components/Favorites";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Jumbotron, Table } from "react-bootstrap";
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -23,7 +22,6 @@ export default class App extends React.Component {
 		};
 		this.logout = this.logout.bind(this);
 		this.login = this.login.bind(this);
-		this.UserBanner = this.UserBanner.bind(this);
 		this.hardmode = this.hardmode.bind(this);
 	}
 
@@ -31,38 +29,15 @@ export default class App extends React.Component {
 		this.setState({ gameHardmode: !this.state.gameHardmode });
 	}
 
+  // Logs user in. Pass down to Login
 	login(user) {
 		this.setState({ user: user });
 	}
 
+  // Logs user out. Pass down to Navigation
 	logout() {
 		getRequest("/user/logout");
 		this.setState({ user: { loginname: "", score: "", title: "" } });
-	}
-
-	UserBanner() {
-		let user = this.state.user;
-		let title = user.title === "" ? "N/A" : user.title;
-		if (user.loginname !== "") {
-			return (
-				<div className="bannerContainer">
-					<Table size="sm" striped variant="dark">
-						<thead>
-							<tr>
-								<th>User</th>
-								<td>{user.loginname}</td>
-								<th>Score</th>
-								<td>{user.score}</td>
-								<th>Title</th>
-								<td>{title}</td>
-							</tr>
-						</thead>
-					</Table>
-				</div>
-			);
-		} else {
-			return <></>;
-		}
 	}
 
 	render() {
@@ -70,28 +45,6 @@ export default class App extends React.Component {
 			// Set a router block to render different pages based on path
 			<BrowserRouter>
 				<div className="container" id="siteContainer">
-					<Jumbotron className="my-0 pt-4 title">
-						<a href="/" id="iconHome">
-							<h1>
-								<img
-									className="icon"
-									src="/martini.png"
-									alt="martini icon"
-								></img>
-								Cocktail Mastery
-								<span>
-									<img
-										className="icon"
-										src="/liquor.png"
-										alt="liquor icon"
-									></img>
-								</span>
-							</h1>
-						</a>
-						<span>
-							<this.UserBanner />
-						</span>
-					</Jumbotron>
 					<Navigation user={this.state.user} logout={this.logout} />
 					<Switch>
 						<Route path="/" component={Home} exact />

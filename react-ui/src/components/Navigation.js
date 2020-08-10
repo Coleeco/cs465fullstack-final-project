@@ -1,78 +1,96 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
-import { NavLink } from "react-router-dom";
-import { Navbar, Nav } from "react-bootstrap";
+import { NavLink, Link } from "react-router-dom";
+import { Navbar, Nav, Table } from "react-bootstrap";
 
 export class Navigation extends Component {
-	render() {
-		const user = this.props.user;
-		let loggedIn = user.loginname !== "" ? true : false;
-		let loginlogout;
-		if (loggedIn) {
-			loginlogout = (
-				<NavLink
-					className="d-inline p-2 bg-dark text-white"
-					to=""
-					onClick={this.props.logout}
-				>
-					Logout
-				</NavLink>
-			);
-		} else {
-			loginlogout = (
-				<>
-					<NavLink
-						className="d-inline p-2 bg-dark text-white"
-						to="/login"
-					>
-						Login
-					</NavLink>
-					<NavLink
-						className="d-inline p-2 bg-dark text-white"
-						to="/register"
-					>
-						Sign Up
-					</NavLink>
-				</>
-			);
-		}
+  constructor(props) {
+    super(props);
+    this.UserBanner = this.UserBanner.bind(this);
+  }
 
-		return (
-			<Navbar bg="dark" expand="lg">
-				<Navbar.Toggle aria-controls="basic-navbar-nav" />
-				<Nav className="d-flex justify-content-center">
-					<NavLink className="d-inline p-2 bg-dark text-white" to="/">
-						Home
-					</NavLink>
-					<NavLink
-						className="d-inline p-2 bg-dark text-white"
-						to="/fav"
-					>
-						Favorites
-					</NavLink>
-					<NavLink
-						className="d-inline p-2 bg-dark text-white"
-						to="/game"
-					>
-						Game
-					</NavLink>
-					<NavLink
-						className="d-inline p-2 bg-dark text-white"
-						to="/search"
-					>
-						Search
-					</NavLink>
-				</Nav>
-				<Navbar.Collapse id="responsive-navbar-nav" />
-				<Nav>
-					{loginlogout}
-					<NavLink
-						className="d-inline p-2 bg-dark text-white"
-						to="/about"
-					>
-						About
-					</NavLink>
-				</Nav>
-			</Navbar>
-		);
+  // Displays table of user info when logged in
+  UserBanner() {
+    let user = this.props.user;
+    let title = user.title === "" ? "N/A" : user.title;
+    if (user.loginname !== "") {
+      return (
+        <div className="bannerContainer">
+          <Table className="mt-2" size="sm" striped variant="dark">
+            <thead>
+              <tr>
+                <th>User</th>
+                <td>{user.loginname}</td>
+                <th>Score</th>
+                <td>{user.score}</td>
+                <th>Title</th>
+                <td>{title}</td>
+              </tr>
+            </thead>
+          </Table>
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  }
+
+  render() {
+    const user = this.props.user;
+    let loggedIn = user.loginname !== "" ? true : false;
+    let loginlogout;
+    if (loggedIn) {
+      loginlogout = (
+        <NavLink
+          className="d-inline p-2 bg-dark text-white"
+          to=""
+          onClick={this.props.logout}
+        >
+          Logout
+        </NavLink>
+      );
+    } else {
+      loginlogout = (
+        <>
+          <Nav.Link as={Link} to="/login">
+            Login
+          </Nav.Link>
+          <Nav.Link as={Link} to="/register">
+            Sign Up
+          </Nav.Link>
+        </>
+      );
 	}
+	
+
+    return (
+      <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar.Brand as={Link} to="/">
+          <img className="icon" src="/martini.png" alt="martini icon"></img>
+          Cocktail Mastery
+          <img className="icon" src="/liquor.png" alt="liquor icon"></img>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link as={Link} to="/about">
+              About
+            </Nav.Link>
+			{loggedIn? 
+            <Nav.Link as={Link} to="/fav">
+              Favorites
+            </Nav.Link>
+			:<></>}
+            <Nav.Link as={Link} to="/game">
+              Game
+            </Nav.Link>
+            <Nav.Link as={Link} to="/search">
+              Search
+            </Nav.Link>
+          </Nav>
+          <Nav>{loginlogout}</Nav>
+          <div className="banner">{this.UserBanner()}</div>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
 }

@@ -197,7 +197,7 @@ class RegForm extends Component {
         </button>
         <div className="mt-3 text-center">
           <span>Dont have an account? </span>
-          <a className="login" href="#" onClick={this.toLogin}>
+          <a className="login" href="/#" onClick={this.toLogin}>
             Login
           </a>
         </div>

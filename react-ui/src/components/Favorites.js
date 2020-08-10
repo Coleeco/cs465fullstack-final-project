@@ -1,8 +1,10 @@
 import React, { useState, useEffect, Component } from "react";
 import { postRequest } from "../ApiCaller";
 import { Card, Modal, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./Favorites.css";
 
+// Component to display user favorites 
 export class Favorites extends Component {
   constructor(props) {
     super(props);
@@ -23,17 +25,14 @@ export class Favorites extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user);
     if (this.loggedin()) {
       console.log("fetching ids");
       fetch(`/user/favs/${this.props.user.loginname}`)
         .then((resp) => resp.json())
         .then((data) => {
-          console.log(data);
           this.setState({
             favs: [...data],
           });
-          console.log(data);
         })
         .catch((error) => console.log(error));
     }
@@ -41,7 +40,6 @@ export class Favorites extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.favs.length !== prevState.favs.length) {
-      console.log(this.state.favs);
       this.setState({
         isLoaded: true,
       });
@@ -69,17 +67,20 @@ export class Favorites extends Component {
   }
 }
 
+// Display only if user has no favorites saved
 const EmptyMsg = ({ favs }) => {
   return (
     <div>
       {favs.length === 0 ? (
-        <h2>No favoritess saved, go to search to add favorites</h2>
+        <h2>No favorites saved, to add favorites go to <Link to="/search">Search</Link></h2>
       ) : (
         <></>
       )}
     </div>
   );
 };
+
+// Component to render modal on drink img click
 class FavDrinkModal extends Component {
   constructor(props) {
     super(props);
@@ -160,6 +161,7 @@ class FavDrinkModal extends Component {
   }
 }
 
+// Displays individual drinks on a Bootstrap card
 export class Drink extends Component {
   constructor(props) {
     super(props);
@@ -172,8 +174,7 @@ export class Drink extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.data);
-    this.props.data.map((item) => {
+    this.props.data.forEach((item) => {
       let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.drinkid}`;
 
       fetch(url)
@@ -189,9 +190,8 @@ export class Drink extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props.data);
     if (this.props.data !== prevProps.data) {
-      this.props.data.map((item, index) => {
+      this.props.data.forEach((item) => {
         let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.drinkid}`;
 
         fetch(url)
