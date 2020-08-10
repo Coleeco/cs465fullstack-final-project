@@ -1,97 +1,342 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
-import { postRequest, getRequest } from "../ApiCaller";
-import { Card } from "react-bootstrap";
+import React, { useState, useEffect, Component } from "react";
+import { postRequest } from "../ApiCaller";
+import { Card, Modal, Button } from "react-bootstrap";
+import "./Favorites.css";
 
-const Favorites = ({ user }) => {
-  const loggedIn = user.loginname === "" ? false : true;
-  const [favs, setFavs] = useState([]);
+export class Favorites extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      favs: [],
+      isLoaded: false,
+      empty: true,
+    };
+    this.loggedin = this.loggedin.bind(this);
+  }
 
-  useEffect(() => {
-    if (loggedIn) {
-      fetch(`/user/favs/${user.loginname}`)
+  loggedin() {
+    if (this.props.user.loginname === "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  componentDidMount() {
+    console.log(this.props.user);
+    if (this.loggedin()) {
+      console.log("fetching ids");
+      fetch(`/user/favs/${this.props.user.loginname}`)
         .then((resp) => resp.json())
         .then((data) => {
-          setFavs([...data]);
-        });
+          console.log(data);
+          this.setState({
+            favs: [...data],
+          });
+          console.log(data);
+        })
+        .catch((error) => console.log(error));
     }
-  }, [loggedIn]);
+  }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.favs.length !== prevState.favs.length) {
+      console.log(this.state.favs);
+      this.setState({
+        isLoaded: true,
+      });
+    }
+  }
+
+  render() {
+    const loggedin = this.loggedin();
+    const { favs } = this.state;
+
+    if (loggedin) {
+      return (
+        <div className="container mt-5 justify-content-center">
+          <EmptyMsg favs={favs} />
+          <FavDrinkModal data={favs} />
+        </div>
+      );
+    } else {
+      return (
+        <div className="container mt-5 justify-content-center">
+          <h2> Please login to use this feature </h2>
+        </div>
+      );
+    }
+  }
+}
+
+const EmptyMsg = ({ favs }) => {
   return (
-    <div className="mt-d d-flex justify-content-center">
-      {loggedIn ? (
-        <FavoritesList favs={favs} />
+    <div>
+      {favs.length === 0 ? (
+        <h2>No favoritess saved, go to search to add favorites</h2>
       ) : (
-        <h3 className="my-2">Please login to use this feature</h3>
+        <></>
       )}
     </div>
   );
 };
+class FavDrinkModal extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props.data);
+    // State elements for each of the items to display for the modal
+    this.state = {
+      modalShow: false, // When true, modal will show
+      modalTitle: "",
+      modalIngredients: "",
+      modalType: "",
+      modalGlass: "",
+      modalCategory: "",
+      modalInstructions: "",
+      empty: false,
+    };
 
-const FavoritesList = ({ favs, prop }) => {
-  const [data, setData] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+    this.modalShow = this.modalShow.bind(this);
+    this.modalClose = this.modalClose.bind(this);
+    this.modalUpdate = this.modalUpdate.bind(this);
+  }
 
-  useEffect(() => {
-    if(!loaded){
-    console.log(favs);
-      favs.forEach((item) => {
-        console.log(item);
-        fetchFavData(item.drinkid);
-      });
-    }
-  }, [favs]);
+  modalShow() {
+    this.setState({
+      modalShow: true,
+    });
+  }
 
-  const fetchFavData = (id) => {
-      let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-      console.log(url);
+  modalClose() {
+    this.setState({
+      modalShow: false,
+    });
+  }
+
+  // Update modal values with input variables
+  modalUpdate(title, type, category, glass, ingredients, instructions) {
+    this.setState({
+      modalTitle: title,
+      modalType: type,
+      modalCategory: category,
+      modalGlass: glass,
+      modalIngredients: ingredients,
+      modalInstructions: instructions,
+    });
+  }
+
+  render() {
+    return (
+      // Modal with all of the drink information to be displayed when clicked
+      <div className="container mt-5">
+        <Modal show={this.state.modalShow} onHide={this.modalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.modalTitle}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <b>Type:</b> {this.state.modalType}
+            <br />
+            <b>Glass:</b> {this.state.modalGlass}
+            <br />
+            <b>Category:</b> {this.state.modalCategory}
+            <br />
+            <b>Ingredients:</b> {this.state.modalIngredients}
+            <b>Instructions:</b> {this.state.modalInstructions}
+            <br />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={this.modalClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Drink
+          data={this.props.data}
+          showModal={this.modalShow}
+          modalUpdate={this.modalUpdate}
+        />
+      </div>
+    );
+  }
+}
+
+export class Drink extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      drink: [],
+      isLoaded: false,
+    };
+
+    this.handleDrinkClick = this.handleDrinkClick.bind(this);
+  }
+
+  componentDidMount() {
+    console.log(this.props.data);
+    this.props.data.map((item) => {
+      let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.drinkid}`;
+
       fetch(url)
-        .then((resp) => resp.json())
-        .then((drink) => {
-          console.log(drink);
-          setData([...data,drink])
+        .then((response) => response.json())
+        .then((data) => {
+          return data.drinks;
+        })
+        .then((drinks) => {
+          this.state.drink.push(drinks[0]);
         })
         .catch((error) => console.log(error));
-      setLoaded(true);
-  };
+    });
+  }
 
-  const formatCards = () => {
-    data.map((item, index) => {
+  componentDidUpdate(prevProps) {
+    console.log(this.props.data);
+    if (this.props.data !== prevProps.data) {
+      this.props.data.map((item, index) => {
+        let url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${item.drinkid}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            return data.drinks;
+          })
+          .then((drinks) => {
+            this.setState({
+              isLoaded: true,
+            });
+            this.state.drink.push(drinks[0]);
+          })
+          .catch((error) => console.log(error));
+      });
+    }
+  }
+
+  // Parse ingredients for the cards, returns a comma separated string
+  parseIng(drink) {
+    let listIngredients = "";
+    for (var ingredient in drink) {
+      var stringTemp = ingredient.split("strIngredient");
+      // Check if drinkIngredient is valid
+      if (
+        stringTemp[0] === "" &&
+        drink[ingredient] != null &&
+        drink[ingredient] !== ""
+      ) {
+        // If it is the first ingredient, add it to the string, if not add a comma and the ingredient
+        if (ingredient === "strIngredient1") {
+          listIngredients += drink[ingredient];
+        } else {
+          listIngredients += `, ${drink[ingredient]}`;
+        }
+      }
+    }
+    return listIngredients;
+  }
+
+  // Parse ingredients and measurements for Modal, returns an unordered list with the ingredients and measurements
+  parseIngMeasure(drink) {
+    let listIngredients = [];
+    let listMeasures = [];
+    for (var ingredient in drink) {
+      var ingTemp = ingredient.split("strIngredient");
+      var measureTemp = ingredient.split("strMeasure");
+      // Check if drinkIngredient is valid
+      if (
+        ingTemp[0] === "" &&
+        drink[ingredient] != null &&
+        drink[ingredient] !== ""
+      ) {
+        listIngredients.push(drink[ingredient]);
+      }
+      // Check if the drink measurement is valid
+      if (
+        measureTemp[0] === "" &&
+        drink[ingredient] != null &&
+        drink[ingredient] !== ""
+      ) {
+        listMeasures.push(drink[ingredient]);
+      }
+    }
+
+    // Combine ingredients and measurements into list items
+    let element = listIngredients.map((item, index) => {
       return (
-        <Card id="drinkCard" key={index}>
-          <Card.Img
-            variant="top"
-            src={item.strDrinkThumb}
-            alt={item.strDrink}
-            onClick={() => this.handleDrinkClick(item)}
-          />
-          <Card.Body>
-            <Card.Title>{item.strDrink}</Card.Title>
-          </Card.Body>
-        </Card>
+        <li key={index}>
+          {item}: {listMeasures[index]}
+        </li>
       );
     });
-  };
 
-  return (
-    <div container="mt-5">
-      {data.length}
-      {/* {loaded ? formatCards(): <NoFavsMsg />} */}
-    </div>
-  );
-};
+    return <ul>{element}</ul>;
+  }
 
-const NoFavsMsg = () => {
-  return (
-    <>
-      <h5>No Cocktails Favorited</h5>
-      <div className="mt-5">
-        To add cocktails head over to the search page and click on the favorite
-        button on any of the results
-      </div>
-    </>
-  );
-};
+  // Whenever a drink is clicked, update the modal and show with all additional information
+  handleDrinkClick(item) {
+    let ingredients = this.parseIngMeasure(item);
+    this.props.modalUpdate(
+      item.strDrink,
+      item.strAlcoholic,
+      item.strCategory,
+      item.strGlass,
+      ingredients,
+      item.strInstructions
+    );
+    this.props.showModal();
+  }
+
+  // Format Cards for printing results in the search bar
+  formatCards() {
+    // Error checking, if the data is empty
+    if (this.props.data === null) {
+      return <h1 id="searchEmpty">No results found</h1>;
+    } else {
+      if (this.state.isLoaded === false) {
+        let element = this.props.data.map((item, index) => {
+          return (
+            // Clickable card, clicking expands all of the information in modal
+            <Card id="drinkCard" key={index}>
+              <Card.Img
+                variant="top"
+                src={item.strDrinkThumb}
+                alt={item.strDrink}
+                onClick={() => this.handleDrinkClick(item)}
+              />
+              <Card.Body>
+                <Card.Title>{item.strDrink}</Card.Title>
+              </Card.Body>
+            </Card>
+          );
+        });
+        return <div className="drinkContainer">{element}</div>;
+      } else {
+        let element = this.state.drink.map((item, index) => {
+          let listIngredients = this.parseIng(item);
+          return (
+            // Clickable card, clicking expands all of the information in modal
+            <Card id="drinkCard" key={index}>
+              <Card.Img
+                variant="top"
+                src={item.strDrinkThumb}
+                alt={item.strDrink}
+                onClick={() => this.handleDrinkClick(item)}
+              />
+              <Card.Body onClick={() => this.handleDrinkClick(item)}>
+                <Card.Title>{item.strDrink}</Card.Title>
+                <Card.Text>Type: {item.strAlcoholic}</Card.Text>
+                <Card.Text>Category: {item.strCategory}</Card.Text>
+                <Card.Text>Ingredients: {listIngredients}</Card.Text>
+              </Card.Body>
+            </Card>
+          );
+        });
+        return <div className="drinkContainer">{element}</div>;
+      }
+    }
+  }
+
+  render() {
+    return this.formatCards();
+  }
+}
 
 // Button commponent to add drinkID to users favorites.
 // Input: drinkid
