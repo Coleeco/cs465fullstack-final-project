@@ -1,5 +1,5 @@
-.banner{
-  margin-left: 10em;
-  padding-top: 10em;
-  font-size: smaller;
-}
+.table {
+  border-color: white;
+  border-style: solid 10px;
+  color: black;
+} 

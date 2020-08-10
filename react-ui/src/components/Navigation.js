@@ -14,8 +14,8 @@ export class Navigation extends Component {
     let title = user.title === "" ? "N/A" : user.title;
     if (user.loginname !== "") {
       return (
-        <div className="bannerContainer">
-          <Table className="mt-2" size="sm" striped variant="dark">
+        <Nav >
+          <Table className="my-auto mx-1 " size="sm" striped variant="dark">
             <thead>
               <tr>
                 <th>User</th>
@@ -27,7 +27,7 @@ export class Navigation extends Component {
               </tr>
             </thead>
           </Table>
-        </div>
+        </Nav>
       );
     } else {
       return <></>;
@@ -88,7 +88,7 @@ export class Navigation extends Component {
             </Nav.Link>
           </Nav>
           <Nav>{loginlogout}</Nav>
-          <div className="banner">{this.UserBanner()}</div>
+          {this.UserBanner()}
         </Navbar.Collapse>
       </Navbar>
     );
