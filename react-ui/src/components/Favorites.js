@@ -58,6 +58,7 @@ export class Favorites extends Component {
 					<EmptyMsg favs={favs} />
 					<SearchDrinkModal
 						data={favs}
+						user={this.props.user}
 						error={errorData}
 						select="name"
 					/>
