@@ -50,12 +50,17 @@ export class Favorites extends Component {
 	render() {
 		const loggedin = this.loggedin();
 		const { favs } = this.state;
+		let errorData = false;
 
 		if (loggedin) {
 			return (
 				<div className="container mt-5 justify-content-center">
 					<EmptyMsg favs={favs} />
-					<SearchDrinkModal data={favs} />
+					<SearchDrinkModal
+						data={favs}
+						error={errorData}
+						select="name"
+					/>
 				</div>
 			);
 		} else {
