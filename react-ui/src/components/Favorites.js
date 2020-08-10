@@ -2,7 +2,6 @@ import React, { useState, useEffect, Component } from "react";
 import { postRequest } from "../ApiCaller";
 import { Card, Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { SearchDrinkModal } from "./Drink.js";
 import "./Favorites.css";
 
 // Component to display user favorites
@@ -56,7 +55,7 @@ export class Favorites extends Component {
 			return (
 				<div className="container mt-5 justify-content-center">
 					<EmptyMsg favs={favs} />
-					<SearchDrinkModal data={favs} />
+					<FavDrinkModal data={favs} />
 				</div>
 			);
 		} else {
