@@ -71,21 +71,23 @@ export default class App extends React.Component {
 			<BrowserRouter>
 				<div className="container" id="siteContainer">
 					<Jumbotron className="my-0 pt-4 title">
-						<h1>
-							<img
-								className="icon"
-								src="/martini.png"
-								alt="martini icon"
-							></img>
-							Cocktail Mastery
-							<span>
+						<a href="/" id="iconHome">
+							<h1>
 								<img
 									className="icon"
-									src="/liquor.png"
-									alt="liquor icon"
+									src="/martini.png"
+									alt="martini icon"
 								></img>
-							</span>
-						</h1>
+								Cocktail Mastery
+								<span>
+									<img
+										className="icon"
+										src="/liquor.png"
+										alt="liquor icon"
+									></img>
+								</span>
+							</h1>
+						</a>
 						<span>
 							<this.UserBanner />
 						</span>

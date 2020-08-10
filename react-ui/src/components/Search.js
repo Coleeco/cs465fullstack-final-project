@@ -1,7 +1,6 @@
 import React, { Component } from "react"; //Import component from react for the class to extend from.
 import "./Search.css";
 import { SearchDrinkModal } from "./Drink.js";
-import { SearchDrinkFilterModal } from "./DrinkFilter.js";
 
 export class Search extends Component {
 	constructor(props) {
@@ -10,6 +9,8 @@ export class Search extends Component {
 			drinks: [],
 			isLoaded: false,
 			select: "name",
+			random: false,
+			error: false,
 		};
 
 		this.searchFunction = this.searchFunction.bind(this);
@@ -29,6 +30,11 @@ export class Search extends Component {
 		this.updateDropDown(event);
 		let url = "";
 
+		this.setState({
+			random: false,
+			error: false,
+		});
+
 		// Either search by name or ingredient
 		if (this.state.select !== "name") {
 			url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchValue}`;
@@ -44,7 +50,9 @@ export class Search extends Component {
 					isLoaded: true,
 				});
 			})
-			.catch((error) => console.log(error));
+			.catch(() => {
+				this.setState({ error: true });
+			});
 
 		event.preventDefault();
 	}
@@ -52,6 +60,10 @@ export class Search extends Component {
 	// Search for a random drink
 	randomFunction(event) {
 		let url = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
+
+		this.setState({
+			random: true,
+		});
 
 		fetch(url)
 			.then((response) => response.json())
@@ -94,7 +106,7 @@ export class Search extends Component {
 								<option value="i">Ingredient</option>
 							</select>
 						</div>
-						<div className="btnrow">
+						<div className="btnrow d-flex justify-content-center">
 							<button
 								id="searchButton"
 								onClick={this.searchFunction}
@@ -112,14 +124,21 @@ export class Search extends Component {
 				</div>
 
 				{/* Depending on the type of search (and the parameters returned from the API) we use a different Drink template */}
-				{this.state.select !== "name" && (
-					<SearchDrinkFilterModal
+				{this.state.random === true && (
+					<SearchDrinkModal
 						data={drinks}
 						user={this.props.user}
+						error={this.state.error}
+						select="name"
 					/>
 				)}
-				{this.state.select === "name" && (
-					<SearchDrinkModal data={drinks} user={this.props.user} />
+				{this.state.random === false && (
+					<SearchDrinkModal
+						data={drinks}
+						user={this.props.user}
+						error={this.state.error}
+						select={this.state.select}
+					/>
 				)}
 			</React.Fragment>
 		);

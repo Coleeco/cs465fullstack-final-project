@@ -55,7 +55,10 @@ export class About extends Component {
 					<h1 id="aboutH1">About the Authors</h1>
 				</div>
 				{/* Create cards for each of the authors and use the state for drink image */}
-				<div className="d-flex justify-content-center">
+				<div
+					className="d-flex justify-content-center"
+					id="aboutContainer"
+				>
 					<Card id="aboutCard">
 						<Card.Img
 							variant="top"
@@ -64,7 +67,12 @@ export class About extends Component {
 						/>
 						<Card.Body>
 							<Card.Title>Jordan Co</Card.Title>
-							<Card.Text>Filler</Card.Text>
+							<Card.Text>
+								Jordan is an undergraduate student that is
+								graduating Fall 2020! He's not much of a
+								drinker, but he does enjoy Moscow Mules and most
+								beers.
+							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/Coleeco">
 									<img
@@ -88,8 +96,8 @@ export class About extends Component {
 							<Card.Title>Todd Graham</Card.Title>
 							<Card.Text>
 								Todd is graduate student of computer science at
-								Portland State. His favorite drink is a habanero
-								margarita.
+								Portland State. His favorite cocktail is a
+								habanero margarita, but any spice will do.
 							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/toddgraham121">
@@ -112,7 +120,11 @@ export class About extends Component {
 						/>
 						<Card.Body>
 							<Card.Title>Erik Jastad</Card.Title>
-							<Card.Text>Filler</Card.Text>
+							<Card.Text>
+								Erik is an undergraduate student graduating this
+								Summer. He only drinks at social events, and he
+								can enjoy just about any well made drink.
+							</Card.Text>
 							<Card.Text>
 								<a href="https://github.com/esjastad">
 									<img

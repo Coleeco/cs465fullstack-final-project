@@ -1,14 +1,43 @@
-#homeRandomImg {
-	max-width: 250px;
-	max-height: 250px;
+@media (max-width: 768px) {
+	#homeRandomImg {
+		display: none;
+	}
+
+	#card-title {
+		font-size: 1.3em;
+		text-align: center;
+	}
+
+	#card-text {
+		text-align: center;
+	}
+
+	#homeRandomInstructions {
+		margin: 15px;
+		text-align: center;
+	}
+
+	#card-list {
+		text-align: center;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+}
+
+@media (min-width: 768px) {
+	#homeRandomImg {
+		max-width: 250px;
+		max-height: 250px;
+	}
+
+	#homeRandomInstructions {
+		margin: 15px;
+	}
 }
 
 #homeRandomCard {
 	border: 4px solid black;
-}
-
-#homeRandomInstructions {
-	margin: 15px;
 }
 
 #rowHome {
