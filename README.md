@@ -6,71 +6,50 @@ Erik Jastad
 Jordan Co  
 Todd Graham  
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project consist of a React front end and a Node/Express backend connected to a Postgres database all Hosted via heroku at [Cocktailapp](https://cocktailmastery.herokuapp.com).
+    The React front end is bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and the project structure and server code is based on this [mars repo](https://github.com/mars/heroku-cra-node).
+
+We will be using the following APIs:
+
+<b>TODO: add API URLS</b>
 
 ## Available Scripts
 
-In the project directory, you can run:
+### `npm run full-install`
+
+** RUN THIS SCRIPT FIRST <br>
+There are two node applications to run for the app and thus two installs required, one for front-end(React) and one for back-end(Express).
+This script run the npm install command for both
+
+### `npm run build`
+
+ Builds a static version of the React UI to `build` folder for the Express server to point to for non API routes. If there is no build present, the Express server will give errors on non API-routes
+
+** NOTE: If major issues arise with the build script, try deleting the node_modules and package-lock.json within
+         react-ui directory before running the script again.
 
 ### `npm start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
+### `npm run dev`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This script uses the `concurrently` node package to simutaneously run React front end on port 3000 and the Express backend on port 5000. Because this command starts a React server the build folder is not necessary.
 
-### `npm run build`
+### `npm run client`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Runs just the React front end on localhost port 3000.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### `npm run server`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Dev version of `npm start`. This script starts up the express sever using the `nodemon` package. This package monitors and updates any changes in the server saving the hassle of restarting the server.
 
-### `npm run eject`
+## Heroku
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### `heroku local`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This will deploy a local heroku instance of the app.
