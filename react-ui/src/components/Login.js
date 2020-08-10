@@ -153,7 +153,7 @@ class Form extends React.Component {
             type="text"
             name="username"
             className="form-control"
-            id="usesrname"
+            id="username"
             required
             placeholder="Enter username"
             value={this.state.username}
