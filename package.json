@@ -25,7 +25,7 @@
     "pg": "^8.3.0",
     "react-bootstrap-card": "^0.2.1",
     "react-flexbox-grid": "^2.1.2",
-    "react-native": "^0.63.2",
+    "react-native": "^0.64.1",
     "react-native-elements": "^2.0.4",
     "reactstrap": "^8.5.1"
   },
